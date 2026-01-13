@@ -1,9 +1,31 @@
+"use client"
+
+import { useState } from 'react'
 import Link from 'next/link'
 import styles from './login.module.css'
 
 export default function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    // Get form data
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    console.log('Submitting:', { email, password })
+
+    // Later: actual Supabase auth here
+    // For now, simulate a delay
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    setIsLoading(false)
+  }
+
   return (
-    // Tailwind: basic layout
     <div className="flex flex-col items-center gap-8">
       
       {/* CSS Module: branded logo style */}
@@ -15,7 +37,7 @@ export default function LoginPage() {
         <h1 className="text-lg font-medium text-zinc-200">Welcome Back</h1>
         
         {/* Tailwind: form layout */}
-        <form className="flex flex-col gap-4 w-full">
+        <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
           
           {/* Tailwind: input row layout */}
           <div className="flex items-center gap-3">
@@ -25,6 +47,7 @@ export default function LoginPage() {
               type="email" 
               className={styles.input}
               name="email"
+              required
             />
           </div>
           
@@ -34,16 +57,20 @@ export default function LoginPage() {
               type="password" 
               className={styles.input}
               name="password"
+              required
             />
           </div>
           
           {/* CSS Module: branded button */}
-          <button type="submit" className={styles.button}>
-            LOGIN
+          <button 
+            type="submit" 
+            className={styles.button}
+            disabled={isLoading}
+          >
+            {isLoading ? 'LOGGING IN...' : 'LOGIN'}
           </button>
         </form>
         
-        {/* Tailwind: simple link layout */}
         <div className="flex flex-col items-center gap-2">
           <Link href="/forgot-password" className={styles.link}>
             Forgot Password?
