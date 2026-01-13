@@ -1,4 +1,6 @@
-/* Branded elements */
+/* Shared auth styles */
+
+/* Branded logo */
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
@@ -51,6 +53,7 @@
   letter-spacing: 0.05em;
   margin-top: 0.5rem;
   transition: all 0.15s ease;
+  width: 100%;
 }
 
 .button:hover:not(:disabled) {
@@ -73,6 +76,17 @@
 
 .link:hover {
   text-decoration: underline;
+}
+
+.linkMuted {
+  color: #a1a1aa;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.linkMuted:hover {
+  color: #e4e4e7;
 }
 
 /* Password strength indicator */
