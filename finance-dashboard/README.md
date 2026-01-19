@@ -4,6 +4,7 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 
 ## Data Flow Architecture
 
+```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         Your App                                │
 ├─────────────────────────────────────────────────────────────────┤
@@ -33,8 +34,11 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 │  - watchlist    │                   │  - Polygon.io   │
 └─────────────────┘                   │  - Yahoo Finance│
                                       └─────────────────┘
+```
 
-## Project Structure: v.1
+## Project Structure
+
+```
 
 finance-dashboard/
 ├── app/
@@ -89,60 +93,4 @@ finance-dashboard/
     ├── migrations/            # Database migrations
     └── seed.sql               # Optional seed data 
 
-## Project Structure: v.2
-
-finance-dashboard/
-├── app/
-│   ├── (auth)/
-│   │   ├── components/          ← Auth-only shared components ✓
-│   │   │   ├── AuthCard.tsx
-│   │   │   ├── FormInput.tsx
-│   │   │   └── PasswordStrengthIndicator.tsx
-│   │   ├── hooks/               ← Auth-only hooks ✓
-│   │   ├── login/
-│   │   │   ├── LoginForm.tsx    ← Page-specific ✓
-│   │   │   └── page.tsx
-│   │   └── signup/
-│   │       ├── SignupForm.tsx   ← Page-specific ✓
-│   │       └── page.tsx
-│   │
-│   ├── (dashboard)/
-│   │   ├── layout.tsx
-│   │   ├── portfolio/
-│   │   │   ├── HoldingsTable.tsx   ← Page-specific
-│   │   │   ├── AddStockModal.tsx   ← Page-specific
-│   │   │   └── page.tsx
-│   │   ├── watchlist/
-│   │   │   ├── WatchlistTable.tsx  ← Page-specific
-│   │   │   └── page.tsx
-│   │   └── stocks/[ticker]/
-│   │       ├── StockHeader.tsx     ← Page-specific
-│   │       ├── NewsSection.tsx     ← Page-specific
-│   │       └── page.tsx
-│   │
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-│
-├── components/                 ← App-wide shared
-│   ├── ui/                     ← Generic primitives
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   ├── Table.tsx
-│   │   └── Modal.tsx
-│   ├── layout/                 ← Dashboard layout parts
-│   │   ├── Sidebar.tsx
-│   │   ├── Header.tsx
-│   │   ├── SearchBar.tsx
-│   │   └── Logo.tsx
-│   └── stocks/                 ← Shared stock components
-│       ├── StockPrice.tsx      ← Used in multiple places
-│       ├── PriceChart.tsx
-│       └── TickerLink.tsx
-│
-├── lib/                        ← Utilities
-│   ├── utils.ts
-│   └── mock-data.ts
-│
-└── types/
-    └── index.ts
+```
