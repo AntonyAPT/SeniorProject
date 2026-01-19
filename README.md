@@ -4,6 +4,7 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 
 ## Data Flow Architecture
 
+```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         Your App                                │
 ├─────────────────────────────────────────────────────────────────┤
@@ -33,8 +34,11 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 │  - watchlist    │                   │  - Polygon.io   │
 └─────────────────┘                   │  - Yahoo Finance│
                                       └─────────────────┘
+```
 
 ## Project Structure
+
+```
 
 finance-dashboard/
 ├── app/
@@ -88,3 +92,5 @@ finance-dashboard/
 └── supabase/
     ├── migrations/            # Database migrations
     └── seed.sql               # Optional seed data 
+
+```
