@@ -25,7 +25,7 @@ The database follows a normalized **Relational Database** model hosted on Postgr
 #### **Data Containers**
 
 * **`public.portfolios`**:
-* **Purpose:** Acts as a folder for a user's holdings. A user can create multiple portfolios (e.g., "Retirement", "Day Trading") to segregate their assets.
+* **Purpose:** Acts as a folder for a user's holdings. A user can create multiple portfolios (e.g., "Retirement", "Day Trading") to distinguish their assets.
 * **Relationship:** **One-to-Many** (One User  Many Portfolios).
 
 
