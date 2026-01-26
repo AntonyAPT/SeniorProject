@@ -1,0 +1,36 @@
+# Project Rules: Next.js + Supabase (2026 Standards)
+
+## Architecture & Component Logic
+- **Server-First Approach:** Always default to React Server Components (RSC). Use `'use client'` strictly for components requiring interactivity (hooks, event listeners) or browser-only APIs.
+- **Separation of Concerns:** - Keep data fetching logic in Server Components or the Service Layer.
+  - UI components should be "dumb" and receive data via props whenever possible.
+- **Modularity & Scaling:** - **The 150-Line Rule:** If a component exceeds 150 lines, suggest a strategy to break it down into smaller, focused sub-components.
+  - Place shared UI in `@/components/ui` and feature-specific components in `@/components/[feature-name]`.
+
+## Styling Strategy (Hybrid Approach)
+- **Tailwind CSS:** Use for layout (grid/flex), spacing, and standard utility-based styling to ensure rapid development and consistency.
+- **Standard CSS / CSS Modules:** Use for:
+  - Complex, high-precision UI components where Tailwind classes become hard to read.
+  - Custom animations, complex pseudo-elements, or third-party library overrides.
+  - Making components easier to read by moving long styling blocks out of the JSX.
+- **Consistency:** Maintain a clear naming convention (like BEM or simple descriptive classes) when using standard CSS to avoid global namespace collisions.
+
+## ⚡ Supabase & Data Management
+- **Type Safety:** - Always use the generated `Database` types from `@/types/supabase`.
+  - Use `Database['public']['Tables']['table_name']['Row']` for typing row data.
+- **SSR & Auth:** Use `@supabase/ssr` for client creation. Ensure `createClient` is called correctly based on the environment (Server, Action, or Route).
+- **CRUD Operations:**
+  - **Read:** Fetch data in Server Components.
+  - **Write:** Always use **Next.js Server Actions** (`'use server'`). No client-side mutations.
+  - **Revalidation:** Always use `revalidatePath` or `revalidateTag` after a successful mutation.
+
+## 🛠️ Coding Standards
+- **Server Action Response:** Standardize action returns: `{ data: T | null, error: string | null }`.
+- **Error Handling:** Use try/catch in Server Actions. Return user-friendly messages.
+- **Loading States:** Use Next.js `loading.tsx` or React `Suspense`.
+
+## 🤖 AI Interaction Guidelines
+- Prioritize readability. If a styling block in Tailwind gets too long, recommend moving it to a CSS file for better separation of concerns.
+- When generating code, respect the modularity rule and suggest new files when components grow too large. 
+- When generating code, prioritize readability and maintainability over clever "one-liners."
+- Always check for existing types in the schema before defining new interfaces.
