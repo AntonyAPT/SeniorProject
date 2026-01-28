@@ -1,5 +1,3 @@
 export { Logo } from './Logo'
 export { AuthCard } from './AuthCard'
-export { FormInput } from './FormInput'
 export { SubmitButton } from './SubmitButton'
-export { PasswordStrengthIndicator } from './PasswordStrengthIndicator'
