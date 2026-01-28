@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Routes that don't require authentication (might add "/" later for a landing page introducing the product)
-const publicRoutes = ['/login', '/signup', '/forgot-password', '/auth/callback']
+const publicRoutes = ['/sign-in', '/auth/callback']
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
@@ -37,13 +37,13 @@ export async function updateSession(request: NextRequest) {
 
   // If user is NOT logged in and trying to access a protected route
   if (!claims && !isPublicRoute) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/sign-in', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
-  // If user IS logged in and trying to access login/signup pages
-  if (claims && isPublicRoute && pathname !== '/auth/callback') {
-    const homeUrl = new URL('/', request.url)
+  // If user IS logged in and on public route OR root, redirect to dashboard ('/' route treated specifically as landing page not set up yet)
+  if (claims && (isPublicRoute || pathname === '/') && pathname !== '/auth/callback') {
+    const homeUrl = new URL('/dashboard', request.url)
     return NextResponse.redirect(homeUrl)
   }
 
