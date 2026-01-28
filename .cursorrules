@@ -7,6 +7,23 @@
 - **Modularity & Scaling:** - **The 150-Line Rule:** If a component exceeds 150 lines, suggest a strategy to break it down into smaller, focused sub-components.
   - Place shared UI in `@/components/ui` and feature-specific components in `@/components/[feature-name]`.
 
+## 🪝 Hook Extraction & Optimization
+- **When to Extract Hooks:**
+  - Validation logic with derived state (e.g., `isValid`, `showError`)
+  - Multiple related `useState`/`useEffect` calls that work together
+  - Stateful calculations that derive multiple values from the same input
+  - Logic that appears in 2+ components
+- **Hook Structure:**
+  - Keep hooks focused: one concern per hook (e.g., `useEmailValidation`, `usePasswordValidation`)
+  - Return an object with clearly named properties
+  - Place hooks in a `hooks/` folder near related components
+  - Create an `index.ts` barrel file for clean imports: `export { useX } from './useX'`
+- **When NOT to Extract:**
+  - Simple one-liner state (a single `useState` for a toggle)
+  - Logic used only once and unlikely to grow
+  - Component is already under 50 lines
+- **AI Guidance:** When reviewing or generating component code, identify opportunities to extract reusable validation, form state, or computed values into custom hooks following best practices
+
 ## Styling Strategy (Hybrid Approach)
 - **Tailwind CSS:** Use for layout (grid/flex), spacing, and standard utility-based styling to ensure rapid development and consistency.
 - **Standard CSS / CSS Modules:** Use for:
@@ -34,3 +51,9 @@
 - When generating code, respect the modularity rule and suggest new files when components grow too large. 
 - When generating code, prioritize readability and maintainability over clever "one-liners."
 - Always check for existing types in the schema before defining new interfaces.
+
+## Next.js 16+ Middleware Convention
+- In Next.js 16+, middleware files should be named `proxy.ts` (not `middleware.ts`)
+- The exported function should be named `proxy` (not `middleware`)
+- The old `middleware` convention is deprecated
+- More info: https://nextjs.org/docs/messages/middleware-to-proxy
