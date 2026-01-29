@@ -4,13 +4,13 @@
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e4e4e7;
+  color: var(--color-foreground);
   letter-spacing: 0.05em;
 }
 
 /* Card design */
 .card {
-  border: 1px dashed #3f3f46;
+  border: 1px dashed var(--color-border);
   padding: 2rem;
   display: flex;
   flex-direction: column;

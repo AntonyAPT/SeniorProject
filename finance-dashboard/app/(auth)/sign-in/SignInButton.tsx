@@ -21,8 +21,8 @@ export function SignInButton() {
   return (
     <button
       onClick={handleSignIn}
-      className="w-full flex items-center justify-center gap-3 bg-white text-zinc-900 
-                 font-semibold py-3 px-4 rounded-lg hover:bg-zinc-100 transition-colors"
+      className="w-full flex items-center justify-center gap-3 bg-button text-button-foreground 
+                 font-semibold py-3 px-4 rounded-lg hover:bg-button-hover transition-colors"
     >
       <GoogleIcon />
       Continue with Google
