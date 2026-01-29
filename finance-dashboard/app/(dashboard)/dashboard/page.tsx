@@ -21,12 +21,12 @@ export default async function DashboardPage() {
   const displayName = profile?.username || user.user_metadata.full_name || user.email
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white p-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">
           Welcome, {displayName}!
         </h1>
-        <p className="text-zinc-400">
+        <p className="text-muted">
           Your Stonks dashboard is ready. Start tracking your investments.
         </p>
         <SignOutButton />
