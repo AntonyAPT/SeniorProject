@@ -1,4 +1,4 @@
-'use client'
+'use client' // onClick handler (interactivity)
 
 import { createClient } from '@/lib/supabase/client'
 
@@ -12,7 +12,7 @@ export function SignOutButton() {
   return (
     <button 
       onClick={handleSignOut}
-      className="mt-6 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors"
+      className="mt-6 px-4 py-2 bg-surface hover:bg-card rounded-lg transition-colors"
     >
       Sign Out
     </button>
