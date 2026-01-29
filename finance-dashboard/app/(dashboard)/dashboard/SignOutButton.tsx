@@ -1,4 +1,4 @@
-'use client'
+'use client' // onClick handler (interactivity)
 
 import { createClient } from '@/lib/supabase/client'
 

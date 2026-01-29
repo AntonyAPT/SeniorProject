@@ -43,9 +43,7 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 finance-dashboard/
 ├── app/
 │   ├── (auth)/
-│   │   ├── login/page.tsx
-│   │   ├── signup/page.tsx
-│   │   ├── forgot-password/page.tsx
+│   │   ├── sign-in/page.tsx
 │   │   ├── auth/callback/route.ts    # OAuth callback handler
 │   │   └── layout.tsx
 │   │

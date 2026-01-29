@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server' // server client for secure data fetching
 import { redirect } from 'next/navigation'
 import { SignOutButton } from './SignOutButton'
 
@@ -6,7 +6,7 @@ export default async function DashboardPage() {
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
-  
+  // (backup protection - proxy should catch this first; test it)
   if (!user) {
     redirect('/sign-in')
   }
