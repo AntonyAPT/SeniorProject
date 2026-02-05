@@ -1,7 +1,8 @@
 ## Development Setup & Guidelines
 
-### Recommended Extensions
+### Recommended Extensions/Downloads
 - **Tailwind CSS IntelliSense:** For class name autocompletion and linting.
+- **npm lucide-react:** Icon library used throughout the project
 
 ### Organization & Best Practices
 
