@@ -49,9 +49,9 @@ finance-dashboard/
 │   │   ├── auth/callback/route.ts    # OAuth callback handler
 │   │   └── layout.tsx
 │   │
-│   ├── (dashboard)/
+│   ├── (main)/
 │   │   ├── dashboard/page.tsx
-│   │   ├── portfolio/page.tsx
+│   │   ├── portfolio/[id]/page.tsx
 │   │   ├── watchlist/page.tsx
 │   │   ├── stocks/[ticker]/page.tsx
 │   │   ├── profile/page.tsx
