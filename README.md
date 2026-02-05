@@ -52,9 +52,19 @@ finance-dashboard/
 │   │   │   └── SignInButton.tsx        # OAuth button component
 │   │   └── layout.tsx
 │   │
-│   ├── (dashboard)/                    
+│   ├── (main)/ 
+│   │   ├── components/
+│   │   │   ├── AddStockButton.tsx     # CTA to open stock search
+│   │   │   └── navbar/
+│   │   │       ├── Navbar.tsx         # Top navigation bar (server)
+│   │   │       ├── NavLinks.tsx       # Icon-based primary nav links
+│   │   │       ├── UserMenu.tsx       # Avatar dropdown + sign out
+│   │   │       └── navbar.module.css  # Navbar styles (CSS Module) 
+│   │   ├── hooks/
+│   │   │   ├── index.ts               # Barrel file for hooks
+│   │   │   └── useNavigation.ts       # Centralized navigation helper                  
 │   │   ├── dashboard/page.tsx
-│   │   ├── portfolio/page.tsx
+│   │   ├── portfolio/[id]/page.tsx
 │   │   ├── watchlist/page.tsx
 │   │   ├── stocks/[ticker]/page.tsx
 │   │   ├── profile/page.tsx
@@ -83,9 +93,10 @@ finance-dashboard/
 │   └── profile.ts             # Update user settings
 │
 ├── proxy.ts                   # Next.js 16+ proxy for auth protection  (no longer named middleware.ts)
+├── next.config.ts                     # Next.js config (image domains, etc.)
 │
 ├── components/
-│   └── ... (same as before)
+│   └── ... (same as before, more general directory for the entire project)
 │
 ├── types/
 │   ├── database.ts            # Supabase generated types
