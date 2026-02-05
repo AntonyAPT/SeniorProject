@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server' // server client for secure data fetching
 import { redirect } from 'next/navigation'
-import { SignOutButton } from './SignOutButton'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -29,7 +28,6 @@ export default async function DashboardPage() {
         <p className="text-muted">
           Your Stonks dashboard is ready. Start tracking your investments.
         </p>
-        <SignOutButton />
       </div>
     </div>
   )
