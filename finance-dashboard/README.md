@@ -1,18 +1,18 @@
 # SeniorProject: Stock Analysis (Phase 1)
 
-Stonks is a minimalist finance dashboard designed to empower individual investors with the tools they need to track and analyze their stock investments in one streamlined interface. The platform enables users to build and monitor personalized stock portfolios, maintain watchlists of securities they're interested in, and access technical analysis through interactive price charts with candlestick and line graph options. Beyond portfolio tracking, users can look up individual stocks to view key statistics, recent news, earnings reports, and other relevant financial disclosures—all in a clean, distraction-free environment. Built with a focus on simplicity and usability, Stonks provides secure user authentication and persistent data storage, allowing investors to seamlessly manage their financial insights from any device.
+[STONKS] is a minimalist finance dashboard designed to empower individual investors with the tools they need to track and analyze their stock investments in one streamlined interface. The platform enables users to build and monitor personalized stock portfolios, maintain watchlists of securities they're interested in, and access technical analysis through interactive price charts with candlestick and line graph options. Beyond portfolio tracking, users can look up individual stocks to view key statistics, recent news, earnings reports, and other relevant financial disclosures—all in a clean, distraction-free environment. Built with a focus on simplicity and usability, [STONKS] provides secure user authentication and persistent data storage, allowing investors to seamlessly manage their financial insights from any device.
 
 ## Data Flow Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         Your App                                │
+│                         App: [STONKS]                           │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
-│  │  Auth Pages  │    │  Dashboard   │    │ Stock Pages  │       │
-│  │  (login,     │    │  Portfolio   │    │  (charts,    │       │
-│  │   signup)    │    │  Watchlist   │    │   stats)     │       │
+│  │  Auth Page   │    │  Dashboard   │    │ Stock Pages  │       │
+│  │   (OAuth     │    │  Portfolio   │    │  (charts,    │       │
+│  │   Sign-in)   │    │  Watchlist   │    │   stats)     │       │
 │  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘       │
 │         │                   │                   │               │
 │         ▼                   ▼                   ▼               │
@@ -27,7 +27,7 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
          ▼                                       ▼
 ┌─────────────────┐                   ┌─────────────────┐
 │    Supabase     │                   │  External APIs  │
-│  (Auth + DB)    │                   │  (Stock data,   │
+│  (OAuth + DB)   │                   │  (Stock data,   │
 │                 │                   │   news, etc.)   │
 │  - profiles     │                   │                 │
 │  - holdings     │                   │  - Alpha Vantage│
@@ -37,19 +37,32 @@ Stonks is a minimalist finance dashboard designed to empower individual investor
 ```
 
 ## Project Structure
-
 ```
 
 finance-dashboard/
 ├── app/
 │   ├── (auth)/
-│   │   ├── login/page.tsx
-│   │   ├── signup/page.tsx
-│   │   ├── forgot-password/page.tsx
-│   │   ├── auth/callback/route.ts    # OAuth callback handler
+│   │   ├── auth/callback/route.ts      # OAuth callback handler
+│   │   ├── components/
+│   │   │   ├── auth.module.css         # Auth-specific styles (CSS Module)
+│   │   │   ├── index.ts                # Barrel file
+│   │   │   └── Logo.tsx                # Brand logo component
+│   │   ├── sign-in/
+│   │   │   ├── page.tsx                # OAuth sign-in page
+│   │   │   └── SignInButton.tsx        # OAuth button component
 │   │   └── layout.tsx
 │   │
-│   ├── (main)/
+│   ├── (main)/ 
+│   │   ├── components/
+│   │   │   ├── AddStockButton.tsx     # CTA to open stock search
+│   │   │   └── navbar/
+│   │   │       ├── Navbar.tsx         # Top navigation bar (server)
+│   │   │       ├── NavLinks.tsx       # Icon-based primary nav links
+│   │   │       ├── UserMenu.tsx       # Avatar dropdown + sign out
+│   │   │       └── navbar.module.css  # Navbar styles (CSS Module) 
+│   │   ├── hooks/
+│   │   │   ├── index.ts               # Barrel file for hooks
+│   │   │   └── useNavigation.ts       # Centralized navigation helper                  
 │   │   ├── dashboard/page.tsx
 │   │   ├── portfolio/[id]/page.tsx
 │   │   ├── watchlist/page.tsx
@@ -65,8 +78,7 @@ finance-dashboard/
 │   ├── supabase/
 │   │   ├── client.ts          # Browser client (for client components)
 │   │   ├── server.ts          # Server client (for server components/actions)
-│   │   ├── middleware.ts      # Auth middleware helper
-│   │   └── types.ts           # Generated database types
+│   │   └── proxy.ts           # Middleware/Auth helper (Next.js 16+)
 │   │
 │   ├── api/
 │   │   ├── stocks.ts          # External stock API calls
@@ -80,10 +92,11 @@ finance-dashboard/
 │   ├── watchlist.ts           # Add/remove from watchlist
 │   └── profile.ts             # Update user settings
 │
-├── middleware.ts              # Next.js middleware for auth protection
+├── proxy.ts                   # Next.js 16+ proxy for auth protection  (no longer named middleware.ts)
+├── next.config.ts                     # Next.js config (image domains, etc.)
 │
 ├── components/
-│   └── ... (same as before)
+│   └── ... (same as before, more general directory for the entire project)
 │
 ├── types/
 │   ├── database.ts            # Supabase generated types
@@ -92,5 +105,6 @@ finance-dashboard/
 └── supabase/
     ├── migrations/            # Database migrations
     └── seed.sql               # Optional seed data 
+...
 
 ```
