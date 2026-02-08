@@ -31,12 +31,10 @@ export default function DashboardPage({ user }: { user: User }) {
         <div className="h-full px-6 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center font-bold text-xl">
+            <div className="w-10 h-10 bg-gradient-blue rounded-lg flex items-center justify-center font-bold text-xl">
               S
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-              Stonks
-            </span>
+            <span className="text-xl font-bold text-gradient-blue">Stonks</span>
           </div>
 
           {/* Search Bar */}
@@ -46,7 +44,7 @@ export default function DashboardPage({ user }: { user: User }) {
               <input
                 type="text"
                 placeholder="Search stocks, predictions..."
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </div>
@@ -134,11 +132,11 @@ export default function DashboardPage({ user }: { user: User }) {
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Chart Section */}
-            <div className="lg:col-span-2 bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
+            <div className="lg:col-span-2 glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold">Market Overview</h2>
                 <div className="flex gap-2">
-                  <button className="px-4 py-2 text-sm bg-emerald-500/10 text-emerald-400 rounded-lg hover:bg-emerald-500/20 transition-colors">
+                  <button className="px-4 py-2 text-sm bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-colors">
                     1D
                   </button>
                   <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
@@ -162,7 +160,7 @@ export default function DashboardPage({ user }: { user: User }) {
             </div>
 
             {/* AI Predictions Panel */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
+            <div className="glass rounded-2xl p-6">
               <h2 className="text-xl font-semibold mb-6">AI Predictions</h2>
               <div className="space-y-4">
                 <PredictionCard
@@ -197,7 +195,7 @@ export default function DashboardPage({ user }: { user: User }) {
             </div>
 
             {/* Recent Activity */}
-            <div className="lg:col-span-2 bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
+            <div className="lg:col-span-2 glass rounded-2xl p-6">
               <h2 className="text-xl font-semibold mb-6">Recent Activity</h2>
               <div className="space-y-4">
                 <ActivityItem
@@ -228,7 +226,7 @@ export default function DashboardPage({ user }: { user: User }) {
             </div>
 
             {/* Watchlist */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
+            <div className="glass rounded-2xl p-6">
               <h2 className="text-xl font-semibold mb-6">Watchlist</h2>
               <div className="space-y-3">
                 <WatchlistItem
@@ -281,7 +279,7 @@ function NavItem({
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
         active
-          ? "bg-emerald-500/10 text-emerald-400 font-medium"
+          ? "bg-blue-500/10 text-blue-400 font-medium"
           : "text-slate-400 hover:text-white hover:bg-slate-800/50"
       }`}
     >
@@ -304,13 +302,13 @@ function StatCard({
   isPositive: boolean;
 }) {
   return (
-    <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6 hover:border-slate-700/50 transition-all">
+    <div className="glass rounded-2xl p-6 card-hover">
       <p className="text-slate-400 text-sm mb-2">{label}</p>
       <div className="flex items-end justify-between">
         <h3 className="text-2xl font-bold">{value}</h3>
         <div
           className={`flex items-center gap-1 text-sm font-medium ${
-            isPositive ? "text-emerald-400" : "text-red-400"
+            isPositive ? "text-positive" : "text-negative"
           }`}
         >
           {isPositive ? (
@@ -339,10 +337,10 @@ function PredictionCard({
   change: string;
   isPositive: boolean;
 }) {
-  const getPredictionColor = (pred: string) => {
-    if (pred === "BUY") return "text-emerald-400 bg-emerald-500/10";
-    if (pred === "SELL") return "text-red-400 bg-red-500/10";
-    return "text-amber-400 bg-amber-500/10";
+  const getPredictionClass = (pred: string) => {
+    if (pred === "BUY") return "text-positive bg-emerald-500/10";
+    if (pred === "SELL") return "text-negative bg-red-500/10";
+    return "text-neutral bg-amber-500/10";
   };
 
   return (
@@ -351,7 +349,7 @@ function PredictionCard({
         <span className="font-semibold">{ticker}</span>
         <span
           className={`text-sm ${
-            isPositive ? "text-emerald-400" : "text-red-400"
+            isPositive ? "text-positive" : "text-negative"
           }`}
         >
           {change}
@@ -359,7 +357,7 @@ function PredictionCard({
       </div>
       <div className="flex items-center justify-between">
         <span
-          className={`text-xs font-medium px-2 py-1 rounded ${getPredictionColor(
+          className={`text-xs font-medium px-2 py-1 rounded ${getPredictionClass(
             prediction
           )}`}
         >
@@ -385,9 +383,9 @@ function ActivityItem({
 }) {
   const getIcon = () => {
     if (type === "prediction")
-      return <BarChart3 className="w-4 h-4 text-emerald-400" />;
+      return <BarChart3 className="w-4 h-4 text-positive" />;
     if (type === "alert")
-      return <AlertCircle className="w-4 h-4 text-amber-400" />;
+      return <AlertCircle className="w-4 h-4 text-neutral" />;
     return <TrendingUp className="w-4 h-4 text-blue-400" />;
   };
 
@@ -426,7 +424,7 @@ function WatchlistItem({
       </div>
       <span
         className={`text-sm font-medium ${
-          isPositive ? "text-emerald-400" : "text-red-400"
+          isPositive ? "text-positive" : "text-negative"
         }`}
       >
         {change}
