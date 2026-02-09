@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { Navbar } from './components/navbar/Navbar'
 
-// Purpose: Route-level auth protection for all /dashboard/* routes (proxy backup)
-export default async function DashboardLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode
@@ -10,10 +10,15 @@ export default async function DashboardLayout({
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  // (backup protection - proxy should catch this first)
   if (!user) {
     redirect('/sign-in')
   }
 
-  // can add shared dashboard UI here later (sidebar, navbar, etc.)
-  return <>{children}</>
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main>{children}</main>
+    </div>
+  )
 }
