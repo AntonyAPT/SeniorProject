@@ -3,95 +3,32 @@
 import { useState } from "react";
 import {
   Search,
-  User as UserIcon,
   TrendingUp,
   TrendingDown,
   AlertCircle,
   BarChart3,
-  Wallet,
-  Eye,
-  LogOut,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 
 export default function DashboardPage({ user }: { user: User }) {
-  const [activeNav, setActiveNav] = useState("dashboard");
-
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    window.location.href = "/sign-in";
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 h-16 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/50 z-50">
-        <div className="h-full px-6 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-blue rounded-lg flex items-center justify-center font-bold text-xl">
-              S
-            </div>
-            <span className="text-xl font-bold text-gradient-blue">Stonks</span>
+      {/* Search Bar */}
+      <div className="px-8 pt-6 pb-4">
+        <div className="max-w-2xl">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search stocks, predictions..."
+              className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
           </div>
-
-          {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-8">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search stocks, predictions..."
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* User Icon */}
-          <button className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center transition-colors">
-            <UserIcon className="w-5 h-5 text-slate-300" />
-          </button>
         </div>
-      </nav>
-
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-16 bottom-0 w-64 bg-slate-900/50 backdrop-blur-sm border-r border-slate-800/50 p-6">
-        <nav className="space-y-2">
-          <NavItem
-            icon={<BarChart3 className="w-5 h-5" />}
-            label="Dashboard"
-            active={activeNav === "dashboard"}
-            onClick={() => setActiveNav("dashboard")}
-          />
-          <NavItem
-            icon={<Wallet className="w-5 h-5" />}
-            label="Portfolio"
-            active={activeNav === "portfolio"}
-            onClick={() => setActiveNav("portfolio")}
-          />
-          <NavItem
-            icon={<Eye className="w-5 h-5" />}
-            label="Watchlist"
-            active={activeNav === "watchlist"}
-            onClick={() => setActiveNav("watchlist")}
-          />
-        </nav>
-
-        <div className="absolute bottom-6 left-6 right-6">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="text-sm font-medium">Logout</span>
-          </button>
-        </div>
-      </aside>
+      </div>
 
       {/* Main Content Area */}
-      <main className="ml-64 mt-16 p-8">
+      <main className="px-8 pb-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -259,33 +196,6 @@ export default function DashboardPage({ user }: { user: User }) {
         </div>
       </main>
     </div>
-  );
-}
-
-// Navigation Item Component
-function NavItem({
-  icon,
-  label,
-  active,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-        active
-          ? "bg-blue-500/10 text-blue-400 font-medium"
-          : "text-slate-400 hover:text-white hover:bg-slate-800/50"
-      }`}
-    >
-      {icon}
-      <span className="text-sm">{label}</span>
-    </button>
   );
 }
 
