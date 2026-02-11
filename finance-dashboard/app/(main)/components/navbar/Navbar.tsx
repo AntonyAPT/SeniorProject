@@ -27,11 +27,11 @@ export async function Navbar() {
     <nav className={styles.navbar}>
       {/* Logo with blue square and gradient text */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center font-bold text-xl">
+        {/* <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center font-bold text-xl">
           S
-        </div>
-        <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          Stonks
+        </div> */}
+        <span className="text-xl font-bold bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          [ STONKS ]
         </span>
       </div>
 
