@@ -37,10 +37,8 @@ export async function GET(request: Request) {
         .eq('is_default', true)
         .single()
 
-      // Redirect to default portfolio, or dashboard as fallback
-      const redirectPath = defaultPortfolio 
-        ? `/portfolio/${defaultPortfolio.id}`
-        : '/dashboard'
+      // Redirect to dashboard after signing in
+      const redirectPath = '/dashboard'
 
       return NextResponse.redirect(`${origin}${redirectPath}`)
     }

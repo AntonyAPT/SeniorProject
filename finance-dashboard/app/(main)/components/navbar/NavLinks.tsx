@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
 import { useNavigation, NavigationTarget } from '../../hooks'
+import { getDefaultPortfolio } from '../../actions/portfolio'
 import styles from './navbar.module.css'
 
 type NavItem = {
@@ -21,13 +22,29 @@ export function NavLinks() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const { navigate } = useNavigation()
 
+  const handleNavigation = async (target: NavigationTarget) => {
+    // Special handling for portfolio navigation - fetch default portfolio
+    if (target === 'portfolio') {
+      const result = await getDefaultPortfolio()
+      
+      if (result.data?.id) {
+        navigate('portfolio', { id: result.data.id })
+      } else {
+        // If no default portfolio found, redirect to portfolios page
+        navigate('portfolios')
+      }
+    } else {
+      navigate(target)
+    }
+  }
+
   return (
     <div className={styles.navLinks}>
       {navItems.map((item) => (
         <button
           key={item.id}
           className={styles.navItem}
-          onClick={() => navigate(item.id)}
+          onClick={() => handleNavigation(item.id)}
           onMouseEnter={() => setHoveredItem(item.id)}
           onMouseLeave={() => setHoveredItem(null)}
         >
