@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import {
   TrendingUp,
@@ -11,6 +11,7 @@ import {
   RefreshCw,
   Newspaper,
   BarChart2,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -27,7 +28,7 @@ import {
 
 interface StockData {
   ticker: string;
-  name: string;
+  name?: string;
   price: number;
   high: number;
   low: number;
@@ -42,11 +43,13 @@ interface StockData {
   currency?: string;
 }
 
-interface NewsItem {
-  title: string;
-  published_at: string;
-  url: string;
-  source: string;
+interface HistoricalPoint {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  time: number; // unix timestamp
 }
 
 interface ChartPoint {
@@ -54,23 +57,77 @@ interface ChartPoint {
   price: number;
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+type Range = "1D" | "1W" | "1M" | "1Y";
+
+// ─── Label formatters per range ───────────────────────────────────────────────
+
+function formatTime(unixSec: number, range: Range): string {
+  const d = new Date(unixSec * 1000);
+  if (range === "1D") {
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+  if (range === "1W") {
+    return d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+  }
+  if (range === "1M") {
+    return d.toLocaleDateString([], { month: "short", day: "numeric" });
+  }
+  // 1Y
+  return d.toLocaleDateString([], { month: "short", year: "2-digit" });
+}
+
+// ─── Tick interval so XAxis is never crowded ──────────────────────────────────
+
+const TICK_COUNT: Record<Range, number> = {
+  "1D": 6,
+  "1W": 7,
+  "1M": 6,
+  "1Y": 8,
+};
+
+// ─── API helpers ──────────────────────────────────────────────────────────────
 
 async function fetchStock(ticker: string): Promise<StockData | null> {
   try {
-    const res = await fetch(`/api/stock?ticker=${ticker.toUpperCase()}`);
+    const res = await fetch(`/api/stock?ticker=${ticker}`);
     if (!res.ok) return null;
     const data = await res.json();
-    if (data.error) return null;
-    return data as StockData;
+    return data.error ? null : (data as StockData);
   } catch {
     return null;
   }
 }
 
+async function fetchHistorical(ticker: string, range: Range): Promise<ChartPoint[]> {
+  try {
+    const res = await fetch(`/api/stockhistorical?ticker=${ticker}&range=${range}`);
+    if (!res.ok) return [];
+    const data: HistoricalPoint[] = await res.json();
+    if (!Array.isArray(data) || data.length === 0) return [];
+
+    // Sort ascending by time, map close price
+    return data
+      .slice()
+      .sort((a, b) => a.time - b.time)
+      .map((d) => ({
+        time: formatTime(d.time, range),
+        price: parseFloat(d.close.toFixed(2)),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+interface NewsItem {
+  title: string;
+  published_at: string;
+  url: string;
+  source: string;
+}
+
 async function fetchNews(ticker: string): Promise<NewsItem[]> {
   try {
-    const res = await fetch(`/api/stocknews?ticker=${ticker.toUpperCase()}`);
+    const res = await fetch(`/api/stocknews?ticker=${ticker}`);
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? data : [];
@@ -79,34 +136,7 @@ async function fetchNews(ticker: string): Promise<NewsItem[]> {
   }
 }
 
-/** Generate simulated intraday chart points anchored to real open/current price. */
-function buildChartData(open: number, current: number, points = 30): ChartPoint[] {
-  const result: ChartPoint[] = [];
-  const now = new Date();
-  const marketOpen = new Date(now);
-  marketOpen.setHours(9, 30, 0, 0);
-
-  const totalMinutes = Math.min(
-    (now.getTime() - marketOpen.getTime()) / 60000,
-    390
-  );
-  const step = Math.max(totalMinutes / points, 1);
-
-  let price = open;
-  const drift = (current - open) / points;
-
-  for (let i = 0; i <= points; i++) {
-    const t = new Date(marketOpen.getTime() + i * step * 60000);
-    const noise = (Math.random() - 0.5) * open * 0.004;
-    price = i === 0 ? open : i === points ? current : price + drift + noise;
-
-    result.push({
-      time: t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      price: parseFloat(price.toFixed(2)),
-    });
-  }
-  return result;
-}
+// ─── Misc helpers ─────────────────────────────────────────────────────────────
 
 function timeAgo(dateStr: string): string {
   const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
@@ -118,8 +148,8 @@ function timeAgo(dateStr: string): string {
 function fmt(n: number | undefined, prefix = ""): string {
   if (n === undefined || n === null) return "—";
   if (Math.abs(n) >= 1e12) return `${prefix}${(n / 1e12).toFixed(2)}T`;
-  if (Math.abs(n) >= 1e9) return `${prefix}${(n / 1e9).toFixed(2)}B`;
-  if (Math.abs(n) >= 1e6) return `${prefix}${(n / 1e6).toFixed(2)}M`;
+  if (Math.abs(n) >= 1e9)  return `${prefix}${(n / 1e9).toFixed(2)}B`;
+  if (Math.abs(n) >= 1e6)  return `${prefix}${(n / 1e6).toFixed(2)}M`;
   return `${prefix}${n.toLocaleString()}`;
 }
 
@@ -143,44 +173,53 @@ export default function StockPage() {
     Array.isArray(params?.ticker) ? params.ticker[0] : params?.ticker ?? ""
   ).toUpperCase();
 
-  const [stock, setStock] = useState<StockData | null>(null);
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [chart, setChart] = useState<ChartPoint[]>([]);
-  const [watched, setWatched] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [range, setRange] = useState<"1D" | "1W" | "1M" | "1Y">("1D");
+  const [stock,      setStock]      = useState<StockData | null>(null);
+  const [news,       setNews]       = useState<NewsItem[]>([]);
+  const [chart,      setChart]      = useState<ChartPoint[]>([]);
+  const [range,      setRange]      = useState<Range>("1D");
+  const [watched,    setWatched]    = useState(false);
+  const [loading,    setLoading]    = useState(true);
+  const [chartLoad,  setChartLoad]  = useState(false);
+  const [error,      setError]      = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const load = async () => {
-    setLoading(true);
-    setError(null);
-    const [stockData, newsData] = await Promise.all([
-      fetchStock(ticker),
-      fetchNews(ticker),
-    ]);
-    if (!stockData) {
-      setError(`Could not find stock data for "${ticker}". Check the ticker and your API key.`);
-    } else {
-      setStock(stockData);
-      setChart(buildChartData(stockData.open ?? stockData.price, stockData.price));
-      setNews(newsData);
-    }
-    setLoading(false);
-  };
+  // ── Initial load: stock price + news in parallel
+  useEffect(() => {
+    if (!ticker) return;
+    (async () => {
+      setLoading(true);
+      setError(null);
+      const [stockData, newsData] = await Promise.all([
+        fetchStock(ticker),
+        fetchNews(ticker),
+      ]);
+      if (!stockData) {
+        setError(`Could not find data for "${ticker}". Check the ticker symbol.`);
+      } else {
+        setStock(stockData);
+        setNews(newsData);
+      }
+      setLoading(false);
+    })();
+  }, [ticker]);
 
-  const refresh = async () => {
+  // ── Load chart whenever range or stock changes
+  useEffect(() => {
+    if (!ticker || !stock) return;
+    (async () => {
+      setChartLoad(true);
+      const points = await fetchHistorical(ticker, range);
+      setChart(points);
+      setChartLoad(false);
+    })();
+  }, [ticker, range, stock]);
+
+  // ── Refresh current price
+  const refresh = useCallback(async () => {
     setRefreshing(true);
     const stockData = await fetchStock(ticker);
-    if (stockData) {
-      setStock(stockData);
-      setChart(buildChartData(stockData.open ?? stockData.price, stockData.price));
-    }
+    if (stockData) setStock(stockData);
     setRefreshing(false);
-  };
-
-  useEffect(() => {
-    if (ticker) load();
   }, [ticker]);
 
   // ── Derived values
@@ -188,18 +227,18 @@ export default function StockPage() {
     ? stock.change ?? stock.price - (stock.open ?? stock.price)
     : 0;
   const changePct = stock
-    ? stock.change_percent ?? ((changeAmt / (stock.open ?? stock.price)) * 100)
+    ? stock.change_percent ?? (changeAmt / (stock.open ?? stock.price)) * 100
     : 0;
   const isPositive = changeAmt >= 0;
 
-  const chartMin = chart.length
-    ? Math.min(...chart.map((c) => c.price)) * 0.999
-    : 0;
-  const chartMax = chart.length
-    ? Math.max(...chart.map((c) => c.price)) * 1.001
-    : 0;
+  const chartMin = chart.length ? Math.min(...chart.map((c) => c.price)) * 0.998 : 0;
+  const chartMax = chart.length ? Math.max(...chart.map((c) => c.price)) * 1.002 : 0;
+  const tickInterval = Math.max(1, Math.floor(chart.length / (TICK_COUNT[range] - 1)));
 
-  // ── Loading state
+  // ── Chart colour follows today's change
+  const strokeColor = isPositive ? "#10b981" : "#ef4444";
+
+  // ── Loading
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
@@ -211,14 +250,17 @@ export default function StockPage() {
     );
   }
 
-  // ── Error state
+  // ── Error
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
         <div className="text-center space-y-4 max-w-md">
           <p className="text-3xl">📉</p>
           <p className="text-slate-300 font-medium">{error}</p>
-          <Link href="/dashboard" className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
+          >
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
         </div>
@@ -230,7 +272,7 @@ export default function StockPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
 
-        {/* ── Back nav */}
+        {/* Back nav */}
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm transition-colors"
@@ -242,7 +284,6 @@ export default function StockPage() {
         {/* ══ HEADER ══════════════════════════════════════════════════════════ */}
         <div className="glass rounded-2xl px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            {/* Ticker badge */}
             <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center">
               <BarChart2 className="w-6 h-6 text-blue-400" />
             </div>
@@ -250,9 +291,7 @@ export default function StockPage() {
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold tracking-tight">{ticker}</h1>
                 {stock?.name && (
-                  <span className="text-slate-400 text-sm hidden sm:block">
-                    {stock.name}
-                  </span>
+                  <span className="text-slate-400 text-sm hidden sm:block">{stock.name}</span>
                 )}
               </div>
               {stock?.exchange && (
@@ -262,7 +301,6 @@ export default function StockPage() {
           </div>
 
           <div className="flex items-center gap-6">
-            {/* Price block */}
             <div className="text-right">
               <p className="text-3xl font-bold tracking-tight">
                 {stock?.currency === "USD" || !stock?.currency ? "$" : ""}
@@ -284,7 +322,6 @@ export default function StockPage() {
               </div>
             </div>
 
-            {/* Watch button */}
             <button
               onClick={() => setWatched((w) => !w)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
@@ -293,15 +330,10 @@ export default function StockPage() {
                   : "bg-slate-700/50 text-slate-300 border border-slate-700/50 hover:bg-slate-700"
               }`}
             >
-              {watched ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                <Plus className="w-4 h-4" />
-              )}
+              {watched ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
               {watched ? "Watching" : "Watch"}
             </button>
 
-            {/* Refresh */}
             <button
               onClick={refresh}
               disabled={refreshing}
@@ -316,13 +348,19 @@ export default function StockPage() {
         {/* ══ CHART ═══════════════════════════════════════════════════════════ */}
         <div className="glass rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold">Price Chart</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-semibold">Price Chart</h2>
+              {chartLoad && (
+                <Loader2 className="w-4 h-4 text-slate-500 animate-spin" />
+              )}
+            </div>
             <div className="flex gap-1">
-              {(["1D", "1W", "1M", "1Y"] as const).map((r) => (
+              {(["1D", "1W", "1M", "1Y"] as Range[]).map((r) => (
                 <button
                   key={r}
                   onClick={() => setRange(r)}
-                  className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+                  disabled={chartLoad}
+                  className={`px-3 py-1.5 text-xs rounded-lg transition-colors disabled:opacity-50 ${
                     range === r
                       ? "bg-blue-500/20 text-blue-400"
                       : "text-slate-400 hover:bg-slate-800/50"
@@ -334,54 +372,63 @@ export default function StockPage() {
             </div>
           </div>
 
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chart} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="priceGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={isPositive ? "#10b981" : "#ef4444"}
-                      stopOpacity={0.25}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={isPositive ? "#10b981" : "#ef4444"}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis
-                  dataKey="time"
-                  tick={{ fill: "#64748b", fontSize: 10 }}
-                  tickLine={false}
-                  axisLine={false}
-                  interval={Math.floor(chart.length / 5)}
-                />
-                <YAxis
-                  domain={[chartMin, chartMax]}
-                  tick={{ fill: "#64748b", fontSize: 10 }}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(v) => `$${v.toFixed(0)}`}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="price"
-                  stroke={isPositive ? "#10b981" : "#ef4444"}
-                  strokeWidth={2}
-                  fill="url(#priceGrad)"
-                  dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+          <div className="h-64 relative">
+            {chartLoad && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-900/40 rounded-xl z-10">
+                <Loader2 className="w-6 h-6 text-blue-400 animate-spin" />
+              </div>
+            )}
+
+            {chart.length === 0 && !chartLoad ? (
+              <div className="h-full flex items-center justify-center text-slate-500 text-sm">
+                No historical data available for this range.
+                <br />
+                <span className="text-xs mt-1 block text-center text-slate-600">
+                  (Historical data requires a premium API-Ninjas subscription)
+                </span>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chart} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="priceGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%"  stopColor={strokeColor} stopOpacity={0.25} />
+                      <stop offset="95%" stopColor={strokeColor} stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                  <XAxis
+                    dataKey="time"
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    tickLine={false}
+                    axisLine={false}
+                    interval={tickInterval}
+                  />
+                  <YAxis
+                    domain={[chartMin, chartMax]}
+                    tick={{ fill: "#64748b", fontSize: 10 }}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={(v) => `$${v.toFixed(0)}`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area
+                    type="monotone"
+                    dataKey="price"
+                    stroke={strokeColor}
+                    strokeWidth={2}
+                    fill="url(#priceGrad)"
+                    dot={false}
+                    activeDot={{ r: 4, strokeWidth: 0 }}
+                    isAnimationActive={!chartLoad}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
           </div>
 
           <p className="text-xs text-slate-600 text-right mt-2">
-            Intraday simulation anchored to live open / current price
+            Historical data via API-Ninjas · Prices delayed 15 min (free tier)
           </p>
         </div>
 
@@ -391,19 +438,21 @@ export default function StockPage() {
           {/* Statistics */}
           <div className="glass rounded-2xl p-6">
             <h2 className="text-lg font-semibold mb-5">Statistics</h2>
-            <div className="space-y-3">
+            <div className="space-y-0">
               {[
-                { label: "Open", value: stock?.open != null ? `$${stock.open.toFixed(2)}` : "—" },
-                { label: "Day High", value: stock?.high != null ? `$${stock.high.toFixed(2)}` : "—" },
-                { label: "Day Low", value: stock?.low != null ? `$${stock.low.toFixed(2)}` : "—" },
-                { label: "Volume", value: fmt(stock?.volume) },
-                { label: "Market Cap", value: stock?.market_cap ? fmt(stock.market_cap, "$") : "—" },
-                { label: "P/E Ratio", value: stock?.pe_ratio?.toFixed(1) ?? "—" },
-                { label: "Dividend Yield", value: stock?.dividend_yield != null ? `${(stock.dividend_yield * 100).toFixed(2)}%` : "—" },
+                { label: "Open",           value: stock?.open  != null ? `$${stock.open.toFixed(2)}`  : "—" },
+                { label: "Day High",       value: stock?.high  != null ? `$${stock.high.toFixed(2)}`  : "—" },
+                { label: "Day Low",        value: stock?.low   != null ? `$${stock.low.toFixed(2)}`   : "—" },
+                { label: "Volume",         value: fmt(stock?.volume) },
+                { label: "Market Cap",     value: stock?.market_cap     ? fmt(stock.market_cap, "$")               : "—" },
+                { label: "P/E Ratio",      value: stock?.pe_ratio       ? stock.pe_ratio.toFixed(1)                : "—" },
+                { label: "Dividend Yield", value: stock?.dividend_yield != null
+                    ? `${(stock.dividend_yield * 100).toFixed(2)}%`
+                    : "—" },
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="flex justify-between items-center py-2 border-b border-slate-700/30 last:border-0"
+                  className="flex justify-between items-center py-2.5 border-b border-slate-700/30 last:border-0"
                 >
                   <span className="text-sm text-slate-400">{label}</span>
                   <span className="text-sm font-medium">{value}</span>
@@ -418,7 +467,7 @@ export default function StockPage() {
               <Newspaper className="w-4 h-4 text-slate-400" />
               <h2 className="text-lg font-semibold">Company News</h2>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {news.length === 0 ? (
                 <p className="text-sm text-slate-500 italic">No recent news found.</p>
               ) : (
@@ -436,9 +485,7 @@ export default function StockPage() {
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-xs text-slate-500">{item.source}</span>
                       <span className="text-slate-600 text-xs">•</span>
-                      <span className="text-xs text-slate-500">
-                        {timeAgo(item.published_at)}
-                      </span>
+                      <span className="text-xs text-slate-500">{timeAgo(item.published_at)}</span>
                     </div>
                   </a>
                 ))
@@ -447,9 +494,8 @@ export default function StockPage() {
           </div>
         </div>
 
-        {/* ── Footer note */}
         <p className="text-center text-xs text-slate-600 pb-4">
-          Data provided by API-Ninjas · Prices delayed · Not financial advice
+          Data provided by API-Ninjas · Not financial advice
         </p>
       </div>
     </div>
