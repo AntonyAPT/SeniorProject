@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
+import { LayoutDashboard, Briefcase, Eye, Activity } from 'lucide-react'
 import { useNavigation, NavigationTarget } from '../../hooks'
 import styles from './navbar.module.css'
 
@@ -15,6 +15,7 @@ const navItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={22} /> },
   { id: 'portfolio', label: 'Portfolio', icon: <Briefcase size={22} /> },
   { id: 'watchlist', label: 'Watchlist', icon: <Eye size={22} /> },
+  { id: 'stocks', label: 'Stocks', icon: <Activity size={22} /> },
 ]
 
 export function NavLinks() {
