@@ -69,6 +69,13 @@ finance-dashboard/
 │   │   ├── stocks/[ticker]/page.tsx
 │   │   ├── profile/page.tsx
 │   │   └── layout.tsx
+|   |
+|   |
+|   ├── api/
+|   |   ├── stock
+│   │   │   └── route.ts # API calls for stock pricing
+|   |
+|   |
 │   │
 │   ├── globals.css
 │   ├── layout.tsx
