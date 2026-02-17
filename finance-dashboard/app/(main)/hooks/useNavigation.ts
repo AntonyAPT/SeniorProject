@@ -7,6 +7,7 @@ export type NavigationTarget =
   | 'dashboard'
   | 'portfolio'
   | 'watchlist'
+  | 'stocks'
   | 'stock-search'
   | 'settings'
   | 'portfolios'
@@ -20,7 +21,11 @@ export function useNavigation() {
     console.log(`Navigating to: ${target}`, params)
 
     // Future implementation:
-    // switch (target) {
+    switch (target) {
+      case 'stocks':
+        console.log('Navigating to stocks page')
+        router.push('/stocks')
+        break
     //   case 'dashboard':
     //     router.push('/dashboard')
     //     break
@@ -42,7 +47,7 @@ export function useNavigation() {
     //   case 'theme':
     //     // Handle theme toggle separately
     //     break
-    // }
+    }
   }
 
   // acts like the hooks 'public API'
