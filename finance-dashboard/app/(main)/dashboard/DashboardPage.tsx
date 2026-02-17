@@ -9,22 +9,35 @@ import {
   BarChart3,
 } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+
 
 export default function DashboardPage({ user }: { user: User }) {
+  const router = useRouter();
+  
+  const [search,      setSearch]      = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+  e.preventDefault();
+  const t = search.trim().toUpperCase();
+  if (t) router.push(`/stocks/${t}`);
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Search Bar */}
       <div className="px-8 pt-6 pb-4">
-        <div className="max-w-2xl">
+        <form onSubmit={handleSearch} className="max-w-2xl">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search stocks, predictions..."
               className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl pl-12 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
           </div>
-        </div>
+        </form>
       </div>
 
       {/* Main Content Area */}
