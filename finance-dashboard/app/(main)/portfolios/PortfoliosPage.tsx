@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Briefcase, Pencil, Trash2, Plus, Check, X } from 'lucide-react'
 import { createPortfolio, deletePortfolio, renamePortfolio } from '../actions/portfolio'
-import { useSelectedPortfolio, useNavigation } from '../hooks'
+import { useNavigation } from '../hooks'
+import { useSelectedPortfolio } from '../contexts/SelectedPortfolioContext'
 import type { PortfolioWithValue } from './page'
 import styles from './portfolios.module.css'
 

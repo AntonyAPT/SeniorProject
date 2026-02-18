@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
-import { useNavigation, NavigationTarget, useSelectedPortfolio } from '../../hooks'
+import { useNavigation, NavigationTarget } from '../../hooks'
+import { useSelectedPortfolio } from '../../contexts/SelectedPortfolioContext'
 import { getDefaultPortfolio, getPortfolioById } from '../../actions/portfolio'
 import styles from './navbar.module.css'
 
