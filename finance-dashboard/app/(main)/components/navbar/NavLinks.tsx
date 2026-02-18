@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
-import { useNavigation, NavigationTarget } from '../../hooks'
-import { getDefaultPortfolio } from '../../actions/portfolio'
+import { useNavigation, NavigationTarget, useSelectedPortfolio } from '../../hooks'
+import { getDefaultPortfolio, getPortfolioById } from '../../actions/portfolio'
 import styles from './navbar.module.css'
 
 type NavItem = {
@@ -21,16 +21,28 @@ const navItems: NavItem[] = [
 export function NavLinks() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const { navigate } = useNavigation()
+  const { selectedPortfolioId, setSelectedPortfolioId } = useSelectedPortfolio()
 
   const handleNavigation = async (target: NavigationTarget) => {
-    // Special handling for portfolio navigation - fetch default portfolio
+    // Navigate to user-selected portfolio when available
     if (target === 'portfolio') {
-      const result = await getDefaultPortfolio()
-      
-      if (result.data?.id) {
-        navigate('portfolio', { id: result.data.id })
+      if (selectedPortfolioId) {
+        const selectedResult = await getPortfolioById(selectedPortfolioId)
+
+        if (selectedResult.data?.id) {
+          navigate('portfolio', { id: selectedResult.data.id })
+          return
+        }
+      }
+
+      const defaultResult = await getDefaultPortfolio()
+
+      if (defaultResult.data?.id) {
+        setSelectedPortfolioId(defaultResult.data.id)
+        navigate('portfolio', { id: defaultResult.data.id })
       } else {
-        // If no default portfolio found, redirect to portfolios page
+        // If no portfolio can be resolved, redirect to portfolios page
+        setSelectedPortfolioId(null)
         navigate('portfolios')
       }
     } else {
