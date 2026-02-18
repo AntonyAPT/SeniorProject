@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Briefcase, Pencil, Trash2, Plus, Check, X } from 'lucide-react'
 import { createPortfolio, deletePortfolio, renamePortfolio } from '../actions/portfolio'
-import { useSelectedPortfolio } from '../hooks'
+import { useSelectedPortfolio, useNavigation } from '../hooks'
 import type { PortfolioWithValue } from './page'
 import styles from './portfolios.module.css'
 
@@ -21,6 +21,7 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
   const [renameValue, setRenameValue] = useState('')
   const [deletingPortfolio, setDeletingPortfolio] = useState<PortfolioWithValue | null>(null)
   const { selectedPortfolioId, isHydrated, setSelectedPortfolioId } = useSelectedPortfolio()
+  const { navigate } = useNavigation()
 
   const defaultPortfolioId = useMemo(
     () => portfolios.find((portfolio) => portfolio.is_default)?.id ?? null,
@@ -130,6 +131,7 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
 
   const handleSelectPortfolio = (portfolioId: string) => {
     setSelectedPortfolioId(portfolioId)
+    //navigate('portfolio', { id: portfolioId })
   }
 
   return (
@@ -170,7 +172,14 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                 key={portfolio.id}
                 className={`${styles.portfolioItem} ${
                   activePortfolioId === portfolio.id ? styles.portfolioItemSelected : ''
+                } ${
+                  renamingId !== portfolio.id ? styles.portfolioItemSelectable : ''
                 }`}
+                onClick={() => {
+                  if (renamingId !== portfolio.id) {
+                    handleSelectPortfolio(portfolio.id)
+                  }
+                }}
               >
                 {renamingId === portfolio.id ? (
                   /* Rename Mode */
@@ -214,12 +223,7 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                 ) : (
                   /* Display Mode */
                   <>
-                    <button
-                      type="button"
-                      className={`${styles.portfolioInfo} ${styles.portfolioInfoButton}`}
-                      onClick={() => handleSelectPortfolio(portfolio.id)}
-                      aria-label={`Select ${portfolio.name} portfolio`}
-                    >
+                    <div className={styles.portfolioInfo}>
                       <div className={styles.portfolioIcon}>
                         <Briefcase size={20} />
                       </div>
@@ -237,11 +241,15 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                           {formatCurrency(portfolio.totalValue)}
                         </div>
                       </div>
-                    </button>
+                    </div>
                     <div className={styles.actions}>
                       <button
+                        type="button"
                         className={styles.actionButton}
-                        onClick={() => startRenaming(portfolio)}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          startRenaming(portfolio)
+                        }}
                         title="Rename portfolio"
                       >
                         <Pencil size={16} />
@@ -249,8 +257,12 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                       {/* Hide delete button for default portfolio */}
                       {!portfolio.is_default && (
                         <button
+                          type="button"
                           className={`${styles.actionButton} ${styles.delete}`}
-                          onClick={() => setDeletingPortfolio(portfolio)}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            setDeletingPortfolio(portfolio)
+                          }}
                           title="Delete portfolio"
                         >
                           <Trash2 size={16} />

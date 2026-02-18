@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
 import { useNavigation, NavigationTarget, useSelectedPortfolio } from '../../hooks'
 import { getDefaultPortfolio, getPortfolioById } from '../../actions/portfolio'
@@ -18,8 +19,17 @@ const navItems: NavItem[] = [
   { id: 'watchlist', label: 'Watchlist', icon: <Eye size={22} /> },
 ]
 
+function pathnameToNavTarget(pathname: string): string | null {
+  if (pathname === '/dashboard') return 'dashboard'
+  if (pathname.startsWith('/portfolio/')) return 'portfolio'
+  if (pathname === '/watchlist') return 'watchlist'
+  return null
+}
+
 export function NavLinks() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
+  const pathname = usePathname()
+  const currentTarget = pathnameToNavTarget(pathname)
   const { navigate } = useNavigation()
   const { selectedPortfolioId, setSelectedPortfolioId } = useSelectedPortfolio()
 
@@ -55,7 +65,7 @@ export function NavLinks() {
       {navItems.map((item) => (
         <button
           key={item.id}
-          className={styles.navItem}
+          className={`${styles.navItem} ${currentTarget === item.id ? styles.navItemSelected : ''}`}
           onClick={() => handleNavigation(item.id)}
           onMouseEnter={() => setHoveredItem(item.id)}
           onMouseLeave={() => setHoveredItem(null)}
