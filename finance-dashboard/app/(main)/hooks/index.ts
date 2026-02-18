@@ -1,3 +1,3 @@
 export { useNavigation } from './useNavigation'
-export { useSelectedPortfolio } from './useSelectedPortfolio'
+export { useSelectedPortfolio, SelectedPortfolioProvider } from './useSelectedPortfolio'
 export type { NavigationTarget } from './useNavigation'
