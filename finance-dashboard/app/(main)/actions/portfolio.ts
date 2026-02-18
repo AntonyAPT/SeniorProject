@@ -40,6 +40,36 @@ export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string
 }
 
 /**
+ * Gets a portfolio by ID for the authenticated user
+ */
+export async function getPortfolioById(id: string): Promise<ActionResponse<{ id: string }>> {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: 'You must be logged in to view portfolios' }
+    }
+
+    const { data, error } = await supabase
+      .from('portfolios')
+      .select('id')
+      .eq('id', id)
+      .eq('user_id', user.id)
+      .single()
+
+    if (error || !data) {
+      return { data: null, error: 'Portfolio not found' }
+    }
+
+    return { data: { id: data.id }, error: null }
+  } catch (err) {
+    console.error('Unexpected error fetching portfolio by ID:', err)
+    return { data: null, error: 'An unexpected error occurred. Please try again.' }
+  }
+}
+
+/**
  * Creates a new portfolio for the authenticated user
  */
 export async function createPortfolio(name: string): Promise<ActionResponse<{ id: string }>> {

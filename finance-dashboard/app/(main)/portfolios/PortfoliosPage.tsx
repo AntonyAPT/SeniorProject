@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Briefcase, Pencil, Trash2, Plus, Check, X } from 'lucide-react'
 import { createPortfolio, deletePortfolio, renamePortfolio } from '../actions/portfolio'
+import { useSelectedPortfolio } from '../hooks'
 import type { PortfolioWithValue } from './page'
 import styles from './portfolios.module.css'
 
@@ -19,6 +20,33 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
   const [renamingId, setRenamingId] = useState<string | null>(null)
   const [renameValue, setRenameValue] = useState('')
   const [deletingPortfolio, setDeletingPortfolio] = useState<PortfolioWithValue | null>(null)
+  const { selectedPortfolioId, isHydrated, setSelectedPortfolioId } = useSelectedPortfolio()
+
+  const defaultPortfolioId = useMemo(
+    () => portfolios.find((portfolio) => portfolio.is_default)?.id ?? null,
+    [portfolios]
+  )
+
+  const activePortfolioId = selectedPortfolioId ?? defaultPortfolioId
+
+  useEffect(() => {
+    // 1. Wait for localStorage to load
+    if (!isHydrated) return
+  
+    // 2. If no selection exists, set default
+    if (!selectedPortfolioId) {
+      if (defaultPortfolioId) {
+        setSelectedPortfolioId(defaultPortfolioId)
+      }
+      return
+    }
+  
+    // 3. If selection exists but portfolio was deleted, reset to default
+    const selectionExists = portfolios.some((portfolio) => portfolio.id === selectedPortfolioId)
+    if (!selectionExists) {
+      setSelectedPortfolioId(defaultPortfolioId)
+    }
+  }, [defaultPortfolioId, isHydrated, portfolios, selectedPortfolioId, setSelectedPortfolioId])
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -68,13 +96,21 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
   const handleDelete = async () => {
     if (!deletingPortfolio) return
 
+    const deletingPortfolioId = deletingPortfolio.id
     setIsSubmitting(true)
     setError(null)
 
-    const result = await deletePortfolio(deletingPortfolio.id)
+    const result = await deletePortfolio(deletingPortfolioId)
 
     if (result.error) {
       setError(result.error)
+    } else if (activePortfolioId === deletingPortfolioId) {
+      const fallbackPortfolioId =
+        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId && portfolio.is_default)?.id ??
+        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId)?.id ??
+        null
+
+      setSelectedPortfolioId(fallbackPortfolioId)
     }
 
     setDeletingPortfolio(null)
@@ -90,6 +126,10 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
   const cancelRenaming = () => {
     setRenamingId(null)
     setRenameValue('')
+  }
+
+  const handleSelectPortfolio = (portfolioId: string) => {
+    setSelectedPortfolioId(portfolioId)
   }
 
   return (
@@ -126,7 +166,12 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
             </div>
           ) : (
             portfolios.map((portfolio) => (
-              <div key={portfolio.id} className={styles.portfolioItem}>
+              <div
+                key={portfolio.id}
+                className={`${styles.portfolioItem} ${
+                  activePortfolioId === portfolio.id ? styles.portfolioItemSelected : ''
+                }`}
+              >
                 {renamingId === portfolio.id ? (
                   /* Rename Mode */
                   <form
@@ -169,13 +214,21 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                 ) : (
                   /* Display Mode */
                   <>
-                    <div className={styles.portfolioInfo}>
+                    <button
+                      type="button"
+                      className={`${styles.portfolioInfo} ${styles.portfolioInfoButton}`}
+                      onClick={() => handleSelectPortfolio(portfolio.id)}
+                      aria-label={`Select ${portfolio.name} portfolio`}
+                    >
                       <div className={styles.portfolioIcon}>
                         <Briefcase size={20} />
                       </div>
                       <div className={styles.portfolioDetails}>
                         <div className={styles.portfolioName}>
                           {portfolio.name}
+                          {activePortfolioId === portfolio.id && (
+                            <span className={styles.selectedBadge}>Selected</span>
+                          )}
                           {portfolio.is_default && (
                             <span className={styles.defaultBadge}>(Default)</span>
                           )}
@@ -184,7 +237,7 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
                           {formatCurrency(portfolio.totalValue)}
                         </div>
                       </div>
-                    </div>
+                    </button>
                     <div className={styles.actions}>
                       <button
                         className={styles.actionButton}
