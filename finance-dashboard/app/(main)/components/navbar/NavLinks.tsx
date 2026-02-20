@@ -25,6 +25,7 @@ function pathnameToNavTarget(pathname: string): string | null {
   if (pathname === '/dashboard') return 'dashboard'
   if (pathname.startsWith('/portfolio/')) return 'portfolio'
   if (pathname === '/watchlist') return 'watchlist'
+  if (pathname === '/stocks' || pathname.startsWith('/stocks/')) return 'stocks'
   return null
 }
 
