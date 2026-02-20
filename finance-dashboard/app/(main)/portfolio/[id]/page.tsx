@@ -31,11 +31,8 @@ export default async function PortfolioPage({ params }: Props) {
     <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">
-          Portfolio {portfolio.name} Summary
+          Portfolio Summary: <span className="italic">{portfolio.name}</span> 
         </h1>
-        <p className="text-muted">
-          Viewing portfolio details.
-        </p>
         
         {/* Placeholder sections */}
         <div className="mt-8 grid gap-6">

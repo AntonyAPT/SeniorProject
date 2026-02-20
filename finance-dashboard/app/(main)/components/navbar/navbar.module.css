@@ -36,7 +36,15 @@
   .navItem:hover {
     color: var(--color-foreground);
   }
-  
+
+  .navItemSelected {
+    color: var(--color-primary-light);
+  }
+
+  .navItemSelected:hover {
+    color: var(--color-primary-light);
+  }
+
   /* Tooltip */
   .tooltip {
     position: absolute;
