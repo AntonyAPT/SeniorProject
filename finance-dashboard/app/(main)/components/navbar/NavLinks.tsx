@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
+import { LayoutDashboard, Briefcase, Eye, Activity } from 'lucide-react'
 import { useNavigation, NavigationTarget } from '../../hooks'
 import { useSelectedPortfolio } from '../../contexts/SelectedPortfolioContext'
 import { getDefaultPortfolio, getPortfolioById } from '../../actions/portfolio'
@@ -18,6 +19,7 @@ const navItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={22} /> },
   { id: 'portfolio', label: 'Portfolio', icon: <Briefcase size={22} /> },
   { id: 'watchlist', label: 'Watchlist', icon: <Eye size={22} /> },
+  { id: 'stocks', label: 'Stocks', icon: <Activity size={22} /> },
 ]
 
 function pathnameToNavTarget(pathname: string): string | null {

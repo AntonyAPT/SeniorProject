@@ -7,6 +7,7 @@ export type NavigationTarget =
   | 'dashboard'
   | 'portfolio'
   | 'watchlist'
+  | 'stocks'
   | 'stock-search'
   | 'settings'
   | 'portfolios'
@@ -20,7 +21,7 @@ export function useNavigation() {
       case 'dashboard':
         router.push('/dashboard')
         break
-      case 'stock-search':
+      case 'stock-search': // navLinks uses "stocks", refactor after merging
         router.push('/stock-search')
         break
       case 'portfolio':
