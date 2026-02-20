@@ -3,6 +3,7 @@
 ### Recommended Extensions/Downloads
 - **Tailwind CSS IntelliSense:** For class name autocompletion and linting.
 - **npm lucide-react:** Icon library used throughout the project
+- **npm install:** Installs all dependencies listed in `package.json` (ex: recharts)
 
 ### Organization & Best Practices
 
