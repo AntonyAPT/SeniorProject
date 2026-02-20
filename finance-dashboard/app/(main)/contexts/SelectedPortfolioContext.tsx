@@ -1,13 +1,14 @@
 'use client'
 
 import { createContext, useContext, useCallback, useEffect, useState, ReactNode } from 'react'
+import type { SetPortfolioIdFn } from '../portfolios/types'
 
 const SELECTED_PORTFOLIO_STORAGE_KEY = 'stonks:selectedPortfolioId'
 
 type SelectedPortfolioContextValue = {
   selectedPortfolioId: string | null
   isHydrated: boolean
-  setSelectedPortfolioId: (portfolioId: string | null) => void
+  setSelectedPortfolioId: SetPortfolioIdFn
 }
 
 const SelectedPortfolioContext = createContext<SelectedPortfolioContextValue | null>(null)
