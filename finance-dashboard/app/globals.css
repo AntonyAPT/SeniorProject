@@ -1,59 +1,59 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand Colors - Blue theme for UI */
+  --color-primary: #3b82f6; /* blue-500 */
+  --color-primary-hover: #2563eb; /* blue-600 */
+  --color-primary-light: #60a5fa; /* blue-400 */
+  --color-primary-dark: #1e40af; /* blue-700 */
+
+  /* Secondary Accent Colors */
+  --color-secondary: #06b6d4; /* cyan-500 */
+  --color-accent: #0ea5e9; /* sky-500 */
+
+  /* Background Colors - Dark slate theme */
+  --color-background: #020617; /* slate-950 */
+  --color-surface: #0f172a; /* slate-900 */
+  --color-card: #1e293b; /* slate-800 */
+
+  /* Text Colors */
+  --color-foreground: #f8fafc; /* slate-50 */
+  --color-muted: #94a3b8; /* slate-400 */
+  --color-muted-foreground: #64748b; /* slate-500 */
+
+  /* Border Colors */
+  --color-border: #334155; /* slate-700 */
+  --color-border-muted: #1e293b; /* slate-800 */
+
+  /* Financial Status Colors */
+  --color-positive: #34d399; /* emerald-400 - for gains */
+  --color-negative: #f87171; /* red-400 - for losses */
+  --color-neutral: #fbbf24; /* amber-400 - for neutral/hold */
+
+  /* Status Colors */
+  --color-success: #22c55e; /* green-500 */
+  --color-warning: #f59e0b; /* amber-500 */
+  --color-error: #ef4444; /* red-500 */
+
+  /* Button Colors */
+  --color-button: #3b82f6;
+  --color-button-foreground: #ffffff;
+  --color-button-hover: #2563eb;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
 @layer base {
-  :root {
-    /* Brand Colors - Blue theme for UI */
-    --color-primary: #3b82f6; /* blue-500 */
-    --color-primary-hover: #2563eb; /* blue-600 */
-    --color-primary-light: #60a5fa; /* blue-400 */
-    --color-primary-dark: #1e40af; /* blue-700 */
-
-    /* Secondary Accent Colors */
-    --color-secondary: #06b6d4; /* cyan-500 */
-    --color-accent: #0ea5e9; /* sky-500 */
-
-    /* Background Colors - Dark slate theme */
-    --color-background: #020617; /* slate-950 */
-    --color-surface: #0f172a; /* slate-900 */
-    --color-card: #1e293b; /* slate-800 */
-
-    /* Text Colors */
-    --color-foreground: #f8fafc; /* slate-50 */
-    --color-muted: #94a3b8; /* slate-400 */
-    --color-muted-foreground: #64748b; /* slate-500 */
-
-    /* Border Colors */
-    --color-border: #334155; /* slate-700 */
-    --color-border-muted: #1e293b; /* slate-800 */
-
-    /* Financial Status Colors */
-    --color-positive: #34d399; /* emerald-400 - for gains */
-    --color-negative: #f87171; /* red-400 - for losses */
-    --color-neutral: #fbbf24; /* amber-400 - for neutral/hold */
-
-    /* Status Colors */
-    --color-success: #22c55e; /* green-500 */
-    --color-warning: #f59e0b; /* amber-500 */
-    --color-error: #ef4444; /* red-500 */
-
-    /* Button Colors */
-    --color-button: #3b82f6;
-    --color-button-foreground: #ffffff;
-    --color-button-hover: #2563eb;
-
-    /* Border Radius */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-  }
-
   * {
     @apply border-slate-700;
   }
 
   body {
-    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50;
+    @apply bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50;
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   }
 
@@ -83,20 +83,20 @@
 @layer utilities {
   /* Text gradient utilities */
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent;
+    @apply bg-linear-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent;
   }
 
   /* Background gradient utilities */
   .bg-gradient-blue {
-    @apply bg-gradient-to-br from-blue-500 to-cyan-600;
+    @apply bg-linear-to-br from-blue-500 to-cyan-600;
   }
 
   .bg-gradient-primary {
-    @apply bg-gradient-to-br from-blue-600 to-blue-500;
+    @apply bg-linear-to-br from-blue-600 to-blue-500;
   }
 
   /* Backdrop blur utilities for glassmorphism */

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Navbar } from './components/navbar/Navbar'
+import { SelectedPortfolioProvider } from './contexts/SelectedPortfolioContext'
 
 export default async function MainLayout({
   children,
@@ -16,9 +17,11 @@ export default async function MainLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main>{children}</main>
-    </div>
+    <SelectedPortfolioProvider>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main>{children}</main>
+      </div>
+    </SelectedPortfolioProvider>
   )
 }

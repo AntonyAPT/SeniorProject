@@ -46,6 +46,11 @@ export function UserMenu({ avatarUrl, username }: UserMenuProps) {
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
+    try {
+      window.localStorage.removeItem('stonks:selectedPortfolioId')
+    } catch {
+      // Continue sign-out redirect even if storage is unavailable.
+    }
     window.location.href = '/sign-in'
   }
 
