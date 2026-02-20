@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { PortfoliosPage } from './PortfoliosPage'
+import type { PortfolioWithValue } from './types'
 
 type PortfolioItem = {
   buy_price: number
@@ -13,14 +14,6 @@ type PortfolioWithItems = {
   is_default: boolean
   created_at: string
   portfolio_items: PortfolioItem[]
-}
-
-export type PortfolioWithValue = {
-  id: string
-  name: string
-  is_default: boolean
-  created_at: string
-  totalValue: number
 }
 
 export default async function PortfoliosPageWrapper() {
