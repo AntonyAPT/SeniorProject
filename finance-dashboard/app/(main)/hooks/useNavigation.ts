@@ -21,8 +21,8 @@ export function useNavigation() {
       case 'dashboard':
         router.push('/dashboard')
         break
-      case 'stock-search': // navLinks uses "stocks", refactor after merging
-        router.push('/stock-search')
+      case 'stocks': // navLinks uses "stocks", refactor after merging
+        router.push('/stocks')
         break
       case 'portfolio':
         if (params?.id) {

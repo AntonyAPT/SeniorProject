@@ -241,7 +241,7 @@ export default function StockPage() {
   // ── Loading
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto" />
           <p className="text-slate-400 text-sm">Loading {ticker}…</p>
@@ -253,7 +253,7 @@ export default function StockPage() {
   // ── Error
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white flex items-center justify-center">
         <div className="text-center space-y-4 max-w-md">
           <p className="text-3xl">📉</p>
           <p className="text-slate-300 font-medium">{error}</p>
@@ -269,7 +269,7 @@ export default function StockPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
 
         {/* Back nav */}

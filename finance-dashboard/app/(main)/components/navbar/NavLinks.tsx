@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Briefcase, Eye } from 'lucide-react'
 import { LayoutDashboard, Briefcase, Eye, Activity } from 'lucide-react'
 import { useNavigation, NavigationTarget } from '../../hooks'
 import { useSelectedPortfolio } from '../../contexts/SelectedPortfolioContext'
