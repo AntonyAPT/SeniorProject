@@ -32,6 +32,33 @@
   - Making components easier to read by moving long styling blocks out of the JSX.
 - **Consistency:** Maintain a clear naming convention (like BEM or simple descriptive classes) when using standard CSS to avoid global namespace collisions.
 
+---
+description: Prefer shadcn/ui templates and centralize shared components in components/ui
+alwaysApply: true
+---
+
+# UI Components and shadcn/ui
+
+- **Use shadcn/ui first**
+  - Before implementing any new UI component or pattern, search for an existing shadcn/ui component or composition that fits the need.
+  - Prefer composing existing shadcn/ui components instead of hand-rolling new ones when possible.
+  - When proposing UI code, always consider shadcn/ui equivalents (buttons, inputs, cards, dialogs, dropdowns, tables, etc.) and suggest them explicitly.
+
+- **Centralize shared UI components in `components/ui`**
+  - Shared, reusable UI primitives and building blocks should live under the `components/ui` directory (e.g. `components/ui/button.tsx`, `components/ui/card.tsx`).
+  - When creating a new reusable UI primitive, place it under `components/ui` and name it consistently with shadcn/ui naming conventions where reasonable.
+  - When using UI primitives in pages or feature modules, import them from `components/ui` instead of redefining them locally.
+
+- **Consistency with shadcn/ui**
+  - New components that cannot be directly built from shadcn/ui should still:
+    - Reuse shadcn/ui design tokens and patterns (spacing, typography, border radius, focus states, etc.).
+    - Match interaction patterns and accessibility practices from shadcn/ui.
+  - Avoid introducing competing design systems, ad-hoc Tailwind classes, or one-off styles that diverge from shadcn/ui without a strong reason.
+
+- **When suggesting implementations**
+  - Show imports from `components/ui` where appropriate (e.g. `import { Button } from '@/components/ui/button'`).
+  - If there is no suitable shadcn/ui basis, briefly justify why a custom component is needed and still keep it consistent with the shadcn/ui look and feel.
+
 ## ⚡ Supabase & Data Management
 - **Type Safety:** - Always use the generated `Database` types from `@/types/supabase`.
   - Use `Database['public']['Tables']['table_name']['Row']` for typing row data.
@@ -45,6 +72,44 @@
 - **Server Action Response:** Standardize action returns: `{ data: T | null, error: string | null }`.
 - **Error Handling:** Use try/catch in Server Actions. Return user-friendly messages.
 - **Loading States:** Use Next.js `loading.tsx` or React `Suspense`.
+
+## Documentation & Comments
+
+- **High-signal comments only**
+  - Add comments when they explain **why** something is done, important **constraints**, or non-obvious behavior.
+  - Avoid comments that just restate what the code clearly does (no narration of obvious logic).
+
+- **Section comments for complex files**
+  - In files with multiple responsibilities (e.g. page components, large hooks, or utility modules), introduce lightweight section comments for major blocks of logic.
+  - Use a consistent format such as:
+    - `// ===== Data Fetching =====`
+    - `// ----- Derived State & Memoization -----`
+    - `// ----- Render Helpers -----`
+  - Keep section comments short and focused on what this block is responsible for and any key invariants it maintains.
+
+- **TypeScript documentation comments (JSDoc style)**
+  - Use `/** ... */` documentation comments for:
+    - Exported functions, hooks, and React components used in multiple places.
+    - Non-trivial utilities with important assumptions, side effects, or performance characteristics.
+    - Complex types (e.g. discriminated unions, deeply nested config objects) where structure is not obvious.
+  - Focus documentation comments on:
+    - What the function/hook/component **does** and any important **invariants**.
+    - Expected input shape and meaning of parameters (not just their type names).
+    - Side effects (e.g. network calls, navigation, Supabase writes) and error behavior.
+  - Example:
+    /**
+     * Loads portfolio performance data for the given user and date range.
+     *
+     * Assumes the user has access to all requested portfolios.
+     * Throws if Supabase returns an unexpected error code.
+     *
+     * @param userId - Authenticated user id (from Supabase session).
+     * @param range  - Time range for performance aggregation.
+     * @returns Aggregated performance points ordered by timestamp.
+     */
+    export async function getPortfolioPerformance(userId: string, range: DateRange) {
+      // ...
+    }
 
 ## 🤖 AI Interaction Guidelines
 - Prioritize readability. If a styling block in Tailwind gets too long, recommend moving it to a CSS file for better separation of concerns.

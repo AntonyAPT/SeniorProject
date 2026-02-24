@@ -11,15 +11,19 @@ type SelectedPortfolioContextValue = {
   setSelectedPortfolioId: SetPortfolioIdFn
 }
 
+// creating the portal that allows any component to access data/states
 const SelectedPortfolioContext = createContext<SelectedPortfolioContextValue | null>(null)
 
 type SelectedPortfolioProviderProps = {
   children: ReactNode
 }
 
+// supplying the data
 export function SelectedPortfolioProvider({ children }: SelectedPortfolioProviderProps) {
   const [selectedPortfolioId, setSelectedPortfolioIdState] = useState<string | null>(null)
-  const [isHydrated, setIsHydrated] = useState(false)
+  // safety flag that confirms when a localStorage read is complete
+  // prevents bugs where a component acts on null before the stored value has been loaded to selectedPortfolioId
+  const [isHydrated, setIsHydrated] = useState(false)   
 
   useEffect(() => {
     const storedPortfolioId = window.localStorage.getItem(SELECTED_PORTFOLIO_STORAGE_KEY)
@@ -27,6 +31,7 @@ export function SelectedPortfolioProvider({ children }: SelectedPortfolioProvide
     setIsHydrated(true)
   }, [])
 
+  // update in-memory state and syncs to localStorage
   const setSelectedPortfolioId = useCallback((portfolioId: string | null) => {
     setSelectedPortfolioIdState(portfolioId)
 
@@ -51,6 +56,7 @@ export function SelectedPortfolioProvider({ children }: SelectedPortfolioProvide
   )
 }
 
+// context wrapper with better naming convention
 export function useSelectedPortfolio() {
   const context = useContext(SelectedPortfolioContext)
 
