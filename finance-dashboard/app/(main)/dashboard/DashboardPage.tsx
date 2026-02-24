@@ -23,7 +23,7 @@ export default function DashboardPage({ user }: { user: User }) {
   if (t) router.push(`/stocks/${t}`);
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Search Bar */}
       <div className="px-8 pt-6 pb-4">
         <form onSubmit={handleSearch} className="max-w-2xl">

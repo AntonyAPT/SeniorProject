@@ -17,6 +17,7 @@ export default async function MainLayout({
   }
 
   return (
+    // context provider wrapped around every authenticated page (dashboard, watchlist, etc.)
     <SelectedPortfolioProvider>
       <div className="min-h-screen bg-background">
         <Navbar />
