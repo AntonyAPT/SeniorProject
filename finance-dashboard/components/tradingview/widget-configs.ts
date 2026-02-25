@@ -1,7 +1,12 @@
 import type {
+  CompanyProfileProps,
+  FundamentalDataProps,
   MarketOverviewProps,
   StockHeatmapProps,
   StockMarketProps,
+  SymbolInfoProps,
+  SymbolOverviewProps,
+  TechnicalAnalysisProps,
   TimelineProps,
 } from "react-ts-tradingview-widgets";
 
@@ -116,3 +121,72 @@ export const topStoriesConfig = {
   market: "stock",
   displayMode: "regular",
 } satisfies TimelineProps;
+
+/**
+ * Returns a SymbolInfo config for the given stock symbol.
+ *
+ * @param symbol - TradingView-formatted symbol (e.g. "NASDAQ:AAPL" or bare "AAPL").
+ */
+export function symbolInfoConfig(symbol: string): SymbolInfoProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbol,
+  };
+}
+
+/**
+ * Returns a TechnicalAnalysis config for the given stock symbol.
+ * Defaults to daily interval with all interval tabs visible.
+ *
+ * @param symbol - TradingView-formatted symbol.
+ */
+export function technicalAnalysisConfig(symbol: string): TechnicalAnalysisProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbol,
+    interval: "1D",
+    showIntervalTabs: true,
+  };
+}
+
+/**
+ * Returns a FundamentalData config for the given stock symbol.
+ *
+ * @param symbol - TradingView-formatted symbol.
+ */
+export function fundamentalDataConfig(symbol: string): FundamentalDataProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbol,
+  };
+}
+
+/**
+ * Returns a CompanyProfile config for the given stock symbol.
+ *
+ * @param symbol - TradingView-formatted symbol.
+ */
+export function companyProfileConfig(symbol: string): CompanyProfileProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbol,
+  };
+}
+
+/**
+ * Returns a SymbolOverview config for the given stock symbol.
+ * Renders as an area chart with volume bars.
+ *
+ * SymbolOverview expects `symbols` as a nested array: [[displayName, symbol]].
+ *
+ * @param symbol - TradingView-formatted symbol.
+ */
+export function symbolOverviewConfig(symbol: string): SymbolOverviewProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbols: [[symbol, symbol]],
+    chartType: "area",
+    showVolume: true,
+    dateFormat: "dd MMM 'yy",
+  };
+}
