@@ -2,9 +2,14 @@
 
 import dynamic from "next/dynamic";
 import type {
+  CompanyProfileProps,
+  FundamentalDataProps,
   MarketOverviewProps,
   StockHeatmapProps,
   StockMarketProps,
+  SymbolInfoProps,
+  SymbolOverviewProps,
+  TechnicalAnalysisProps,
   TimelineProps,
 } from "react-ts-tradingview-widgets";
 import { ReactNode } from "react";
@@ -26,6 +31,31 @@ const StockMarketWidget = dynamic(
 
 const TopStoriesWidget = dynamic(
   () => import("react-ts-tradingview-widgets").then((m) => m.Timeline),
+  { ssr: false }
+);
+
+const SymbolInfoWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.SymbolInfo),
+  { ssr: false }
+);
+
+const TechnicalAnalysisWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.TechnicalAnalysis),
+  { ssr: false }
+);
+
+const FundamentalDataWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.FundamentalData),
+  { ssr: false }
+);
+
+const CompanyProfileWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.CompanyProfile),
+  { ssr: false }
+);
+
+const SymbolOverviewWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.SymbolOverview),
   { ssr: false }
 );
 
@@ -53,6 +83,36 @@ type TradingViewWidgetProps =
       config: TimelineProps;
       className?: string;
       fallback?: ReactNode;
+    }
+  | {
+      widget: "symbolInfo";
+      config: SymbolInfoProps;
+      className?: string;
+      fallback?: ReactNode;
+    }
+  | {
+      widget: "technicalAnalysis";
+      config: TechnicalAnalysisProps;
+      className?: string;
+      fallback?: ReactNode;
+    }
+  | {
+      widget: "fundamentalData";
+      config: FundamentalDataProps;
+      className?: string;
+      fallback?: ReactNode;
+    }
+  | {
+      widget: "companyProfile";
+      config: CompanyProfileProps;
+      className?: string;
+      fallback?: ReactNode;
+    }
+  | {
+      widget: "symbolOverview";
+      config: SymbolOverviewProps;
+      className?: string;
+      fallback?: ReactNode;
     };
 
 /**
@@ -73,6 +133,11 @@ export function TradingViewWidget({
         {widget === "marketOverview" && <MarketOverviewWidget {...config} />}
         {widget === "stockMarket" && <StockMarketWidget {...config} />}
         {widget === "topStories" && <TopStoriesWidget {...config} />}
+        {widget === "symbolInfo" && <SymbolInfoWidget {...config} />}
+        {widget === "technicalAnalysis" && <TechnicalAnalysisWidget {...config} />}
+        {widget === "fundamentalData" && <FundamentalDataWidget {...config} />}
+        {widget === "companyProfile" && <CompanyProfileWidget {...config} />}
+        {widget === "symbolOverview" && <SymbolOverviewWidget {...config} />}
       </div>
 
       {fallback}
