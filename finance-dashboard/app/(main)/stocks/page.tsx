@@ -6,6 +6,7 @@ import {
   stockMarketConfig,
   topStoriesConfig,
 } from "@/components/tradingview";
+import { StockSearch } from "@/components/stock-search";
 
 export default function StocksPage() {
   return (
@@ -17,6 +18,8 @@ export default function StocksPage() {
             Stock Market heatmap, overviews, and top stories
           </p>
         </div>
+
+        <StockSearch />
 
         <section className="space-y-4">
           <div className="flex items-center gap-2 mb-4">
