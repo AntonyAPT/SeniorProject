@@ -34,7 +34,7 @@ export const stockHeatmapConfig = {
   grouping: "sector",
   blockSize: "market_cap_basic",
   blockColor: "change",
-  hasTopBar: true,
+  hasTopBar: false,
   isZoomEnabled: true,
   hasSymbolTooltip: true,
 } satisfies StockHeatmapProps;
