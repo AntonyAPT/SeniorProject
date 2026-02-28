@@ -19,9 +19,16 @@ export default async function MainLayout({
   return (
     // context provider wrapped around every authenticated page (dashboard, watchlist, etc.)
     <SelectedPortfolioProvider>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
+        <footer className="border-t border-slate-800/60">
+          <div className="mx-auto max-w-[1600px] px-6 py-4">
+            <p className="text-center text-xs text-slate-500">
+              Market data and widgets by TradingView · Not financial advice
+            </p>
+          </div>
+        </footer>
       </div>
     </SelectedPortfolioProvider>
   )

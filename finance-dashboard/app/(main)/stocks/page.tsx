@@ -38,26 +38,23 @@ export default function StocksPage() {
             <TradingViewWidget
               widget="marketOverview"
               config={marketOverviewConfig}
-              className="h-[500px]"
+              className="h-[530px]"
             />
 
             <TradingViewWidget
               widget="stockMarket"
               config={stockMarketConfig}
-              className="h-[500px]"
+              className="h-[530px]"
             />
 
             <TradingViewWidget
               widget="topStories"
               config={topStoriesConfig}
-              className="h-[500px]"
+              className="h-[530px]"
             />
           </div>
         </section>
 
-        <p className="text-center text-xs text-slate-600 pb-4">
-          Market data and widgets by TradingView · Not financial advice
-        </p>
       </div>
     </div>
   );
