@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Search, X, Loader2, Building2, TrendingUp } from "lucide-react";
 import { useStockSearch } from "./useStockSearch";
@@ -58,6 +59,11 @@ function SearchModal({ onClose }: SearchModalProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const { query, setQuery, results, loading } = useStockSearch();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Auto-focus the input when the modal mounts
   useEffect(() => {
@@ -73,6 +79,18 @@ function SearchModal({ onClose }: SearchModalProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
+  // Prevent page scroll while modal is open.
+  useEffect(() => {
+    if (!mounted) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [mounted]);
+
   function handleSelect(symbol: string) {
     onClose();
     router.push(`/stocks/${symbol}`);
@@ -80,7 +98,9 @@ function SearchModal({ onClose }: SearchModalProps) {
 
   const showEmptyState = query.trim().length > 0 && !loading && results.length === 0;
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4"
       aria-modal="true"
@@ -104,6 +124,7 @@ function SearchModal({ onClose }: SearchModalProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by ticker or company name..."
+            autoFocus
             className="flex-1 bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none"
           />
           {loading && <Loader2 className="w-4 h-4 text-slate-400 animate-spin shrink-0" />}
@@ -140,7 +161,8 @@ function SearchModal({ onClose }: SearchModalProps) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
