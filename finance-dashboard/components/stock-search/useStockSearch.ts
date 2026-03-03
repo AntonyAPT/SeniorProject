@@ -21,7 +21,7 @@ interface UseStockSearchReturn {
 export function useStockSearch(): UseStockSearchReturn {
   const [query,   setQuery]   = useState("");
   const [results, setResults] = useState<StockSearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // used to determine if an external api call is currently on the fly and false when the fetch is completed or fails 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
