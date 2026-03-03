@@ -29,7 +29,7 @@ export default function StocksPage() {
           <TradingViewWidget
             widget="stockHeatmap"
             config={stockHeatmapConfig}
-            className="h-[520px]"
+            className="h-[530px]"
           />
         </section>
 
