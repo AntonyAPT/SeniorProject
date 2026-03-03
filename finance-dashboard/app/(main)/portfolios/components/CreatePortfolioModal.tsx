@@ -1,3 +1,7 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import styles from '../portfolios.module.css'
 
 type CreatePortfolioModalProps = {
@@ -15,7 +19,24 @@ export function CreatePortfolioModal({
   onCreate,
   onClose,
 }: CreatePortfolioModalProps) {
-  return (
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [mounted])
+
+  if (!mounted) return null
+
+  return createPortal(
     <div className={styles.createFormOverlay} onClick={onClose}>
       <div className={styles.createFormCard} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.createFormTitle}>Create New Portfolio</h2>
@@ -43,6 +64,7 @@ export function CreatePortfolioModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

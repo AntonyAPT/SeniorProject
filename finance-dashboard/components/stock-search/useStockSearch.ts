@@ -40,8 +40,9 @@ export function useStockSearch(): UseStockSearchReturn {
       try {
         const res = await fetch(`/api/stocksearch?q=${encodeURIComponent(query.trim())}`);
         const data = await res.json();
+        // defensive check: if the server returns an error object instead of an array, use [] rather than crashing
         setResults(Array.isArray(data) ? data : []);
-      } catch {
+      } catch { // network issues (no-wifi)
         setResults([]);
       } finally {
         setLoading(false);

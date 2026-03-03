@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   try {
     const searchRes = await fetch(
       `https://finnhub.io/api/v1/search?q=${encodeURIComponent(q)}&token=${apiKey}`,
-      { cache: "no-store" }
+      { cache: "no-store" } // ensures search results are always fresh (never served from Next.js's fetch cache).
     );
 
     if (!searchRes.ok) {
@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
     // Only process the top 5 to stay within free-tier rate limits (1 search + up to 5 profile calls)
     const top5 = rawResults.slice(0, 5);
 
+    // All 5 requests are fired in parallel using Promise.all, minimizing total wait time.
     const enriched = await Promise.all(
       top5.map(async (item) => {
         try {
@@ -53,7 +54,7 @@ export async function GET(req: NextRequest) {
             `https://finnhub.io/api/v1/stock/profile2?symbol=${item.symbol}&token=${apiKey}`,
             { cache: "no-store" }
           );
-          const profile = profileRes.ok ? await profileRes.json() : {};
+          const profile = profileRes.ok ? await profileRes.json() : {}; //http GET error (from FINNHUB api endpoint)
           return {
             symbol:        item.symbol,
             displaySymbol: item.displaySymbol,
@@ -62,7 +63,7 @@ export async function GET(req: NextRequest) {
             exchange:      profile.exchange ?? "",
             sector:        profile.finnhubIndustry ?? "",
           } satisfies StockSearchResult;
-        } catch {
+        } catch { //network failure fallback 
           return {
             symbol:        item.symbol,
             displaySymbol: item.displaySymbol,

@@ -1,4 +1,4 @@
-import { StockDetailWidgets } from "@/components/tradingview";
+import { StockDetailWidgets } from "@/components/tradingview"; // '@' means starting from the project root
 
 interface StockPageProps {
   params: Promise<{ ticker: string }>;

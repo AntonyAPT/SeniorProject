@@ -95,7 +95,7 @@ export const marketOverviewConfig = {
         { s: "NYSE:LLY", d: "Eli Lilly" },
         { s: "NYSE:PFE", d: "Pfizer" },
         { s: "NYSE:MRK", d: "Merck" },
-        { s: "NASDAQ:AMGN", d: "Amgen" },
+        // { s: "NASDAQ:AMGN", d: "Amgen" },
       ],
     },
   ],

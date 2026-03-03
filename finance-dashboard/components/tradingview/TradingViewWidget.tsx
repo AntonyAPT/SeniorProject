@@ -64,71 +64,82 @@ type TradingViewWidgetProps =
       widget: "stockHeatmap";
       config: StockHeatmapProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "marketOverview";
       config: MarketOverviewProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "stockMarket";
       config: StockMarketProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "topStories";
       config: TimelineProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "symbolInfo";
       config: SymbolInfoProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "technicalAnalysis";
       config: TechnicalAnalysisProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "fundamentalData";
       config: FundamentalDataProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "companyProfile";
       config: CompanyProfileProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     }
   | {
       widget: "symbolOverview";
       config: SymbolOverviewProps;
       className?: string;
+      innerClassName?: string;
       fallback?: ReactNode;
     };
 
 /**
  * Reusable TradingView widget wrapper with consistent styling and SSR-safe loading.
+ * Use `innerClassName` to override the default `min-h-[420px]` on the inner container.
  */
 export function TradingViewWidget({
   widget,
   config,
   className = "",
+  innerClassName = "min-h-[420px]",
   fallback,
 }: TradingViewWidgetProps) {
   return (
     <section
       className={`glass rounded-2xl border border-slate-700/40 bg-slate-900/60 p-3 ${className}`}
     >
-      <div className="h-full w-full min-h-[420px]">
+      <div className={`h-full w-full ${innerClassName}`}>
         {widget === "stockHeatmap" && <StockHeatmapWidget {...config} />}
         {widget === "marketOverview" && <MarketOverviewWidget {...config} />}
         {widget === "stockMarket" && <StockMarketWidget {...config} />}

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Search, X, Loader2, Building2, TrendingUp } from "lucide-react";
-import { useStockSearch } from "./useStockSearch";
+import { useStockSearch } from "./useStockSearch"; // data fetching delegated to this logical hook
 import type { StockSearchResult } from "./useStockSearch";
 
 // ===== Result Row =====
@@ -34,12 +34,13 @@ function ResultRow({ result, onSelect }: ResultRowProps) {
               <span className="text-xs text-slate-500">{result.sector}</span>
             )}
             {result.sector && result.exchange && (
-              <span className="text-slate-600 text-xs">·</span>
+              <span className="text-slate-600 text-xs">|</span>
             )}
             {result.exchange && (
               <span className="text-xs text-slate-500">{result.exchange}</span>
             )}
-            {!result.sector && !result.exchange && (
+            {/* fallback */}
+            {!result.sector && !result.exchange && ( 
               <span className="text-xs text-slate-600">{result.type}</span>
             )}
           </div>
@@ -63,11 +64,6 @@ function SearchModal({ onClose }: SearchModalProps) {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Auto-focus the input when the modal mounts
-  useEffect(() => {
-    inputRef.current?.focus();
   }, []);
 
   // Close on Escape key
@@ -95,7 +91,7 @@ function SearchModal({ onClose }: SearchModalProps) {
     onClose();
     router.push(`/stocks/${symbol}`);
   }
-
+  // loading = fetch GET completed
   const showEmptyState = query.trim().length > 0 && !loading && results.length === 0;
 
   if (!mounted) return null;
