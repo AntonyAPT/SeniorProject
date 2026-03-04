@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   TrendingUp,
@@ -8,14 +8,31 @@ import {
   AlertCircle,
   BarChart3,
 } from "lucide-react";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import type { DashboardWatchlistItem } from "./page";
+import type { StockQuote } from "@/app/api/stockquote/route";
 
-
-export default function DashboardPage({ user }: { user: User }) {
+export default function DashboardPage({
+  watchlistItems,
+}: {
+  watchlistItems: DashboardWatchlistItem[];
+}) {
   const router = useRouter();
-  
-  const [search,      setSearch]      = useState("");
+  const [search, setSearch] = useState("");
+  const [quotes, setQuotes] = useState<Record<string, StockQuote>>({});
+
+  useEffect(() => {
+    const tickers = watchlistItems.map((i) => i.ticker).filter(Boolean);
+    if (tickers.length === 0) return;
+    fetch(`/api/stockquote?symbols=${tickers.join(",")}`)
+      .then((r) => r.json())
+      .then((data: StockQuote[]) => {
+        const map: Record<string, StockQuote> = {};
+        data.forEach((q) => { map[q.symbol] = q; });
+        setQuotes(map);
+      })
+      .catch(console.error);
+  }, [watchlistItems]);
 
   const handleSearch = (e: React.FormEvent) => {
   e.preventDefault();
@@ -177,32 +194,40 @@ export default function DashboardPage({ user }: { user: User }) {
 
             {/* Watchlist */}
             <div className="glass rounded-2xl p-6">
-              <h2 className="text-xl font-semibold mb-6">Watchlist</h2>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold">Watchlist</h2>
+                <button
+                  onClick={() => router.push("/watchlist")}
+                  className="text-xs text-slate-400 hover:text-blue-400 transition-colors"
+                >
+                  View all
+                </button>
+              </div>
               <div className="space-y-3">
-                <WatchlistItem
-                  ticker="MSFT"
-                  price="$412.50"
-                  change="+1.8%"
-                  isPositive={true}
-                />
-                <WatchlistItem
-                  ticker="GOOGL"
-                  price="$142.20"
-                  change="-0.5%"
-                  isPositive={false}
-                />
-                <WatchlistItem
-                  ticker="META"
-                  price="$489.30"
-                  change="+2.1%"
-                  isPositive={true}
-                />
-                <WatchlistItem
-                  ticker="AMD"
-                  price="$178.90"
-                  change="+3.4%"
-                  isPositive={true}
-                />
+                {watchlistItems.length === 0 ? (
+                  <p className="text-slate-500 text-sm text-center py-6">
+                    No stocks in your watchlist yet
+                  </p>
+                ) : (
+                  watchlistItems.map((item) => {
+                    const quote = quotes[item.ticker];
+                    const isPositive = (quote?.changePercent ?? 0) >= 0;
+                    return (
+                      <WatchlistItem
+                        key={item.ticker}
+                        ticker={item.ticker}
+                        price={quote ? `$${quote.currentPrice.toFixed(2)}` : "—"}
+                        change={
+                          quote
+                            ? `${isPositive ? "+" : ""}${quote.changePercent.toFixed(2)}%`
+                            : "—"
+                        }
+                        isPositive={isPositive}
+                        onClick={() => router.push(`/stocks/${item.ticker}`)}
+                      />
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -333,14 +358,16 @@ function WatchlistItem({
   price,
   change,
   isPositive,
+  onClick,
 }: {
   ticker: string;
   price: string;
   change: string;
   isPositive: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-all cursor-pointer">
+    <div onClick={onClick} className="flex items-center justify-between p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-all cursor-pointer">
       <div>
         <p className="font-medium">{ticker}</p>
         <p className="text-sm text-slate-400">{price}</p>
