@@ -3,6 +3,7 @@
 import { Check, Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useSelectedPortfolio } from "@/app/(main)/contexts/SelectedPortfolioContext";
 
 interface BuyAndWatchlistProps {
   symbol: string;
@@ -22,6 +23,9 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
   const [quantity, setQuantity] = useState<number>(MIN_QUANTITY);
   const [quantityInput, setQuantityInput] = useState<string>(String(MIN_QUANTITY));
   const [isInWatchlist, setIsInWatchlist] = useState<boolean>(false);
+  const { selectedPortfolioName } = useSelectedPortfolio();
+
+  const portfolioLabel = selectedPortfolioName ?? "Portfolio";
 
   const syncQuantity = (value: number) => {
     const clamped = Math.min(MAX_QUANTITY, Math.max(MIN_QUANTITY, value));
@@ -72,7 +76,7 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
     const shares = quantityInput.trim() === "" ? MIN_QUANTITY : quantity;
     console.log("Buy order placed:", { ticker: symbol, quantity: shares });
 
-    toast.success(`Added ${shares} share${shares === 1 ? "" : "s"} of ${symbol} to your Portfolio`, {
+    toast.success(`Added ${shares} share${shares === 1 ? "" : "s"} of ${symbol} to ${portfolioLabel} Portfolio`, {
       description: "Success",
     });
 
@@ -91,7 +95,7 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
   return (
     <section className="rounded-2xl border border-slate-700/80 bg-slate-900/70 p-5 lg:p-6">
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-slate-100">Add {symbol} to Portfolio</h2>
+        <h2 className="text-lg font-semibold text-slate-100">Add {symbol} to {portfolioLabel} Portfolio</h2>
 
         <div className="space-y-2">
           <label htmlFor="share-quantity" className="text-sm font-medium text-slate-300">

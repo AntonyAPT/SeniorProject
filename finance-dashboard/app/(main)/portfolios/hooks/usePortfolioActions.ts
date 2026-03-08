@@ -76,12 +76,12 @@ export function usePortfolioActions({
     // After a successful deletion, it checks whether the deleted portfolio was the currently selected one. 
     // If so, it needs to pick a fallback:
     } else if (activePortfolioId === deletingPortfolioId) {
-      const fallbackPortfolioId =
-        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId && portfolio.is_default)?.id ??
-        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId)?.id ??
+      const fallbackPortfolio =
+        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId && portfolio.is_default) ??
+        portfolios.find((portfolio) => portfolio.id !== deletingPortfolioId) ??
         null
 
-      setSelectedPortfolioId(fallbackPortfolioId)
+      setSelectedPortfolioId(fallbackPortfolio?.id ?? null, fallbackPortfolio?.name ?? null)
     }
 
     setDeletingPortfolio(null)
