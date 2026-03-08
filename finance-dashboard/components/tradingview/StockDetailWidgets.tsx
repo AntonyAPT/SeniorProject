@@ -4,13 +4,15 @@ import { TradingViewWidget } from "./TradingViewWidget";
 import {
   companyProfileConfig,
   fundamentalDataConfig,
-  symbolInfoConfig,
   symbolOverviewConfig,
 } from "./widget-configs";
+import type { ReactNode } from "react";
 
 interface StockDetailWidgetsProps {
   /** TradingView-formatted symbol, e.g. "AAPL" or "NASDAQ:AAPL". */
   symbol: string;
+  /** Optional UI slot for custom content in the top-left card area. */
+  topLeftSlot?: ReactNode;
 }
 
 /**
@@ -20,17 +22,20 @@ interface StockDetailWidgetsProps {
  *  - Left column  (4): Buy stock placeholder → Company Profile
  *  - Right column (8): Symbol Overview → Fundamental Data
  */
-export function StockDetailWidgets({ symbol }: StockDetailWidgetsProps) {
+export function StockDetailWidgets({ symbol, topLeftSlot }: StockDetailWidgetsProps) {
   return (
     <div className="grid grid-cols-12 gap-6 items-stretch">
       {/* ===== Left column (4) ===== */}
       <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-        {/* TODO: Replace with Buy Stock component */}
-        <div className="rounded-xl border border-dashed border-slate-600 bg-slate-800/40 flex items-center justify-center min-h-[200px] text-slate-500 text-sm">
-          Buy Stock Component (coming soon)
-        </div>
+        {topLeftSlot ? (
+          topLeftSlot
+        ) : (
+          <div className="rounded-xl border border-dashed border-slate-600 bg-slate-800/40 flex items-center justify-center min-h-[200px] text-slate-500 text-sm">
+            Buy Stock Component (coming soon)
+          </div>
+        )}
 
-        <div className="flex-1" style={{ zoom: 1.3 }}>
+        <div className="flex-1" style={{ zoom: 1.2 }}>
           <TradingViewWidget
             widget="companyProfile"
             config={companyProfileConfig(symbol)}
