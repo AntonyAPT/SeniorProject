@@ -7,4 +7,4 @@ export type PortfolioWithValue = {
   totalValue: number
 }
 
-export type SetPortfolioIdFn = (portfolioId: string | null) => void
+export type SetPortfolioIdFn = (portfolioId: string | null, portfolioName?: string | null) => void
