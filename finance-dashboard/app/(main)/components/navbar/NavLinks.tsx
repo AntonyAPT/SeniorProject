@@ -43,6 +43,7 @@ export function NavLinks() {
         const selectedResult = await getPortfolioById(selectedPortfolioId)
 
         if (selectedResult.data?.id) {
+          setSelectedPortfolioId(selectedResult.data.id, selectedResult.data.name)
           navigate('portfolio', { id: selectedResult.data.id })
           return
         }
@@ -51,10 +52,10 @@ export function NavLinks() {
       const defaultResult = await getDefaultPortfolio()
 
       if (defaultResult.data?.id) {
-        setSelectedPortfolioId(defaultResult.data.id)
+        setSelectedPortfolioId(defaultResult.data.id, defaultResult.data.name)
         navigate('portfolio', { id: defaultResult.data.id })
       } else {
-        // If no portfolio can be resolved, redirect to portfolios page
+        // If no portfolio can be resolved, redirect to portfolios page (not supposed to happend as users always start with a default!)
         setSelectedPortfolioId(null)
         navigate('portfolios')
       }

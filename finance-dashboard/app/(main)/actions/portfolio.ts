@@ -11,7 +11,7 @@ type ActionResponse<T> = {
 /**
  * Gets the default portfolio ID for the authenticated user
  */
-export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string }>> {
+export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string; name: string }>> {
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -22,7 +22,7 @@ export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string
 
     const { data, error } = await supabase
       .from('portfolios')
-      .select('id')
+      .select('id, name')
       .eq('user_id', user.id)
       .eq('is_default', true)
       .single()
@@ -32,7 +32,7 @@ export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string
       return { data: null, error: 'No default portfolio found' }
     }
 
-    return { data: { id: data.id }, error: null }
+    return { data: { id: data.id, name: data.name }, error: null }
   } catch (err) {
     console.error('Unexpected error fetching default portfolio:', err)
     return { data: null, error: 'An unexpected error occurred. Please try again.' }
@@ -42,7 +42,7 @@ export async function getDefaultPortfolio(): Promise<ActionResponse<{ id: string
 /**
  * Gets a portfolio by ID for the authenticated user
  */
-export async function getPortfolioById(id: string): Promise<ActionResponse<{ id: string }>> {
+export async function getPortfolioById(id: string): Promise<ActionResponse<{ id: string; name: string }>> {
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -53,7 +53,7 @@ export async function getPortfolioById(id: string): Promise<ActionResponse<{ id:
 
     const { data, error } = await supabase
       .from('portfolios')
-      .select('id')
+      .select('id, name')
       .eq('id', id)
       .eq('user_id', user.id)
       .single()
@@ -62,7 +62,7 @@ export async function getPortfolioById(id: string): Promise<ActionResponse<{ id:
       return { data: null, error: 'Portfolio not found' }
     }
 
-    return { data: { id: data.id }, error: null }
+    return { data: { id: data.id, name: data.name }, error: null }
   } catch (err) {
     console.error('Unexpected error fetching portfolio by ID:', err)
     return { data: null, error: 'An unexpected error occurred. Please try again.' }
