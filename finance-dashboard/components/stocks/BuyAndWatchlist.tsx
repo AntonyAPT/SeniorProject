@@ -95,11 +95,13 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
   return (
     <section className="rounded-2xl border border-slate-700/80 bg-slate-900/70 p-5 lg:p-6">
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-slate-100">Add {symbol} to {portfolioLabel} Portfolio</h2>
+        <h2 className="text-lg font-semibold text-slate-300">
+          Add <span className="font-bold text-white">{symbol}</span> to <span className="font-bold text-white">{portfolioLabel}</span> Portfolio
+        </h2>
 
         <div className="space-y-2">
-          <label htmlFor="share-quantity" className="text-sm font-medium text-slate-300">
-            Quantity
+          <label htmlFor="share-quantity" className="mt-5 mb-1.5 block text-sm font-medium text-slate-300">
+            Quantity (1 to 99,999 shares per order)
           </label>
           <div className="flex items-center rounded-2xl border border-slate-600 bg-slate-950/60">
             <button
@@ -132,7 +134,6 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
               <Plus className="h-6 w-6" />
             </button>
           </div>
-          <p className="text-xs text-slate-400">Whole numbers only (1 to 99,999 shares per order).</p>
         </div>
 
         <button
