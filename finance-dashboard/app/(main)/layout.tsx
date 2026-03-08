@@ -30,7 +30,7 @@ export default async function MainLayout({
             </p>
           </div>
         </footer>
-        <Toaster position="top-center" richColors />
+        <Toaster position="bottom-right" richColors closeButton />
       </div>
     </SelectedPortfolioProvider>
   )
