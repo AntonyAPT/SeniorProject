@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Navbar } from './components/navbar/Navbar'
 import { SelectedPortfolioProvider } from './contexts/SelectedPortfolioContext'
+import { Toaster } from 'sonner'
 
 export default async function MainLayout({
   children,
@@ -29,6 +30,7 @@ export default async function MainLayout({
             </p>
           </div>
         </footer>
+        <Toaster position="bottom-right" richColors closeButton />
       </div>
     </SelectedPortfolioProvider>
   )

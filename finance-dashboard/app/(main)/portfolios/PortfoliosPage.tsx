@@ -22,6 +22,10 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
     () => portfolios.find((portfolio) => portfolio.is_default)?.id ?? null,
     [portfolios]
   )
+  const defaultPortfolioName = useMemo(
+    () => portfolios.find((portfolio) => portfolio.is_default)?.name ?? null,
+    [portfolios]
+  )
 
   const activePortfolioId = selectedPortfolioId ?? defaultPortfolioId
 
@@ -54,7 +58,7 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
 
     if (!selectedPortfolioId) {
       if (defaultPortfolioId) {
-        setSelectedPortfolioId(defaultPortfolioId)
+        setSelectedPortfolioId(defaultPortfolioId, defaultPortfolioName)
       }
       return
     }
@@ -62,12 +66,15 @@ export function PortfoliosPage({ portfolios, serverError }: PortfoliosPageProps)
     // 3. If selection exists but portfolio was deleted, reset to default
     const selectionExists = portfolios.some((portfolio) => portfolio.id === selectedPortfolioId)
     if (!selectionExists) {
-      setSelectedPortfolioId(defaultPortfolioId)
+      setSelectedPortfolioId(defaultPortfolioId, defaultPortfolioName)
     }
-  }, [defaultPortfolioId, isHydrated, portfolios, selectedPortfolioId, setSelectedPortfolioId])
+  }, [defaultPortfolioId, defaultPortfolioName, isHydrated, portfolios, selectedPortfolioId, setSelectedPortfolioId])
 
   const handleSelectPortfolio = (portfolioId: string) => {
-    setSelectedPortfolioId(portfolioId)
+    const selectedPortfolioName =
+      portfolios.find((portfolio) => portfolio.id === portfolioId)?.name ?? null
+
+    setSelectedPortfolioId(portfolioId, selectedPortfolioName)
   }
 
   return (
