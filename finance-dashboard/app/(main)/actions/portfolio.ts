@@ -3,6 +3,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
+// The return type always resolves to either { data: T, error: null } on success 
+// or { data: null, error: "message" } on failure. 
+// This means the caller never has to try/catch -> Promise always resolves to something -> no error page; 
+// it just checks result.error.
 type ActionResponse<T> = {
   data: T | null
   error: string | null
@@ -153,6 +157,143 @@ export async function deletePortfolio(id: string): Promise<ActionResponse<{ succ
     return { data: { success: true }, error: null }
   } catch (err) {
     console.error('Unexpected error deleting portfolio:', err)
+    return { data: null, error: 'An unexpected error occurred. Please try again.' }
+  }
+}
+
+/**
+ * Adds a stock to a portfolio, fetching the current price from Finnhub
+ */
+export async function addStockToPortfolio(
+  portfolioId: string,
+  ticker: string,
+  quantity: number
+): Promise<ActionResponse<{ id: string; buy_price: number; buy_date: string }>> {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: 'You must be logged in to add stocks' }
+    }
+
+    // Verify the user owns this portfolio
+    const { data: portfolio, error: portfolioError } = await supabase
+      .from('portfolios')
+      .select('id')
+      .eq('id', portfolioId)
+      .eq('user_id', user.id)
+      .single()
+
+    if (portfolioError || !portfolio) {
+      return { data: null, error: 'Portfolio not found or access denied' }
+    }
+
+    // main reason why this functionality is a server action: API ket does not get exposed to the client 
+    // not that useful safeguard but whatever AI slop
+    const apiKey = process.env.FINNHUB_API_KEY
+    if (!apiKey) {
+      return { data: null, error: 'Stock price service not configured' }
+    }
+
+    // Check if the stock row already exists to avoid an unnecessary /profile2 call.
+    // Companies rarely change industries, so profile data only needs to be fetched once.
+    const { data: existingStock } = await supabase
+      .from('stocks')
+      .select('ticker')
+      .eq('ticker', ticker)
+      .maybeSingle()
+
+    let currentPrice = 0
+
+    if (existingStock) {
+      // Stock is already known — only fetch the latest price
+      const quoteRes = await fetch(
+        `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+        { cache: 'no-store' }
+      )
+      if (!quoteRes.ok) {
+        return { data: null, error: 'Failed to fetch stock price' }
+      }
+      const quoteData = await quoteRes.json()
+      currentPrice = quoteData.c ?? 0
+    } else {
+      // New stock — fetch price and company profile in parallel
+      const [quoteRes, profileRes] = await Promise.all([
+        fetch(
+          `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+          { cache: 'no-store' }
+        ),
+        fetch(
+          `https://finnhub.io/api/v1/stock/profile2?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+          { cache: 'no-store' }
+        ),
+      ])
+
+      if (!quoteRes.ok) {
+        return { data: null, error: 'Failed to fetch stock price' }
+      }
+
+      const quoteData = await quoteRes.json()
+      currentPrice = quoteData.c ?? 0
+
+      let profileData: Record<string, string> = {}
+      if (profileRes.ok) {
+        profileData = await profileRes.json()
+      }
+
+      // Insert the new stock row; || catches empty strings that ?? would pass through
+      const { error: stockError } = await supabase
+        .from('stocks')
+        .insert({
+          ticker,
+          company_name: profileData.name ?? null,
+          industry: profileData.finnhubIndustry || 'Other',
+        })
+
+      if (stockError) {
+        console.error('Error inserting stock:', stockError)
+        return { data: null, error: 'Failed to save stock data' }
+      }
+    }
+
+    if (currentPrice === 0) {
+      return { data: null, error: 'Unable to fetch current price.' }
+    }
+
+    // "2026-03-09T21:30:00.000Z"; UTC 
+    const buyDate = new Date().toISOString()
+
+    // Insert the portfolio item
+    const { data: item, error: insertError } = await supabase
+      .from('portfolio_items')
+      .insert({
+        portfolio_id: portfolioId,
+        stock_ticker: ticker,
+        quantity,
+        buy_price: currentPrice,
+        buy_date: buyDate,
+      })
+      // chained queries so that the client doesn't have to make a second fetch to get the data that was 
+      // just inserted into the table
+      .select('id, buy_price, buy_date')
+      .single()
+
+    if (insertError || !item) {
+      console.error('Error inserting portfolio item:', insertError)
+      return { data: null, error: 'Failed to add stock to portfolio' }
+    }
+
+    // tells Next.js to flush the server-side cache for those pages so 
+    // the next visit re-runs the server component and shows the new holding. 
+    // Without this, a user could add a stock and then visit their portfolio page 
+    // and not see it until the cache expired on its own.
+    revalidatePath(`/portfolio/${portfolioId}`)
+    revalidatePath('/portfolios')
+
+    return { data: { id: item.id, buy_price: item.buy_price, buy_date: item.buy_date }, error: null }
+  } catch (err) {
+    console.error('Unexpected error adding stock to portfolio:', err)
     return { data: null, error: 'An unexpected error occurred. Please try again.' }
   }
 }
