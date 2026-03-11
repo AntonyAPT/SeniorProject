@@ -1,5 +1,6 @@
 'use client'
 
+// used for page-level navigation (non-dyanmic routing); dashboard, stocks, watchlist, etc.)
 // (react) hooks can only be used in client components
 import { useRouter } from 'next/navigation'
 
@@ -8,7 +9,6 @@ export type NavigationTarget =
   | 'portfolio'
   | 'watchlist'
   | 'stocks'
-  | 'stock-search'
   | 'settings'
   | 'portfolios'
   | 'theme'

@@ -56,7 +56,7 @@ interface SearchModalProps {
   onClose: () => void;
 }
 
-function SearchModal({ onClose }: SearchModalProps) {
+export function SearchModal({ onClose }: SearchModalProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const { query, setQuery, results, loading } = useStockSearch();
