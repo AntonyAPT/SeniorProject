@@ -1,0 +1,193 @@
+/* Transaction Ledger Styles */
+
+.container {
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.6) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-lg);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin-bottom: 1.25rem;
+}
+
+.emptyState {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Table wrapper */
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header row */
+.headerRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--color-border-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+/* Column sizing helpers */
+.colTicker {
+  text-align: left;
+}
+
+.colNum {
+  text-align: right;
+}
+
+.colCaret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Each ticker block groups the primary row + sub-rows */
+.tickerBlock {
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+.tickerBlock:last-child {
+  border-bottom: none;
+}
+
+/* Primary (summary) row */
+.primaryRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+}
+
+.primaryRow:hover {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+.tickerLabel {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-foreground);
+}
+
+/* Caret animation */
+.caretIcon {
+  color: var(--color-muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+/* Sub-rows collapse/expand animation */
+.subRowsWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.subRowsVisible {
+  grid-template-rows: 1fr;
+}
+
+/* Single direct child must have min-height: 0 for the 0fr clamp to work */
+.subRowsInner {
+  overflow: hidden;
+  min-height: 0;
+  border-left: 2px solid rgba(59, 130, 246, 0.25);
+}
+
+/* Sub-header */
+.subHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  padding: 0.375rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  background: rgba(15, 23, 42, 0.4);
+  border-top: 1px solid var(--color-border-muted);
+}
+
+/* Individual sub-row (one transaction) */
+.subRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.825rem;
+  color: var(--color-muted);
+  background: rgba(15, 23, 42, 0.3);
+  transition: background 0.15s ease;
+}
+
+.subRow:hover {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+/* Sub-row column alignment */
+.subColQty {
+  text-align: left;
+  color: var(--color-foreground);
+}
+
+.subColPrice {
+  text-align: right;
+}
+
+.subColCost {
+  text-align: right;
+}
+
+.subColDate {
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .headerRow,
+  .primaryRow {
+    grid-template-columns: 2fr 1fr 1fr 2rem;
+  }
+
+  .headerRow .colNum:nth-child(3),
+  .primaryRow .colNum:nth-child(3) {
+    display: none;
+  }
+
+  .subHeader,
+  .subRow {
+    grid-template-columns: 2fr 1fr 1fr 2rem;
+  }
+
+  .subHeader .subColCost,
+  .subRow .subColCost {
+    display: none;
+  }
+}
