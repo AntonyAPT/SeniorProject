@@ -4,6 +4,7 @@ import { Check, Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useSelectedPortfolio } from "@/app/(main)/contexts/SelectedPortfolioContext";
+import { addStockToPortfolio } from "@/app/(main)/actions/portfolio";
 
 interface BuyAndWatchlistProps {
   symbol: string;
@@ -14,16 +15,13 @@ const MAX_QUANTITY = 99999;
 
 /**
  * Buy and watchlist UI for a stock symbol.
- *
- * Current sprint behavior:
- * - Buy action logs to console and shows a toast.
- * - Watchlist action is local UI state only and logs add/remove to console.
  */
 export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
-  const [quantity, setQuantity] = useState<number>(MIN_QUANTITY);
+  const [quantity, setQuantity] = useState<number>(MIN_QUANTITY); 
   const [quantityInput, setQuantityInput] = useState<string>(String(MIN_QUANTITY));
   const [isInWatchlist, setIsInWatchlist] = useState<boolean>(false);
-  const { selectedPortfolioName } = useSelectedPortfolio();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { selectedPortfolioId, selectedPortfolioName } = useSelectedPortfolio();
 
   const portfolioLabel = selectedPortfolioName ?? "Portfolio";
 
@@ -33,12 +31,14 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
     setQuantityInput(String(clamped));
   };
 
+  // quantity states get synced at commit points (user clicks the button or clicks anywhere else in the page)
   const commitInput = () => {
     if (quantityInput.trim() === "") {
       syncQuantity(MIN_QUANTITY);
       return;
     }
 
+    // ignored trailing non-numeric characters: "5abc" -> 5
     const parsed = Number.parseInt(quantityInput, 10);
     if (Number.isNaN(parsed)) {
       syncQuantity(MIN_QUANTITY);
@@ -49,6 +49,7 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
   };
 
   const handleQuantityChange = (nextValue: string) => {
+    // Empty string is allowed through to quantityInput so the user can clear the field mid-edit
     if (nextValue === "") {
       setQuantityInput("");
       return;
@@ -70,17 +71,33 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
     setQuantityInput(String(clamped));
   };
 
-  const handleBuyClick = () => {
+  const handleBuyClick = async () => {
     commitInput();
 
+    if (!selectedPortfolioId) {
+      toast.error("No portfolio selected");
+      return;
+    }
+
     const shares = quantityInput.trim() === "" ? MIN_QUANTITY : quantity;
-    console.log("Buy order placed:", { ticker: symbol, quantity: shares });
 
-    toast.success(`Added ${shares} share${shares === 1 ? "" : "s"} of ${symbol} to ${portfolioLabel} Portfolio`, {
-      description: "Success",
-    });
+    setIsSubmitting(true);
+    try {
+      const result = await addStockToPortfolio(selectedPortfolioId, symbol, shares);
 
-    syncQuantity(MIN_QUANTITY);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        const price = result.data!.buy_price;
+        toast.success(
+          `Added ${shares} share${shares === 1 ? "" : "s"} of ${symbol} at $${price.toFixed(2)}`,
+          { description: `Added to ${portfolioLabel} Portfolio` }
+        );
+        syncQuantity(MIN_QUANTITY);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleWatchlistToggle = () => {
@@ -139,9 +156,10 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
         <button
           type="button"
           onClick={handleBuyClick}
-          className="h-12 w-full rounded-full bg-blue-500 text-sm font-semibold text-white transition hover:bg-blue-600"
+          disabled={isSubmitting} // when true, browser blocks onClick from firing
+          className="h-12 w-full rounded-full bg-blue-500 text-sm font-semibold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Add to Portfolio
+          {isSubmitting ? "Adding..." : "Add to Portfolio"}
         </button>
 
         <button
@@ -157,7 +175,9 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
 
           {isInWatchlist ? (
             <>
-              <span className="group-hover:hidden">Watching</span>
+              {/* visible by default, hidden when parent (button = group class) is hovered */}
+              <span className="group-hover:hidden">Watching</span> 
+              {/* hidden by default, visible when parent is hovered */}
               <span className="hidden group-hover:inline">Remove?</span>
             </>
           ) : (
