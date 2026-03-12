@@ -1,0 +1,94 @@
+/* Composition Chart */
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----- Chart Area ----- */
+
+@keyframes chartFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Relative container so the center label can be absolutely centered over the donut hole */
+.chartArea {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  overflow: visible;
+  animation: chartFadeIn 0.4s ease-out forwards;
+}
+
+/* ----- Center Label ----- */
+
+@keyframes centerFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 4px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.centerLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: centerFadeIn 0.15s ease-out forwards;
+}
+
+.centerTicker {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.centerValue {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.centerCents {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.centerAssets {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  letter-spacing: 0.01em;
+}
+
+.centerMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+/* ----- Empty State ----- */
+
+.empty {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  text-align: center;
+}

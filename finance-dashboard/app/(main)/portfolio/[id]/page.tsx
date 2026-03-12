@@ -89,7 +89,7 @@ export default async function PortfolioPage({ params }: Props) {
         </header>
         
         <div className="mt-8 grid gap-6">
-          <PortfolioInsights />
+          <PortfolioInsights tickerGroups={tickerGroups} />
           
           <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
           
