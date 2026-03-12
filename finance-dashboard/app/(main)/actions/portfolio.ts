@@ -168,7 +168,7 @@ export async function addStockToPortfolio(
   portfolioId: string,
   ticker: string,
   quantity: number
-): Promise<ActionResponse<{ id: string; buy_price: number; buy_date: string }>> {
+): Promise<ActionResponse<{ id: string; buy_price: number; buy_date: string; transaction_type: string }>> {
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -273,10 +273,11 @@ export async function addStockToPortfolio(
         quantity,
         buy_price: currentPrice,
         buy_date: buyDate,
+        transaction_type: 'buy',
       })
       // chained queries so that the client doesn't have to make a second fetch to get the data that was 
       // just inserted into the table
-      .select('id, buy_price, buy_date')
+      .select('id, buy_price, buy_date, transaction_type')
       .single()
 
     if (insertError || !item) {
@@ -291,7 +292,7 @@ export async function addStockToPortfolio(
     revalidatePath(`/portfolio/${portfolioId}`)
     revalidatePath('/portfolios')
 
-    return { data: { id: item.id, buy_price: item.buy_price, buy_date: item.buy_date }, error: null }
+    return { data: { id: item.id, buy_price: item.buy_price, buy_date: item.buy_date, transaction_type: item.transaction_type }, error: null }
   } catch (err) {
     console.error('Unexpected error adding stock to portfolio:', err)
     return { data: null, error: 'An unexpected error occurred. Please try again.' }
