@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import styles from './portfolioInsights.module.css'
+import { CompositionChart } from './CompositionChart'
+import type { TickerGroup } from './TransactionLedger'
 
 type TabId = 'performance' | 'composition' | 'daily-summary'
 
@@ -11,14 +13,19 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'daily-summary', label: 'Daily Summary' },
 ]
 
+type Props = {
+  tickerGroups: TickerGroup[]
+}
+
 /**
  * Tabbed container for portfolio analytics panels.
  *
- * Each tab is a placeholder until the corresponding chart/data
- * component is built out. Tabs are centered and styled to match
- * the dark slate theme of the portfolio detail page.
+ * Tabs are centered and styled to match the dark slate theme.
+ * The Composition tab renders a donut chart of holdings by invested value.
+ *
+ * @param tickerGroups - Active holdings passed down from the portfolio server component.
  */
-export function PortfolioInsights() {
+export function PortfolioInsights({ tickerGroups }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('performance')
 
   return (
@@ -48,7 +55,10 @@ export function PortfolioInsights() {
           hidden={activeTab !== id}
           className={styles.panel}
         >
-          <p className={styles.placeholder}>{label} coming soon</p>
+          {id === 'composition'
+            ? <CompositionChart tickerGroups={tickerGroups} />
+            : <p className={styles.placeholder}>{label} coming soon</p>
+          }
         </div>
       ))}
     </div>
