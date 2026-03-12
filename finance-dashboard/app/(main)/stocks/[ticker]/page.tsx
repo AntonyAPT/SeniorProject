@@ -1,5 +1,5 @@
 import { StockDetailWidgets } from "@/components/tradingview"; // '@' means starting from the project root
-import { BuyAndWatchlist, QuarterlyDataPanel } from "@/components/stocks";
+import { BuyAndWatchlist, QuarterlyChartsPanel, QuarterlyDataPanel } from "@/components/stocks";
 import { getQuarterlyFundamentals } from "@/lib/quarterly";
 import { QuarterlyFundamentalRow } from "@/types/quarterly";
 
@@ -23,6 +23,7 @@ export default async function StockPage({ params }: StockPageProps) {
       <div className="max-w-[1600px] mx-auto px-6 py-8 space-y-6">
         <StockDetailWidgets symbol={symbol} topLeftSlot={<BuyAndWatchlist symbol={symbol} />} />
         <QuarterlyDataPanel symbol={symbol} rows={quarterlyRows} />
+        <QuarterlyChartsPanel symbol={symbol} rows={quarterlyRows} />
       </div>
     </div>
   );
