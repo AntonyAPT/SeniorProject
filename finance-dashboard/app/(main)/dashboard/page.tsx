@@ -1,5 +1,6 @@
 import DashboardPage from "./DashboardPage";
 import { createClient } from "@/lib/supabase/server";
+import type { PortfolioItem } from "./PortfolioPanel";
 
 export type DashboardWatchlistItem = {
   ticker: string;
@@ -34,5 +35,31 @@ export default async function Dashboard() {
     })).filter((i) => i.ticker);
   }
 
-  return <DashboardPage watchlistItems={watchlistItems} />;
+  // Fetch default portfolio items for the portfolio panel
+  let portfolioItems: PortfolioItem[] = [];
+
+  const { data: defaultPortfolio } = await supabase
+    .from("portfolios")
+    .select("id")
+    .eq("user_id", user!.id)
+    .eq("is_default", true)
+    .maybeSingle();
+
+  if (defaultPortfolio) {
+    const { data: items } = await supabase
+      .from("portfolio_items")
+      .select("stock_ticker, quantity, buy_price, buy_date, transaction_type")
+      .eq("portfolio_id", defaultPortfolio.id)
+      .order("buy_date", { ascending: true });
+
+    portfolioItems = (items ?? []).map((item) => ({
+      ticker: item.stock_ticker,
+      quantity: item.quantity,
+      buy_price: item.buy_price,
+      buy_date: item.buy_date,
+      transaction_type: item.transaction_type,
+    }));
+  }
+
+  return <DashboardPage watchlistItems={watchlistItems} portfolioItems={portfolioItems} />;
 }
