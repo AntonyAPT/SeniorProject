@@ -70,7 +70,10 @@ export default async function PortfolioPage({ params }: Props) {
     }
   }
 
-  const tickerGroups: TickerGroup[] = Array.from(groupMap.values())
+  // Exclude tickers where all shares have been sold so they don't appear in Holdings
+  const tickerGroups: TickerGroup[] = Array.from(groupMap.values()).filter(
+    (g) => g.totalShares > 0
+  )
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8">
@@ -89,7 +92,7 @@ export default async function PortfolioPage({ params }: Props) {
             <p className="text-muted-foreground">Chart component placeholder</p>
           </section>
           
-          <TransactionLedger tickerGroups={tickerGroups} />
+          <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
           
           <AddStockButton />
         </div>

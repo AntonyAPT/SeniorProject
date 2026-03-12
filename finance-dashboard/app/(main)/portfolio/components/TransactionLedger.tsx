@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import styles from './transactionLedger.module.css'
+import { QuickTradeModal } from './QuickTradeModal'
 
 export type TickerGroup = {
   ticker: string
@@ -20,42 +22,54 @@ export type TickerGroup = {
 
 type Props = {
   tickerGroups: TickerGroup[]
+  portfolioId: string
 }
 
-// defined outside the component body so they aren't redeclared on every re-render.
-// Since they don't need access to props or state, there's no reason to put them inside.
+type ActiveModal = {
+  ticker: string
+  mode: 'buy' | 'sell'
+  maxShares: number
+}
 
-
-// pure utility function (pure = input to ouput without side effects or component state dependencies)
+// pure utility function (pure = input to output without side effects or component state dependencies)
 function formatCurrency(value: number): string {
   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
-// pure utility function (pure = input to ouput without side effects or component state dependencies)
+// pure utility function (pure = input to output without side effects or component state dependencies)
 function formatDate(isoString: string): string {
   const date = new Date(isoString)
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-export function TransactionLedger({ tickerGroups }: Props) {
+export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
   // O(1) lookup, add, delete operations
-  const [expandedTickers, setExpandedTickers] = useState<Set<string>>(new Set()) 
+  const [expandedTickers, setExpandedTickers] = useState<Set<string>>(new Set())
+  const [activeModal, setActiveModal] = useState<ActiveModal | null>(null)
+  const router = useRouter()
 
   const toggleTicker = (ticker: string) => {
-    // prev = whatever expandedTickers currently is
     setExpandedTickers((prev) => {
-      // React sees a new reference and triggers a re-render.
-      // guarantees that prev is always the most up-to-date value of the state
-      // next = fresh copy of prev
       const next = new Set(prev)
       if (next.has(ticker)) {
         next.delete(ticker)
       } else {
         next.add(ticker)
       }
-      // React replaces expandedTickers with new next set
-      return next 
+      return next
     })
+  }
+
+  const openModal = (ticker: string, mode: 'buy' | 'sell', maxShares: number, e: React.MouseEvent) => {
+    // Prevent the row click (expand/collapse) from firing
+    e.stopPropagation()
+    setActiveModal({ ticker, mode, maxShares })
+  }
+
+  const handleModalComplete = () => {
+    setActiveModal(null)
+    // Re-fetch the server component so the updated holdings reflect immediately
+    router.refresh()
   }
 
   if (tickerGroups.length === 0) {
@@ -80,28 +94,22 @@ export function TransactionLedger({ tickerGroups }: Props) {
           <span className={styles.colNum}>Total Shares</span>
           <span className={styles.colNum}>Avg Price</span>
           <span className={styles.colNum}>Total Invested</span>
+          <span className={styles.colActions} />
           <span className={styles.colCaret} />
         </div>
 
         {tickerGroups.map((group) => {
           const isExpanded = expandedTickers.has(group.ticker)
-          // unnessary guard clause for checking totalShares > 0
           const avgPrice = group.totalShares > 0 ? group.totalInvested / group.totalShares : 0
 
           return (
-            // React requires a unique key on elements produced inside .map(). 
-            // This lets React track which element is which between re-renders 
             <div key={group.ticker} className={styles.tickerBlock}>
-              {/* Primary row */}
-              {/* This matters for accessibility — screen readers understand buttons are interactive, announce them as clickable, 
-              and allow keyboard navigation to them. (Based Claude) */}
+              {/* Primary row — clicking the row toggles expand; Buy/Sell buttons stop propagation */}
               <button
                 type="button"
                 onClick={() => toggleTicker(group.ticker)}
                 className={styles.primaryRow}
-                // accessibility attribute that tells screen readers whether the controlled content below 
-                // is currently visible or hidden.
-                aria-expanded={isExpanded} 
+                aria-expanded={isExpanded}
               >
                 <span className={styles.colTicker}>
                   <span className={styles.tickerLabel}>{group.ticker}</span>
@@ -109,6 +117,29 @@ export function TransactionLedger({ tickerGroups }: Props) {
                 <span className={styles.colNum}>{group.totalShares.toLocaleString()}</span>
                 <span className={styles.colNum}>{formatCurrency(avgPrice)}</span>
                 <span className={styles.colNum}>{formatCurrency(group.totalInvested)}</span>
+
+                {/* Quick-action buttons — visible only on row hover via CSS */}
+                <span className={styles.colActions}>
+                  <span className={styles.quickActions}>
+                    <button
+                      type="button"
+                      aria-label={`Buy more ${group.ticker}`}
+                      onClick={(e) => openModal(group.ticker, 'buy', group.totalShares, e)}
+                      className={`${styles.quickBtn} ${styles.quickBtnBuy}`}
+                    >
+                      B
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Sell ${group.ticker}`}
+                      onClick={(e) => openModal(group.ticker, 'sell', group.totalShares, e)}
+                      className={`${styles.quickBtn} ${styles.quickBtnSell}`}
+                    >
+                      S
+                    </button>
+                  </span>
+                </span>
+
                 <span className={styles.colCaret}>
                   <ChevronDown
                     className={`${styles.caretIcon} ${isExpanded ? styles.caretOpen : ''}`}
@@ -153,6 +184,17 @@ export function TransactionLedger({ tickerGroups }: Props) {
           )
         })}
       </div>
+
+      {activeModal && (
+        <QuickTradeModal
+          ticker={activeModal.ticker}
+          mode={activeModal.mode}
+          maxShares={activeModal.maxShares}
+          portfolioId={portfolioId}
+          onClose={() => setActiveModal(null)}
+          onComplete={handleModalComplete}
+        />
+      )}
     </section>
   )
 }
