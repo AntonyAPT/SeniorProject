@@ -2,6 +2,7 @@ import type {
   CompanyProfileProps,
   FundamentalDataProps,
   MarketOverviewProps,
+  MiniChartProps,
   StockHeatmapProps,
   StockMarketProps,
   SymbolInfoProps,
@@ -188,5 +189,18 @@ export function symbolOverviewConfig(symbol: string): SymbolOverviewProps {
     chartType: "area",
     showVolume: true,
     dateFormat: "dd MMM 'yy",
+  };
+}
+
+/**
+ * Returns a MiniChart config for the given stock symbol.
+ * Intended for compact contexts (e.g. modals) where a full chart would be overwhelming.
+ */
+export function miniChartConfig(symbol: string): MiniChartProps {
+  return {
+    ...tradingViewBaseConfig,
+    symbol,
+    dateRange: "1M",
+    chartOnly: false,
   };
 }

@@ -300,6 +300,104 @@ export async function addStockToPortfolio(
 }
 
 /**
+ * Sells (records a sell transaction for) shares of a stock in a portfolio.
+ * Validates that the user holds enough shares before inserting the sell row.
+ * Fetches the current market price from Finnhub for the transaction price.
+ */
+export async function sellStockFromPortfolio(
+  portfolioId: string,
+  ticker: string,
+  quantity: number
+): Promise<ActionResponse<{ id: string; buy_price: number; buy_date: string }>> {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: 'You must be logged in to sell stocks' }
+    }
+
+    const { data: portfolio, error: portfolioError } = await supabase
+      .from('portfolios')
+      .select('id')
+      .eq('id', portfolioId)
+      .eq('user_id', user.id)
+      .single()
+
+    if (portfolioError || !portfolio) {
+      return { data: null, error: 'Portfolio not found or access denied' }
+    }
+
+    // Compute net share count to prevent overselling
+    const { data: items, error: itemsError } = await supabase
+      .from('portfolio_items')
+      .select('quantity, transaction_type')
+      .eq('portfolio_id', portfolioId)
+      .eq('stock_ticker', ticker)
+
+    if (itemsError) {
+      return { data: null, error: 'Failed to validate current holdings' }
+    }
+
+    const netShares = (items ?? []).reduce((acc, item) => {
+      return item.transaction_type === 'sell' ? acc - item.quantity : acc + item.quantity
+    }, 0)
+
+    if (quantity > netShares) {
+      return { data: null, error: `You only hold ${netShares} share${netShares === 1 ? '' : 's'} of ${ticker}` }
+    }
+
+    const apiKey = process.env.FINNHUB_API_KEY
+    if (!apiKey) {
+      return { data: null, error: 'Stock price service not configured' }
+    }
+
+    const quoteRes = await fetch(
+      `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+      { cache: 'no-store' }
+    )
+    if (!quoteRes.ok) {
+      return { data: null, error: 'Failed to fetch stock price' }
+    }
+
+    const quoteData = await quoteRes.json()
+    const currentPrice: number = quoteData.c ?? 0
+
+    if (currentPrice === 0) {
+      return { data: null, error: 'Unable to fetch current price.' }
+    }
+
+    const sellDate = new Date().toISOString()
+
+    const { data: item, error: insertError } = await supabase
+      .from('portfolio_items')
+      .insert({
+        portfolio_id: portfolioId,
+        stock_ticker: ticker,
+        quantity,
+        buy_price: currentPrice,
+        buy_date: sellDate,
+        transaction_type: 'sell',
+      })
+      .select('id, buy_price, buy_date')
+      .single()
+
+    if (insertError || !item) {
+      console.error('Error inserting sell transaction:', insertError)
+      return { data: null, error: 'Failed to record sell transaction' }
+    }
+
+    revalidatePath(`/portfolio/${portfolioId}`)
+    revalidatePath('/portfolios')
+
+    return { data: { id: item.id, buy_price: item.buy_price, buy_date: item.buy_date }, error: null }
+  } catch (err) {
+    console.error('Unexpected error selling stock:', err)
+    return { data: null, error: 'An unexpected error occurred. Please try again.' }
+  }
+}
+
+/**
  * Renames a portfolio by ID
  */
 export async function renamePortfolio(id: string, name: string): Promise<ActionResponse<{ success: boolean }>> {

@@ -4,6 +4,7 @@ export {
   companyProfileConfig,
   fundamentalDataConfig,
   marketOverviewConfig,
+  miniChartConfig,
   stockHeatmapConfig,
   stockMarketConfig,
   symbolInfoConfig,
