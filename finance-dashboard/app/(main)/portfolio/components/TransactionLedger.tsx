@@ -10,6 +10,7 @@ export type TickerGroup = {
   totalInvested: number
   transactions: {
     id: string
+    action: 'buy' | 'sell'
     quantity: number
     buyPrice: number
     totalCost: number
@@ -123,20 +124,29 @@ export function TransactionLedger({ tickerGroups }: Props) {
                 <div className={styles.subRowsInner}>
                   {/* Sub-header */}
                   <div className={styles.subHeader}>
+                    <span className={styles.subColAction}>Action</span>
                     <span className={styles.subColQty}>Shares</span>
                     <span className={styles.subColPrice}>Unit Price</span>
                     <span className={styles.subColCost}>Total Cost</span>
                     <span className={styles.subColDate}>Date</span>
                   </div>
 
-                  {group.transactions.map((tx) => (
-                    <div key={tx.id} className={styles.subRow}>
-                      <span className={styles.subColQty}>{tx.quantity.toLocaleString()}</span>
-                      <span className={styles.subColPrice}>{formatCurrency(tx.buyPrice)}</span>
-                      <span className={styles.subColCost}>{formatCurrency(tx.totalCost)}</span>
-                      <span className={styles.subColDate}>{formatDate(tx.buyDate)}</span>
-                    </div>
-                  ))}
+                  {group.transactions.map((tx) => {
+                    const actionStyle = tx.action === 'buy' ? styles.actionBuy : styles.actionSell
+                    return (
+                      <div key={tx.id} className={styles.subRow}>
+                        <span className={`${styles.subColAction} ${actionStyle}`}>
+                          {tx.action.toUpperCase()}
+                        </span>
+                        <span className={styles.subColQty}>{tx.quantity.toLocaleString()}</span>
+                        <span className={styles.subColPrice}>{formatCurrency(tx.buyPrice)}</span>
+                        <span className={`${styles.subColCost} ${actionStyle}`}>
+                          {formatCurrency(tx.totalCost)}
+                        </span>
+                        <span className={styles.subColDate}>{formatDate(tx.buyDate)}</span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>

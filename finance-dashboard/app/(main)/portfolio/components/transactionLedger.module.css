@@ -125,7 +125,7 @@
 /* Sub-header */
 .subHeader {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  grid-template-columns: 0.6fr 0.8fr 1fr 1fr 1fr 2rem;
   padding: 0.375rem 1rem;
   font-size: 0.7rem;
   font-weight: 600;
@@ -139,7 +139,7 @@
 /* Individual sub-row (one transaction) */
 .subRow {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 2rem;
+  grid-template-columns: 0.6fr 0.8fr 1fr 1fr 1fr 2rem;
   padding: 0.625rem 1rem;
   font-size: 0.825rem;
   color: var(--color-muted);
@@ -152,6 +152,13 @@
 }
 
 /* Sub-row column alignment */
+.subColAction {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
 .subColQty {
   text-align: left;
   color: var(--color-foreground);
@@ -169,6 +176,15 @@
   text-align: right;
 }
 
+/* Transaction type color indicators */
+.actionBuy {
+  color: var(--color-positive);
+}
+
+.actionSell {
+  color: var(--color-negative);
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .headerRow,
@@ -183,11 +199,13 @@
 
   .subHeader,
   .subRow {
-    grid-template-columns: 2fr 1fr 1fr 2rem;
+    grid-template-columns: 0.6fr 0.8fr 1fr 1fr 2rem;
   }
 
   .subHeader .subColCost,
-  .subRow .subColCost {
+  .subRow .subColCost,
+  .subHeader .subColPrice,
+  .subRow .subColPrice {
     display: none;
   }
 }

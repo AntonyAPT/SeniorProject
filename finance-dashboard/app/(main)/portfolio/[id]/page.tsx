@@ -35,32 +35,36 @@ export default async function PortfolioPage({ params }: Props) {
   // Fetch portfolio items ordered by most recent first
   const { data: items } = await supabase
     .from('portfolio_items')
-    .select('id, stock_ticker, quantity, buy_price, buy_date')
+    .select('id, stock_ticker, quantity, buy_price, buy_date, transaction_type')
     .eq('portfolio_id', id)
     .order('buy_date', { ascending: false })
 
-  // Group items by ticker
+  // Group items by ticker; buys add to totals, sells subtract
   const groupMap = new Map<string, TickerGroup>()
 
   for (const item of items ?? []) {
     const existing = groupMap.get(item.stock_ticker)
+    const action = item.transaction_type as 'buy' | 'sell'
+    const signedQuantity = action === 'sell' ? -item.quantity : item.quantity
+    const totalCost = item.quantity * item.buy_price
     const tx = {
       id: item.id,
+      action,
       quantity: item.quantity,
       buyPrice: item.buy_price,
-      totalCost: item.quantity * item.buy_price,
+      totalCost,
       buyDate: item.buy_date,
     }
 
     if (existing) {
-      existing.totalShares += item.quantity
-      existing.totalInvested += tx.totalCost
+      existing.totalShares += signedQuantity
+      existing.totalInvested += action === 'sell' ? -totalCost : totalCost
       existing.transactions.push(tx)
     } else {
       groupMap.set(item.stock_ticker, {
         ticker: item.stock_ticker,
-        totalShares: item.quantity,
-        totalInvested: tx.totalCost,
+        totalShares: signedQuantity,
+        totalInvested: action === 'sell' ? -totalCost : totalCost,
         transactions: [tx],
       })
     }
