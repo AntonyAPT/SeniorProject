@@ -1,0 +1,156 @@
+/* Performance Chart */
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ----- Summary Header ----- */
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.summaryValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.summaryChange {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.summaryChangePositive {
+  color: var(--color-positive);
+}
+
+.summaryChangeNegative {
+  color: var(--color-negative);
+}
+
+/* ----- Range Selector ----- */
+
+.rangeBar {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.rangeButton {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.775rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.rangeButton:hover {
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+.rangeButtonActive {
+  color: var(--color-foreground);
+  background-color: var(--color-card);
+  border-color: var(--color-border);
+}
+
+/* ----- Chart Area ----- */
+
+@keyframes chartFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.chartArea {
+  width: 100%;
+  animation: chartFadeIn 0.35s ease-out forwards;
+}
+
+/* ----- Loading Skeleton ----- */
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.skeleton {
+  width: 100%;
+  height: 240px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--color-card) 25%,
+    var(--color-surface) 50%,
+    var(--color-card) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* ----- Empty / Error State ----- */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 0.5rem;
+}
+
+.emptyText {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ----- Single-point note ----- */
+
+.singlePointNote {
+  font-size: 0.775rem;
+  color: var(--color-muted-foreground);
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+/* ----- Recharts Tooltip Override ----- */
+
+/* Recharts injects inline styles; we override the wrapper via a global selector
+   scoped tightly to the chart area to avoid bleed into other charts. */
+.chartArea :global(.recharts-tooltip-wrapper) {
+  outline: none;
+}
+
+.tooltip {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.tooltipDate {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.2rem;
+}
+
+.tooltipValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
