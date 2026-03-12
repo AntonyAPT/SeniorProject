@@ -23,20 +23,58 @@ export default function DashboardPage({
 }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [quotes, setQuotes] = useState<Record<string, StockQuote>>({});
+  const [allQuotes, setAllQuotes] = useState<Record<string, StockQuote>>({});
+
+  // Compute net holdings (shares per ticker) from portfolio items
+  const holdingsMap: Record<string, number> = {};
+  for (const item of portfolioItems) {
+    const delta = item.transaction_type === "sell" ? -item.quantity : item.quantity;
+    holdingsMap[item.ticker] = (holdingsMap[item.ticker] ?? 0) + delta;
+  }
+  const activeHoldings = Object.entries(holdingsMap).filter(([, shares]) => shares > 0);
 
   useEffect(() => {
-    const tickers = watchlistItems.map((i) => i.ticker).filter(Boolean);
+    const watchlistTickers = watchlistItems.map((i) => i.ticker).filter(Boolean);
+    const portfolioTickers = Object.entries(
+      portfolioItems.reduce((map, item) => {
+        const delta = item.transaction_type === "sell" ? -item.quantity : item.quantity;
+        map[item.ticker] = (map[item.ticker] ?? 0) + delta;
+        return map;
+      }, {} as Record<string, number>)
+    )
+      .filter(([, shares]) => shares > 0)
+      .map(([ticker]) => ticker);
+
+    const tickers = [...new Set([...watchlistTickers, ...portfolioTickers])];
     if (tickers.length === 0) return;
+
     fetch(`/api/stockquote?symbols=${tickers.join(",")}`)
       .then((r) => r.json())
       .then((data: StockQuote[]) => {
         const map: Record<string, StockQuote> = {};
         data.forEach((q) => { map[q.symbol] = q; });
-        setQuotes(map);
+        setAllQuotes(map);
       })
       .catch(console.error);
-  }, [watchlistItems]);
+  }, [watchlistItems, portfolioItems]);
+
+  // Portfolio stats derived from live quotes
+  const portfolioValue = activeHoldings.reduce(
+    (sum, [ticker, shares]) => sum + shares * (allQuotes[ticker]?.currentPrice ?? 0),
+    0
+  );
+  const todayPnl = activeHoldings.reduce(
+    (sum, [ticker, shares]) => sum + shares * (allQuotes[ticker]?.change ?? 0),
+    0
+  );
+  const prevPortfolioValue = portfolioValue - todayPnl;
+  const portfolioPctChange = prevPortfolioValue > 0 ? (todayPnl / prevPortfolioValue) * 100 : 0;
+
+  // Price map passed to PortfolioPanel so it doesn't need to re-fetch
+  const portfolioPriceMap: Record<string, number> = {};
+  activeHoldings.forEach(([ticker]) => {
+    portfolioPriceMap[ticker] = allQuotes[ticker]?.currentPrice ?? 0;
+  });
 
   const handleSearch = (e: React.FormEvent) => {
   e.preventDefault();
@@ -76,15 +114,15 @@ export default function DashboardPage({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
               label="Portfolio Value"
-              value="$124,532"
-              change="+12.5%"
-              isPositive={true}
+              value={portfolioValue > 0 ? `$${portfolioValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—"}
+              change={portfolioValue > 0 ? `${portfolioPctChange >= 0 ? "+" : ""}${portfolioPctChange.toFixed(2)}%` : "—"}
+              isPositive={portfolioPctChange >= 0}
             />
             <StatCard
               label="Today's P&L"
-              value="$2,847"
-              change="+2.3%"
-              isPositive={true}
+              value={portfolioValue > 0 ? `${todayPnl >= 0 ? "+" : ""}$${Math.abs(todayPnl).toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—"}
+              change={portfolioValue > 0 ? `${portfolioPctChange >= 0 ? "+" : ""}${portfolioPctChange.toFixed(2)}%` : "—"}
+              isPositive={todayPnl >= 0}
             />
             <StatCard
               label="Active Predictions"
@@ -103,7 +141,7 @@ export default function DashboardPage({
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Portfolio Panel */}
-            <PortfolioPanel portfolioItems={portfolioItems} />
+            <PortfolioPanel portfolioItems={portfolioItems} quoteMap={portfolioPriceMap} />
 
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
@@ -189,7 +227,7 @@ export default function DashboardPage({
                   </p>
                 ) : (
                   watchlistItems.map((item) => {
-                    const quote = quotes[item.ticker];
+                    const quote = allQuotes[item.ticker];
                     const isPositive = (quote?.changePercent ?? 0) >= 0;
                     return (
                       <WatchlistItem
