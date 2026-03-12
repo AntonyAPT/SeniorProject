@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import { AddStockButton } from '../../components/AddStockButton'
 import { TransactionLedger } from '../components/TransactionLedger'
 import type { TickerGroup } from '../components/TransactionLedger'
+import { PortfolioInsights } from '../components/PortfolioInsights'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -88,9 +89,7 @@ export default async function PortfolioPage({ params }: Props) {
         </header>
         
         <div className="mt-8 grid gap-6">
-          <section className="p-6 bg-surface rounded-lg border border-border-muted">
-            <p className="text-muted-foreground">Chart component placeholder</p>
-          </section>
+          <PortfolioInsights />
           
           <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
           
