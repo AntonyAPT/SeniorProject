@@ -6,6 +6,7 @@ import type { PortfolioWithValue } from './types'
 type PortfolioItem = {
   buy_price: number
   quantity: number
+  transaction_type: string
 }
 
 type PortfolioWithItems = {
@@ -27,7 +28,7 @@ export default async function PortfoliosPageWrapper() {
   // Fetch portfolios with their items for value calculation (JOIN query with portfolio_items table)
   const { data: portfolios, error } = await supabase
     .from('portfolios')
-    .select('id, name, is_default, created_at, portfolio_items(buy_price, quantity)')
+    .select('id, name, is_default, created_at, portfolio_items(buy_price, quantity, transaction_type)')
     .eq('user_id', user.id)
     .order('created_at')
 
@@ -36,12 +37,11 @@ export default async function PortfoliosPageWrapper() {
   if (error) {
     console.error('Error fetching portfolios:', error)
   } else if (portfolios) {
-    // Compute total value for each portfolio
+    // Compute cost basis for each portfolio: buys add, sells subtract
     portfoliosWithValue = (portfolios as PortfolioWithItems[]).map((portfolio) => {
       const totalValue = portfolio.portfolio_items.reduce((sum, item) => {
-        const price = item.buy_price
-        const qty = item.quantity
-        return sum + (price * qty)
+        const cost = item.buy_price * item.quantity
+        return item.transaction_type === 'sell' ? sum - cost : sum + cost
       }, 0)
 
       return {
