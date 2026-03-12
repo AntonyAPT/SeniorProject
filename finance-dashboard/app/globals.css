@@ -11,7 +11,7 @@
   --color-secondary: #06b6d4; /* cyan-500 */
   --color-accent: #0ea5e9; /* sky-500 */
 
-  /* Background Colors - Dark slate theme */
+  /* Background Colors - Dark slate theme (default) */
   --color-background: #020617; /* slate-950 */
   --color-surface: #0f172a; /* slate-900 */
   --color-card: #1e293b; /* slate-800 */
@@ -47,14 +47,41 @@
   --radius-xl: 1rem;
 }
 
+/*
+ * CSS variable overrides for light mode.
+ * These cascade to CSS modules that reference var(--color-*) directly
+ * (e.g. navbar.module.css, transactionLedger.module.css).
+ */
+html.light {
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-card: #f1f5f9;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-muted-foreground: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-muted: #f1f5f9;
+  --color-positive: #059669;
+  --color-negative: #dc2626;
+}
+
 @layer base {
   * {
-    @apply border-slate-700;
+    @apply border-border;
   }
 
+  /* ── Dark mode body (default) ── */
   body {
-    @apply bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50;
+    background: linear-gradient(to bottom right, #020617, #0f172a, #020617);
+    color: #f8fafc;
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  /* ── Light mode body ── */
+  html.light body {
+    background: linear-gradient(to bottom right, #f8fafc, #ffffff, #f8fafc);
+    color: #0f172a;
   }
 
   button {
@@ -68,20 +95,86 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-900;
+    background-color: #0f172a;
+  }
+
+  html.light ::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-700 rounded-lg;
+    background-color: #334155;
+    border-radius: 0.5rem;
+  }
+
+  html.light ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-600;
+    background-color: #475569;
+  }
+
+  html.light ::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
   }
 }
 
 @layer utilities {
-  /* Text gradient utilities */
+  /* ── Page background gradient — used on individual page wrappers ── */
+  .bg-page {
+    background: linear-gradient(to bottom right, #020617, #0f172a, #020617);
+  }
+
+  html.light .bg-page {
+    background: linear-gradient(to bottom right, #f8fafc, #ffffff, #f8fafc);
+  }
+
+  /* ── bg-background (used in layout wrappers and some pages) ── */
+  /* Tailwind v4 may inline the @theme value, so we restate it explicitly. */
+  .bg-background {
+    background-color: #020617;
+  }
+
+  html.light .bg-background {
+    background-color: #f8fafc;
+  }
+
+  /* ── text-foreground ── */
+  .text-foreground {
+    color: #f8fafc;
+  }
+
+  html.light .text-foreground {
+    color: #0f172a;
+  }
+
+  /* ── Glassmorphism cards ── */
+  .glass {
+    background-color: rgba(15, 23, 42, 0.6);   /* slate-900 / 60% */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(51, 65, 85, 0.5);   /* slate-700 / 50% */
+  }
+
+  html.light .glass {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(226, 232, 240, 0.9); /* slate-200 / 90% */
+  }
+
+  .glass-strong {
+    background-color: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+  }
+
+  html.light .glass-strong {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  /* ── Text gradient utilities ── */
   .text-gradient-blue {
     @apply bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
   }
@@ -90,7 +183,7 @@
     @apply bg-linear-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent;
   }
 
-  /* Background gradient utilities */
+  /* ── Background gradient utilities ── */
   .bg-gradient-blue {
     @apply bg-linear-to-br from-blue-500 to-cyan-600;
   }
@@ -99,21 +192,12 @@
     @apply bg-linear-to-br from-blue-600 to-blue-500;
   }
 
-  /* Backdrop blur utilities for glassmorphism */
-  .glass {
-    @apply bg-slate-900/50 backdrop-blur-sm border border-slate-800/50;
-  }
-
-  .glass-strong {
-    @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/50;
-  }
-
-  /* Card hover effects */
+  /* ── Card hover effects ── */
   .card-hover {
-    @apply transition-all duration-300 hover:border-slate-700/50 hover:shadow-lg hover:shadow-blue-500/10;
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10;
   }
 
-  /* Financial status text colors */
+  /* ── Financial status text colors ── */
   .text-positive {
     color: var(--color-positive);
   }
@@ -126,7 +210,7 @@
     color: var(--color-neutral);
   }
 
-  /* Financial status background colors */
+  /* ── Financial status background colors ── */
   .bg-positive {
     background-color: var(--color-positive);
   }

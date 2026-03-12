@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { useNavigation, NavigationTarget } from '../../hooks'
+import { useTheme } from '@/app/contexts/ThemeContext'
 import styles from './navbar.module.css'
 
 type UserMenuProps = {
@@ -16,16 +17,16 @@ type MenuItem = {
   label: string
 }
 
-const menuItems: MenuItem[] = [
+const staticMenuItems: MenuItem[] = [
   { id: 'portfolios', label: 'View Portfolios' },
   { id: 'settings', label: 'Profile Settings' },
-  { id: 'theme', label: 'Toggle Dark Mode' },
 ]
 
 export function UserMenu({ avatarUrl, username }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const { navigate } = useNavigation()
+  const { theme, toggleTheme } = useTheme()
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -38,8 +39,17 @@ export function UserMenu({ avatarUrl, username }: UserMenuProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const menuItems: MenuItem[] = [
+    ...staticMenuItems,
+    { id: 'theme', label: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode' },
+  ]
+
   const handleMenuClick = (id: NavigationTarget) => {
-    navigate(id)
+    if (id === 'theme') {
+      toggleTheme()
+    } else {
+      navigate(id)
+    }
     setIsOpen(false)
   }
 
