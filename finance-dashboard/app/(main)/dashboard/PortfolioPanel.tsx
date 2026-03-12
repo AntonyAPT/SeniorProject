@@ -59,13 +59,15 @@ function buildGrowthData(items: PortfolioItem[]) {
 
 export function PortfolioPanel({
   portfolioItems,
+  quoteMap: externalQuoteMap,
 }: {
   portfolioItems: PortfolioItem[];
+  quoteMap?: Record<string, number>;
 }) {
   const [activeTab, setActiveTab] = useState<"composition" | "overview">(
     "composition"
   );
-  const [quotes, setQuotes] = useState<Record<string, number>>({});
+  const [internalQuotes, setInternalQuotes] = useState<Record<string, number>>({});
 
   // Compute current holdings (net shares > 0)
   const holdingsMap: Record<string, number> = {};
@@ -79,6 +81,7 @@ export function PortfolioPanel({
     .map(([ticker, shares]) => ({ ticker, shares }));
 
   useEffect(() => {
+    if (externalQuoteMap) return; // parent already fetched quotes
     if (holdings.length === 0) return;
     const tickers = holdings.map((h) => h.ticker).join(",");
     fetch(`/api/stockquote?symbols=${tickers}`)
@@ -88,11 +91,13 @@ export function PortfolioPanel({
         data.forEach((q) => {
           map[q.symbol] = q.currentPrice;
         });
-        setQuotes(map);
+        setInternalQuotes(map);
       })
       .catch(console.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolioItems]);
+  }, [portfolioItems, externalQuoteMap]);
+
+  const quotes = externalQuoteMap ?? internalQuotes;
 
   // Pie data: current price * shares, fallback to avg buy price
   const pieData = holdings
@@ -190,8 +195,8 @@ function CompositionTab({
               border: "1px solid rgba(51, 65, 85, 0.9)",
               borderRadius: "12px",
             }}
-            formatter={(value: number) => [
-              `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+            formatter={(value: number | undefined) => [
+              `$${(value ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
               "Value",
             ]}
             labelStyle={{ color: "#e2e8f0" }}
@@ -284,8 +289,8 @@ function OverviewTab({
               border: "1px solid rgba(51, 65, 85, 0.9)",
               borderRadius: "12px",
             }}
-            formatter={(value: number) => [
-              `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+            formatter={(value: number | undefined) => [
+              `$${(value ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
               "Portfolio Value",
             ]}
             labelStyle={{ color: "#e2e8f0" }}
