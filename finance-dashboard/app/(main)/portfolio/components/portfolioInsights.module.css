@@ -66,6 +66,7 @@
 /* ----- Panel ----- */
 
 .panel {
+  position: relative;
   padding: 2rem 1.5rem;
   flex: 1;
   display: flex;
