@@ -11,11 +11,15 @@ import {
 import { useRouter } from "next/navigation";
 import type { DashboardWatchlistItem } from "./page";
 import type { StockQuote } from "@/app/api/stockquote/route";
+import { PortfolioPanel } from "./PortfolioPanel";
+import type { PortfolioItem } from "./PortfolioPanel";
 
 export default function DashboardPage({
   watchlistItems,
+  portfolioItems,
 }: {
   watchlistItems: DashboardWatchlistItem[];
+  portfolioItems: PortfolioItem[];
 }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -98,33 +102,8 @@ export default function DashboardPage({
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Chart Section */}
-            <div className="lg:col-span-2 glass rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Market Overview</h2>
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 text-sm bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-colors">
-                    1D
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1W
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1M
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1Y
-                  </button>
-                </div>
-              </div>
-
-              {/* Placeholder for Chart */}
-              <div className="h-80 bg-slate-800/30 rounded-xl flex items-center justify-center border border-slate-700/30">
-                <p className="text-slate-500">
-                  Chart Component (integrate with Chart.js or Recharts)
-                </p>
-              </div>
-            </div>
+            {/* Portfolio Panel */}
+            <PortfolioPanel portfolioItems={portfolioItems} />
 
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
