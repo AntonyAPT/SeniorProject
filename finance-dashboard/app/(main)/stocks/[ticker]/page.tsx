@@ -19,7 +19,7 @@ export default async function StockPage({ params }: StockPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-page text-foreground">
       <div className="max-w-[1600px] mx-auto px-6 py-8 space-y-6">
         <StockDetailWidgets symbol={symbol} topLeftSlot={<BuyAndWatchlist symbol={symbol} />} />
         <QuarterlyDataPanel symbol={symbol} rows={quarterlyRows} />

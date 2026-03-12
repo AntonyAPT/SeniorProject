@@ -76,7 +76,7 @@ export default async function PortfolioPage({ params }: Props) {
   )
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-8">
+    <div className="min-h-screen bg-page text-foreground p-8">
       <div className="max-w-6xl mx-auto">
         <header className="mb-6">
           <p className="text-xs uppercase tracking-widest text-muted font-semibold mb-1">
