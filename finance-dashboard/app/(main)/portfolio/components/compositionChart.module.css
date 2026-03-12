@@ -10,9 +10,9 @@
 /* ----- Filter Bar ----- */
 
 .filterBar {
-  position: relative;
-  align-self: flex-end;
-  margin-bottom: 0.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
 }
 
 .filterButton {
