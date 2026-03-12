@@ -76,6 +76,16 @@ export default async function PortfolioPage({ params }: Props) {
     (g) => g.totalShares > 0
   )
 
+  const tickers = tickerGroups.map((g) => g.ticker)
+  const { data: stockRows } = tickers.length > 0
+    ? await supabase.from('stocks').select('ticker, industry').in('ticker', tickers)
+    : { data: [] }
+
+  const industryMap: Record<string, string> = {}
+  for (const row of stockRows ?? []) {
+    industryMap[row.ticker] = row.industry ?? 'Other'
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-6xl mx-auto">
@@ -89,7 +99,7 @@ export default async function PortfolioPage({ params }: Props) {
         </header>
         
         <div className="mt-8 grid gap-6">
-          <PortfolioInsights tickerGroups={tickerGroups} />
+          <PortfolioInsights tickerGroups={tickerGroups} industryMap={industryMap} />
           
           <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
           
