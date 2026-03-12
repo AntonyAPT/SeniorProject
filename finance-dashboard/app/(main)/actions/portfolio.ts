@@ -397,6 +397,239 @@ export async function sellStockFromPortfolio(
   }
 }
 
+// ===== Performance History =====
+
+export type PerformanceRange = '1W' | '1M' | '3M' | '6M' | '1Y'
+
+export type PerformancePoint = {
+  date: string
+  value: number
+}
+
+const RANGE_DAYS: Record<PerformanceRange, number> = {
+  '1W': 7,
+  '1M': 30,
+  '3M': 90,
+  '6M': 180,
+  '1Y': 365,
+}
+
+/**
+ * Fetches daily closing prices from Yahoo Finance for a single ticker.
+ *
+ * Used instead of Finnhub's candle endpoint because Yahoo Finance is free,
+ * requires no API key, and reliably returns US stock data without tier restrictions.
+ * Returns an empty array on any error so callers can proceed with partial data.
+ */
+async function fetchYahooCandle(
+  ticker: string,
+  fromUnix: number,
+  toUnix: number
+): Promise<{ t: number; c: number }[]> {
+  const url = `https://query2.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&period1=${fromUnix}&period2=${toUnix}`
+  try {
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+    })
+    if (!res.ok) return []
+    const json = await res.json()
+    const result = json?.chart?.result?.[0]
+    if (!result?.timestamp?.length) return []
+    const closes: (number | null)[] = result.indicators.quote[0].close ?? []
+    return (result.timestamp as number[])
+      .map((t: number, i: number) => ({ t, c: closes[i] ?? null }))
+      .filter((p): p is { t: number; c: number } => p.c !== null && p.c > 0)
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Computes the historical daily value of a portfolio for a given time range.
+ *
+ * Reconstructs share counts per ticker for every trading day by replaying
+ * all transactions in chronological order. Historical closing prices come
+ * from Yahoo Finance (free, no API key). Today's value, if not yet a closed
+ * candle, is appended using Finnhub's live /quote endpoint so portfolios
+ * bought the same day show up immediately.
+ *
+ * No cash balance is included — value is purely equity (shares × price).
+ *
+ * @param portfolioId - The portfolio to compute performance for.
+ * @param range - Time window: '1W' | '1M' | '3M' | '6M' | '1Y'.
+ * @returns Ordered array of { date (YYYY-MM-DD), value (USD) } points.
+ */
+export async function getPortfolioPerformance(
+  portfolioId: string,
+  range: PerformanceRange
+): Promise<ActionResponse<PerformancePoint[]>> {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { data: null, error: 'You must be logged in to view performance' }
+    }
+
+    const { data: portfolio, error: portfolioError } = await supabase
+      .from('portfolios')
+      .select('id')
+      .eq('id', portfolioId)
+      .eq('user_id', user.id)
+      .single()
+
+    if (portfolioError || !portfolio) {
+      return { data: null, error: 'Portfolio not found or access denied' }
+    }
+
+    const { data: items, error: itemsError } = await supabase
+      .from('portfolio_items')
+      .select('stock_ticker, quantity, buy_date, transaction_type')
+      .eq('portfolio_id', portfolioId)
+      .order('buy_date', { ascending: true })
+
+    if (itemsError) {
+      return { data: null, error: 'Failed to load transactions' }
+    }
+
+    if (!items || items.length === 0) {
+      return { data: [], error: null }
+    }
+
+    const apiKey = process.env.FINNHUB_API_KEY
+    if (!apiKey) {
+      return { data: null, error: 'Stock price service not configured' }
+    }
+
+    const now = new Date()
+    const toUnix = Math.floor(now.getTime() / 1000)
+    const fromUnix = Math.floor((now.getTime() - RANGE_DAYS[range] * 24 * 60 * 60 * 1000) / 1000)
+
+    const uniqueTickers = [...new Set(items.map((i) => i.stock_ticker))]
+
+    // ===== Historical Prices (Yahoo Finance) =====
+
+    const candleResults = await Promise.all(
+      uniqueTickers.map(async (ticker) => ({
+        ticker,
+        candles: await fetchYahooCandle(ticker, fromUnix, toUnix),
+      }))
+    )
+
+    // Build price map: ticker → { midnight-UTC-ms → closePrice }
+    const priceMap = new Map<string, Map<number, number>>()
+    for (const { ticker, candles } of candleResults) {
+      if (candles.length === 0) continue
+      const dayMap = new Map<number, number>()
+      for (const { t, c } of candles) {
+        const d = new Date(t * 1000)
+        const midnight = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())
+        dayMap.set(midnight, c)
+      }
+      priceMap.set(ticker, dayMap)
+    }
+
+    const tradingDaySet = new Set<number>()
+    for (const dayMap of priceMap.values()) {
+      for (const ts of dayMap.keys()) tradingDaySet.add(ts)
+    }
+    const tradingDays = Array.from(tradingDaySet).sort((a, b) => a - b)
+
+    // Normalize transactions to midnight UTC for date-aligned comparison
+    const transactions = items.map((item) => {
+      const d = new Date(item.buy_date)
+      return {
+        ticker: item.stock_ticker,
+        quantity: item.quantity,
+        type: item.transaction_type as 'buy' | 'sell',
+        ts: Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()),
+      }
+    })
+
+    // ===== Replay Holdings Day by Day =====
+
+    const holdings = new Map<string, number>()
+    let txIndex = 0
+    const points: PerformancePoint[] = []
+
+    for (const dayTs of tradingDays) {
+      while (txIndex < transactions.length && transactions[txIndex].ts <= dayTs) {
+        const tx = transactions[txIndex]
+        const current = holdings.get(tx.ticker) ?? 0
+        holdings.set(tx.ticker, tx.type === 'sell' ? current - tx.quantity : current + tx.quantity)
+        txIndex++
+      }
+
+      let dayValue = 0
+      for (const [ticker, shares] of holdings) {
+        if (shares <= 0) continue
+        const price = priceMap.get(ticker)?.get(dayTs)
+        if (price !== undefined) dayValue += shares * price
+      }
+
+      if (dayValue === 0) continue
+      points.push({ date: new Date(dayTs).toISOString().slice(0, 10), value: dayValue })
+    }
+
+    // ===== Today's Live Value (Finnhub /quote) =====
+    //
+    // Yahoo Finance only returns closed-day candles, so the current day is absent
+    // while the market is open. We fetch live quotes and append "today" so portfolios
+    // show a meaningful value regardless of whether the market has closed yet.
+
+    const todayDateStr = now.toISOString().slice(0, 10)
+    const lastPointDate = points.at(-1)?.date ?? null
+
+    // Apply any transactions that occurred after the last candle day (e.g. today's buys)
+    while (txIndex < transactions.length) {
+      const tx = transactions[txIndex]
+      const current = holdings.get(tx.ticker) ?? 0
+      holdings.set(tx.ticker, tx.type === 'sell' ? current - tx.quantity : current + tx.quantity)
+      txIndex++
+    }
+
+    const currentTickers = [...holdings.entries()]
+      .filter(([, shares]) => shares > 0)
+      .map(([ticker]) => ticker)
+
+    // Only fetch live quotes when today isn't already covered by a closed candle
+    if (currentTickers.length > 0 && lastPointDate !== todayDateStr) {
+      const quoteResults = await Promise.all(
+        currentTickers.map(async (ticker) => {
+          try {
+            const res = await fetch(
+              `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+              { cache: 'no-store' }
+            )
+            if (!res.ok) return { ticker, price: 0 }
+            const data = await res.json()
+            return { ticker, price: (data.c ?? 0) as number }
+          } catch {
+            return { ticker, price: 0 }
+          }
+        })
+      )
+
+      let todayValue = 0
+      for (const { ticker, price } of quoteResults) {
+        if (price <= 0) continue
+        const shares = holdings.get(ticker) ?? 0
+        if (shares > 0) todayValue += shares * price
+      }
+
+      if (todayValue > 0) {
+        points.push({ date: todayDateStr, value: todayValue })
+      }
+    }
+
+    return { data: points, error: null }
+  } catch (err) {
+    console.error('Unexpected error computing portfolio performance:', err)
+    return { data: null, error: 'An unexpected error occurred. Please try again.' }
+  }
+}
+
 /**
  * Renames a portfolio by ID
  */
