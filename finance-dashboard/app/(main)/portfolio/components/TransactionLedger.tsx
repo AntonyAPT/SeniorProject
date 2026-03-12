@@ -104,10 +104,13 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
 
           return (
             <div key={group.ticker} className={styles.tickerBlock}>
-              {/* Primary row — clicking the row toggles expand; Buy/Sell buttons stop propagation */}
-              <button
-                type="button"
+              {/* Primary row — div instead of button to avoid nested-button HTML invalidity.
+                  role="button" + tabIndex + onKeyDown preserves full keyboard accessibility. */}
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => toggleTicker(group.ticker)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleTicker(group.ticker) }}
                 className={styles.primaryRow}
                 aria-expanded={isExpanded}
               >
@@ -146,7 +149,7 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                     size={16}
                   />
                 </span>
-              </button>
+              </div>
 
               {/* Sub-rows */}
               <div
