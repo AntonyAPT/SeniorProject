@@ -5,6 +5,7 @@ import type {
   CompanyProfileProps,
   FundamentalDataProps,
   MarketOverviewProps,
+  MiniChartProps,
   StockHeatmapProps,
   StockMarketProps,
   SymbolInfoProps,
@@ -56,6 +57,11 @@ const CompanyProfileWidget = dynamic(
 
 const SymbolOverviewWidget = dynamic(
   () => import("react-ts-tradingview-widgets").then((m) => m.SymbolOverview),
+  { ssr: false }
+);
+
+const MiniChartWidget = dynamic(
+  () => import("react-ts-tradingview-widgets").then((m) => m.MiniChart),
   { ssr: false }
 );
 
@@ -122,6 +128,13 @@ type TradingViewWidgetProps =
       className?: string;
       innerClassName?: string;
       fallback?: ReactNode;
+    }
+  | {
+      widget: "miniChart";
+      config: MiniChartProps;
+      className?: string;
+      innerClassName?: string;
+      fallback?: ReactNode;
     };
 
 /**
@@ -149,6 +162,7 @@ export function TradingViewWidget({
         {widget === "fundamentalData" && <FundamentalDataWidget {...config} />}
         {widget === "companyProfile" && <CompanyProfileWidget {...config} />}
         {widget === "symbolOverview" && <SymbolOverviewWidget {...config} />}
+        {widget === "miniChart" && <MiniChartWidget {...config} />}
       </div>
 
       {fallback}
