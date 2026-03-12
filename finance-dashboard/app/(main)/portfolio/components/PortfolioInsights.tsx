@@ -15,6 +15,7 @@ const TABS: { id: TabId; label: string }[] = [
 
 type Props = {
   tickerGroups: TickerGroup[]
+  industryMap: Record<string, string>
 }
 
 /**
@@ -24,8 +25,9 @@ type Props = {
  * The Composition tab renders a donut chart of holdings by invested value.
  *
  * @param tickerGroups - Active holdings passed down from the portfolio server component.
+ * @param industryMap - Maps each ticker to its industry, fetched from the stocks table.
  */
-export function PortfolioInsights({ tickerGroups }: Props) {
+export function PortfolioInsights({ tickerGroups, industryMap }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('performance')
 
   return (
@@ -56,7 +58,7 @@ export function PortfolioInsights({ tickerGroups }: Props) {
           className={styles.panel}
         >
           {id === 'composition'
-            ? <CompositionChart tickerGroups={tickerGroups} />
+            ? <CompositionChart tickerGroups={tickerGroups} industryMap={industryMap} />
             : <p className={styles.placeholder}>{label} coming soon</p>
           }
         </div>
