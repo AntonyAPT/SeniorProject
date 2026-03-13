@@ -104,7 +104,8 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
 
           return (
             <div key={group.ticker} className={styles.tickerBlock}>
-              {/* Primary row — clicking the row toggles expand; Buy/Sell buttons stop propagation */}
+              {/* Primary row — div instead of button to avoid nested-button HTML invalidity.
+                  role="button" + tabIndex + onKeyDown preserves full keyboard accessibility. */}
               <div
                 role="button"
                 tabIndex={0}

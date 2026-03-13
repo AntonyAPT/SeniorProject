@@ -68,19 +68,26 @@
   border-bottom: none;
 }
 
-/* Primary (summary) row */
+/* Primary (summary) row — rendered as a div (not button) to allow nested buttons.
+   User-select none prevents text highlight on click. */
 .primaryRow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 4.5rem 2rem;
   width: 100%;
   padding: 0.875rem 1rem;
   background: transparent;
-  border: none;
   cursor: pointer;
   text-align: left;
   color: var(--color-foreground);
   font-size: 0.875rem;
   transition: background 0.15s ease;
+  user-select: none;
+  outline: none;
+}
+
+.primaryRow:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline-offset: -2px;
 }
 
 .primaryRow:hover {

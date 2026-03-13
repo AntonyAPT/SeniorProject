@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import { AddStockButton } from '../../components/AddStockButton'
 import { TransactionLedger } from '../components/TransactionLedger'
 import type { TickerGroup } from '../components/TransactionLedger'
+import { PortfolioInsights } from '../components/PortfolioInsights'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -75,6 +76,16 @@ export default async function PortfolioPage({ params }: Props) {
     (g) => g.totalShares > 0
   )
 
+  const tickers = tickerGroups.map((g) => g.ticker)
+  const { data: stockRows } = tickers.length > 0
+    ? await supabase.from('stocks').select('ticker, industry').in('ticker', tickers)
+    : { data: [] }
+
+  const industryMap: Record<string, string> = {}
+  for (const row of stockRows ?? []) {
+    industryMap[row.ticker] = row.industry ?? 'Other'
+  }
+
   return (
     <div className="min-h-screen bg-page text-foreground p-8">
       <div className="max-w-6xl mx-auto">
@@ -88,9 +99,7 @@ export default async function PortfolioPage({ params }: Props) {
         </header>
         
         <div className="mt-8 grid gap-6">
-          <section className="p-6 bg-surface rounded-lg border border-border-muted">
-            <p className="text-muted-foreground">Chart component placeholder</p>
-          </section>
+          <PortfolioInsights portfolioId={portfolio.id} tickerGroups={tickerGroups} industryMap={industryMap} />
           
           <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
           
