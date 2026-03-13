@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import styles from './transactionLedger.module.css'
 import { QuickTradeModal } from './QuickTradeModal'
+import { PortfolioTransactionLedger } from './PortfolioTransactionLedger'
+import type { PortfolioTransaction } from './PortfolioTransactionLedger'
 
 export type TickerGroup = {
   ticker: string
@@ -31,6 +33,7 @@ export type TickerGroup = {
 type Props = {
   tickerGroups: TickerGroup[]
   portfolioId: string
+  transactions: PortfolioTransaction[]
 }
 
 type ActiveModal = {
@@ -63,10 +66,11 @@ function formatGainLossLabel(value: number, pct: number): string {
   return `${formatSignedCurrency(value)} (${pct > 0 ? '+' : ''}${pct.toFixed(2)}%)`
 }
 
-export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
+export function TransactionLedger({ tickerGroups, portfolioId, transactions }: Props) {
   // O(1) lookup, add, delete operations
   const [expandedTickers, setExpandedTickers] = useState<Set<string>>(new Set())
   const [activeModal, setActiveModal] = useState<ActiveModal | null>(null)
+  const [view, setView] = useState<'holdings' | 'transactions'>('holdings')
   const router = useRouter()
 
   const toggleTicker = (ticker: string) => {
@@ -82,33 +86,40 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
   }
 
   const openModal = (ticker: string, mode: 'buy' | 'sell', maxShares: number, e: React.MouseEvent) => {
-    // Prevent the row click (expand/collapse) from firing
     e.stopPropagation()
     setActiveModal({ ticker, mode, maxShares })
   }
 
   const handleModalComplete = () => {
     setActiveModal(null)
-    // Re-fetch the server component so the updated holdings reflect immediately
     router.refresh()
   }
 
-  if (tickerGroups.length === 0) {
-    return (
-      <section className={styles.container}>
-        <h2 className={styles.sectionTitle}>Holdings</h2>
-        <p className={styles.emptyState}>
-          No holdings yet. Add stocks from the stock detail page.
-        </p>
-      </section>
-    )
-  }
+  const isTransactionsView = view === 'transactions'
+  const sectionTitle = isTransactionsView ? 'Transactions' : 'Holdings'
+  const toggleLabel = isTransactionsView ? 'Holdings' : 'Transactions'
 
   return (
     <section className={styles.container}>
-      <h2 className={styles.sectionTitle}>Holdings</h2>
+      <div className={styles.titleRow}>
+        <h2 className={styles.sectionTitle}>{sectionTitle}</h2>
+        <button
+          type="button"
+          className={`${styles.transactionsButton} ${isTransactionsView ? styles.transactionsButtonActive : ''}`}
+          onClick={() => setView((current) => (current === 'holdings' ? 'transactions' : 'holdings'))}
+        >
+          {toggleLabel}
+        </button>
+      </div>
 
-      <div className={styles.tableWrapper}>
+      {isTransactionsView ? (
+        <PortfolioTransactionLedger transactions={transactions} embedded />
+      ) : tickerGroups.length === 0 ? (
+        <p className={styles.emptyState}>
+          No holdings yet. Add stocks from the stock detail page.
+        </p>
+      ) : (
+        <div className={styles.tableWrapper}>
         {/* Header row */}
         <div className={styles.headerRow}>
           <span className={styles.colTicker}>Ticker</span>
@@ -124,6 +135,9 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
         {tickerGroups.map((group) => {
           const isExpanded = expandedTickers.has(group.ticker)
           const avgPrice = group.totalShares > 0 ? group.totalInvested / group.totalShares : 0
+          const openTransactions = group.transactions.filter(
+            (tx) => tx.action === 'buy' && tx.remainingQuantity > 0
+          )
           const gainLossClass =
             group.unrealizedGain === null
               ? styles.gainUnknown
@@ -181,7 +195,6 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                     </button>
                   </span>
                 </span>
-
                 <span className={styles.colCaret}>
                   <ChevronDown
                     className={`${styles.caretIcon} ${isExpanded ? styles.caretOpen : ''}`}
@@ -197,7 +210,6 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                 <div className={styles.subRowsInner}>
                   {/* Sub-header */}
                   <div className={styles.subHeader}>
-                    <span className={styles.subColAction}>Action</span>
                     <span className={styles.subColQty}>Shares</span>
                     <span className={styles.subColPrice}>Unit Price</span>
                     <span className={styles.subColCost}>Total Cost</span>
@@ -205,8 +217,7 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                     <span className={styles.subColDate}>Date</span>
                   </div>
 
-                  {group.transactions.map((tx) => {
-                    const actionStyle = tx.action === 'buy' ? styles.actionBuy : styles.actionSell
+                  {openTransactions.map((tx) => {
                     const subRowGainClass =
                       tx.unrealizedGain === null
                         ? styles.gainUnknown
@@ -216,23 +227,17 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                             ? styles.gainNegative
                             : ''
                     const gainLossText =
-                      tx.action === 'sell'
+                      tx.unrealizedGain === null || tx.unrealizedGainPct === null
                         ? 'N/A'
-                        : tx.remainingQuantity === 0
-                          ? 'Closed'
-                          : tx.unrealizedGain === null || tx.unrealizedGainPct === null
-                            ? 'N/A'
-                            : `${formatGainLossLabel(tx.unrealizedGain, tx.unrealizedGainPct)}${tx.remainingQuantity < tx.quantity ? `, ${tx.remainingQuantity} open` : ''}`
+                        : formatGainLossLabel(tx.unrealizedGain, tx.unrealizedGainPct)
+                    const openLotCost = tx.remainingQuantity * tx.buyPrice
 
                     return (
                       <div key={tx.id} className={styles.subRow}>
-                        <span className={`${styles.subColAction} ${actionStyle}`}>
-                          {tx.action.toUpperCase()}
-                        </span>
-                        <span className={styles.subColQty}>{tx.quantity.toLocaleString()}</span>
+                        <span className={styles.subColQty}>{tx.remainingQuantity.toLocaleString()}</span>
                         <span className={styles.subColPrice}>{formatCurrency(tx.buyPrice)}</span>
-                        <span className={`${styles.subColCost} ${actionStyle}`}>
-                          {formatCurrency(tx.totalCost)}
+                        <span className={styles.subColCost}>
+                          {formatCurrency(openLotCost)}
                         </span>
                         <span className={`${styles.subColGain} ${subRowGainClass}`}>
                           {gainLossText}
@@ -247,6 +252,7 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
           )
         })}
       </div>
+      )}
 
       {activeModal && (
         <QuickTradeModal

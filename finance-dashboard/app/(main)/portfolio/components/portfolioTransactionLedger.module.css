@@ -1,0 +1,118 @@
+.container {
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.6) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-lg);
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin-bottom: 1.25rem;
+}
+
+.emptyState {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.embedded {
+  width: 100%;
+}
+
+.headerRow,
+.row {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 0.8fr 1fr 1fr 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.headerRow {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--color-border-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.row {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--color-border-muted);
+  font-size: 0.875rem;
+  color: var(--color-foreground);
+  transition: background 0.15s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: rgba(51, 65, 85, 0.35);
+}
+
+.colTicker {
+  text-align: left;
+  font-weight: 700;
+}
+
+.colAction {
+  text-align: left;
+  font-weight: 600;
+}
+
+.colNum,
+.colDate {
+  text-align: right;
+}
+
+.actionBuy {
+  color: var(--color-positive);
+}
+
+.actionSell {
+  color: var(--color-negative);
+}
+
+:global(html.light) .container {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(241, 245, 249, 0.95) 100%
+  );
+}
+
+:global(html.light) .row:hover {
+  background: rgba(226, 232, 240, 0.6);
+}
+
+@media (max-width: 640px) {
+  .headerRow,
+  .row {
+    grid-template-columns: 1fr 0.8fr 0.9fr 1fr 1fr;
+  }
+
+  .headerRow .colNum:nth-child(4),
+  .row .colNum:nth-child(4) {
+    display: none;
+  }
+
+  .colDate {
+    text-align: right;
+  }
+}

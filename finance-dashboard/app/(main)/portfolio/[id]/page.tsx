@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { AddStockButton } from '../../components/AddStockButton'
 import { TransactionLedger } from '../components/TransactionLedger'
+import type { PortfolioTransaction } from '../components/PortfolioTransactionLedger'
 import type { TickerGroup } from '../components/TransactionLedger'
 import { PortfolioInsights } from '../components/PortfolioInsights'
 
@@ -74,6 +75,18 @@ export default async function PortfolioPage({ params }: Props) {
     .select('id, stock_ticker, quantity, buy_price, buy_date, transaction_type')
     .eq('portfolio_id', id)
     .order('buy_date', { ascending: true })
+
+  const transactionEntries: PortfolioTransaction[] = [...(items ?? [])]
+    .sort((a, b) => new Date(b.buy_date).getTime() - new Date(a.buy_date).getTime())
+    .map((item) => ({
+      id: item.id,
+      ticker: item.stock_ticker,
+      action: item.transaction_type as 'buy' | 'sell',
+      quantity: item.quantity,
+      unitPrice: item.buy_price,
+      totalAmount: item.quantity * item.buy_price,
+      date: item.buy_date,
+    }))
 
   // Group items by ticker while preserving the remaining cost basis after sells.
   const groupMap = new Map<string, TickerGroup>()
@@ -227,8 +240,12 @@ export default async function PortfolioPage({ params }: Props) {
         <div className="mt-8 grid gap-6">
           <PortfolioInsights portfolioId={portfolio.id} tickerGroups={tickerGroups} industryMap={industryMap} />
           
-          <TransactionLedger tickerGroups={tickerGroups} portfolioId={portfolio.id} />
-          
+          <TransactionLedger
+            tickerGroups={tickerGroups}
+            portfolioId={portfolio.id}
+            transactions={transactionEntries}
+          />
+
           <AddStockButton />
         </div>
       </div>
