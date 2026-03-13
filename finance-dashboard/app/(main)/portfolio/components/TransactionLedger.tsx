@@ -10,12 +10,20 @@ export type TickerGroup = {
   ticker: string
   totalShares: number
   totalInvested: number
+  currentPrice: number | null
+  currentValue: number | null
+  unrealizedGain: number | null
+  unrealizedGainPct: number | null
   transactions: {
     id: string
     action: 'buy' | 'sell'
     quantity: number
+    remainingQuantity: number
     buyPrice: number
     totalCost: number
+    currentValue: number | null
+    unrealizedGain: number | null
+    unrealizedGainPct: number | null
     buyDate: string
   }[]
 }
@@ -36,10 +44,23 @@ function formatCurrency(value: number): string {
   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
+function formatSignedCurrency(value: number): string {
+  if (value === 0) {
+    return formatCurrency(0)
+  }
+
+  const sign = value > 0 ? '+' : '-'
+  return `${sign}${formatCurrency(Math.abs(value))}`
+}
+
 // pure utility function (pure = input to output without side effects or component state dependencies)
 function formatDate(isoString: string): string {
   const date = new Date(isoString)
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+function formatGainLossLabel(value: number, pct: number): string {
+  return `${formatSignedCurrency(value)} (${pct > 0 ? '+' : ''}${pct.toFixed(2)}%)`
 }
 
 export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
@@ -94,6 +115,8 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
           <span className={styles.colNum}>Total Shares</span>
           <span className={styles.colNum}>Avg Price</span>
           <span className={styles.colNum}>Total Invested</span>
+          <span className={styles.colNum}>Current Value</span>
+          <span className={styles.colNum}>Gain/Loss</span>
           <span className={styles.colActions} />
           <span className={styles.colCaret} />
         </div>
@@ -101,6 +124,14 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
         {tickerGroups.map((group) => {
           const isExpanded = expandedTickers.has(group.ticker)
           const avgPrice = group.totalShares > 0 ? group.totalInvested / group.totalShares : 0
+          const gainLossClass =
+            group.unrealizedGain === null
+              ? styles.gainUnknown
+              : group.unrealizedGain > 0
+                ? styles.gainPositive
+                : group.unrealizedGain < 0
+                  ? styles.gainNegative
+                  : ''
 
           return (
             <div key={group.ticker} className={styles.tickerBlock}>
@@ -120,6 +151,14 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                 <span className={styles.colNum}>{group.totalShares.toLocaleString()}</span>
                 <span className={styles.colNum}>{formatCurrency(avgPrice)}</span>
                 <span className={styles.colNum}>{formatCurrency(group.totalInvested)}</span>
+                <span className={styles.colNum}>
+                  {group.currentValue === null ? 'N/A' : formatCurrency(group.currentValue)}
+                </span>
+                <span className={`${styles.colNum} ${gainLossClass}`}>
+                  {group.unrealizedGain === null || group.unrealizedGainPct === null
+                    ? 'N/A'
+                    : `${formatSignedCurrency(group.unrealizedGain)} (${group.unrealizedGainPct > 0 ? '+' : ''}${group.unrealizedGainPct.toFixed(2)}%)`}
+                </span>
 
                 {/* Quick-action buttons — visible only on row hover via CSS */}
                 <span className={styles.colActions}>
@@ -162,11 +201,29 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                     <span className={styles.subColQty}>Shares</span>
                     <span className={styles.subColPrice}>Unit Price</span>
                     <span className={styles.subColCost}>Total Cost</span>
+                    <span className={styles.subColGain}>Gain/Loss</span>
                     <span className={styles.subColDate}>Date</span>
                   </div>
 
                   {group.transactions.map((tx) => {
                     const actionStyle = tx.action === 'buy' ? styles.actionBuy : styles.actionSell
+                    const subRowGainClass =
+                      tx.unrealizedGain === null
+                        ? styles.gainUnknown
+                        : tx.unrealizedGain > 0
+                          ? styles.gainPositive
+                          : tx.unrealizedGain < 0
+                            ? styles.gainNegative
+                            : ''
+                    const gainLossText =
+                      tx.action === 'sell'
+                        ? 'N/A'
+                        : tx.remainingQuantity === 0
+                          ? 'Closed'
+                          : tx.unrealizedGain === null || tx.unrealizedGainPct === null
+                            ? 'N/A'
+                            : `${formatGainLossLabel(tx.unrealizedGain, tx.unrealizedGainPct)}${tx.remainingQuantity < tx.quantity ? `, ${tx.remainingQuantity} open` : ''}`
+
                     return (
                       <div key={tx.id} className={styles.subRow}>
                         <span className={`${styles.subColAction} ${actionStyle}`}>
@@ -176,6 +233,9 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                         <span className={styles.subColPrice}>{formatCurrency(tx.buyPrice)}</span>
                         <span className={`${styles.subColCost} ${actionStyle}`}>
                           {formatCurrency(tx.totalCost)}
+                        </span>
+                        <span className={`${styles.subColGain} ${subRowGainClass}`}>
+                          {gainLossText}
                         </span>
                         <span className={styles.subColDate}>{formatDate(tx.buyDate)}</span>
                       </div>

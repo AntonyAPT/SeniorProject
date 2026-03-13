@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import type { TooltipProps } from 'recharts'
+import type { TooltipContentProps } from 'recharts'
 import { getPortfolioPerformance } from '@/app/(main)/actions/portfolio'
 import type { PerformanceRange, PerformancePoint } from '@/app/(main)/actions/portfolio'
 import styles from './performanceChart.module.css'
@@ -44,7 +44,7 @@ function formatDate(dateStr: string, range: PerformanceRange): string {
  * Custom tooltip rendered inside Recharts' tooltip slot.
  * Kept as a plain component (not a hook) to satisfy recharts' content prop contract.
  */
-function ChartTooltip({ active, payload }: TooltipProps<number, string>) {
+function ChartTooltip({ active, payload }: TooltipContentProps<number, string>) {
   if (!active || !payload || payload.length === 0) return null
   const point = payload[0].payload as PerformancePoint
   return (
@@ -232,7 +232,7 @@ export function PerformanceChart({ portfolioId }: Props) {
               dx={-4}
             />
             <Tooltip
-              content={<ChartTooltip />}
+              content={ChartTooltip}
               cursor={{ stroke: '#334155', strokeWidth: 1 }}
             />
             <Area

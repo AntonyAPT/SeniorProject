@@ -9,6 +9,41 @@ type Props = {
   params: Promise<{ id: string }>
 }
 
+async function fetchCurrentPrices(tickers: string[]): Promise<Record<string, number>> {
+  const apiKey = process.env.FINNHUB_API_KEY
+
+  if (!apiKey || tickers.length === 0) {
+    return {}
+  }
+
+  const quotes = await Promise.all(
+    tickers.map(async (ticker) => {
+      try {
+        const res = await fetch(
+          `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${apiKey}`,
+          { cache: 'no-store' }
+        )
+
+        if (!res.ok) {
+          return [ticker, 0] as const
+        }
+
+        const data = await res.json()
+        return [ticker, Number(data.c ?? 0)] as const
+      } catch {
+        return [ticker, 0] as const
+      }
+    })
+  )
+
+  return Object.fromEntries(quotes)
+}
+
+type OpenLot = {
+  remainingQuantity: number
+  transactionRef: TickerGroup['transactions'][number]
+}
+
 // When a user visits /portfolio/abc-123, Next.js matches this file and passes { id: "abc-123" } as params.
 export default async function PortfolioPage({ params }: Props) {
   const { id } = await params
@@ -33,53 +68,144 @@ export default async function PortfolioPage({ params }: Props) {
     notFound()
   }
 
-  // Fetch portfolio items ordered by most recent first
+  // Fetch portfolio items oldest first so cost basis can be updated in transaction order.
   const { data: items } = await supabase
     .from('portfolio_items')
     .select('id, stock_ticker, quantity, buy_price, buy_date, transaction_type')
     .eq('portfolio_id', id)
-    .order('buy_date', { ascending: false })
+    .order('buy_date', { ascending: true })
 
-  // Group items by ticker; buys add to totals, sells subtract
+  // Group items by ticker while preserving the remaining cost basis after sells.
   const groupMap = new Map<string, TickerGroup>()
+  const openLotMap = new Map<string, OpenLot[]>()
 
   for (const item of items ?? []) {
-    const existing = groupMap.get(item.stock_ticker)
     const action = item.transaction_type as 'buy' | 'sell'
-    const signedQuantity = action === 'sell' ? -item.quantity : item.quantity
-    const totalCost = item.quantity * item.buy_price
     const tx = {
       id: item.id,
       action,
       quantity: item.quantity,
+      remainingQuantity: action === 'buy' ? item.quantity : 0,
       buyPrice: item.buy_price,
-      totalCost,
+      totalCost: item.quantity * item.buy_price,
+      currentValue: null,
+      unrealizedGain: null,
+      unrealizedGainPct: null,
       buyDate: item.buy_date,
     }
 
-    if (existing) {
-      existing.totalShares += signedQuantity
-      existing.totalInvested += action === 'sell' ? -totalCost : totalCost
-      existing.transactions.push(tx)
-    } else {
+    if (!groupMap.has(item.stock_ticker)) {
       groupMap.set(item.stock_ticker, {
         ticker: item.stock_ticker,
-        totalShares: signedQuantity,
-        totalInvested: action === 'sell' ? -totalCost : totalCost,
-        transactions: [tx],
+        totalShares: 0,
+        totalInvested: 0,
+        currentPrice: null,
+        currentValue: null,
+        unrealizedGain: null,
+        unrealizedGainPct: null,
+        transactions: [],
       })
+
+      openLotMap.set(item.stock_ticker, [])
     }
+
+    const group = groupMap.get(item.stock_ticker)!
+    const openLots = openLotMap.get(item.stock_ticker)!
+
+    if (action === 'buy') {
+      group.totalShares += item.quantity
+      group.totalInvested += tx.totalCost
+      openLots.push({
+        remainingQuantity: item.quantity,
+        transactionRef: tx,
+      })
+    } else {
+      let sharesToSell = item.quantity
+
+      while (sharesToSell > 0 && openLots.length > 0) {
+        const lot = openLots[0]
+        const matchedShares = Math.min(sharesToSell, lot.remainingQuantity)
+
+        lot.remainingQuantity -= matchedShares
+        lot.transactionRef.remainingQuantity -= matchedShares
+        group.totalShares -= matchedShares
+        group.totalInvested -= matchedShares * lot.transactionRef.buyPrice
+        sharesToSell -= matchedShares
+
+        if (lot.remainingQuantity === 0) {
+          openLots.shift()
+        }
+      }
+
+      group.totalShares = Math.max(0, group.totalShares)
+      group.totalInvested = Math.max(0, group.totalInvested)
+    }
+
+    group.transactions.push(tx)
   }
 
   // Exclude tickers where all shares have been sold so they don't appear in Holdings
-  const tickerGroups: TickerGroup[] = Array.from(groupMap.values()).filter(
+  const activeGroups = Array.from(groupMap.values()).filter(
     (g) => g.totalShares > 0
   )
 
-  const tickers = tickerGroups.map((g) => g.ticker)
-  const { data: stockRows } = tickers.length > 0
-    ? await supabase.from('stocks').select('ticker, industry').in('ticker', tickers)
-    : { data: [] }
+  for (const group of activeGroups) {
+    group.transactions.sort((a, b) => new Date(b.buyDate).getTime() - new Date(a.buyDate).getTime())
+  }
+
+  const tickers = activeGroups.map((g) => g.ticker)
+  let stockRows: Array<{ ticker: string; industry: string | null }> = []
+  let quoteMap: Record<string, number> = {}
+
+  if (tickers.length > 0) {
+    const [{ data: fetchedStockRows }, fetchedQuoteMap] = await Promise.all([
+      supabase.from('stocks').select('ticker, industry').in('ticker', tickers),
+      fetchCurrentPrices(tickers),
+    ])
+
+    stockRows = (fetchedStockRows ?? []) as Array<{ ticker: string; industry: string | null }>
+    quoteMap = fetchedQuoteMap
+  }
+
+  const tickerGroups: TickerGroup[] = activeGroups.map((group) => {
+    const livePrice = quoteMap[group.ticker]
+    const currentPrice = livePrice && livePrice > 0 ? livePrice : null
+    const currentValue = currentPrice === null ? null : currentPrice * group.totalShares
+    const unrealizedGain = currentValue === null ? null : currentValue - group.totalInvested
+    const unrealizedGainPct =
+      unrealizedGain === null || group.totalInvested <= 0
+        ? null
+        : (unrealizedGain / group.totalInvested) * 100
+
+    return {
+      ...group,
+      currentPrice,
+      currentValue,
+      unrealizedGain,
+      unrealizedGainPct,
+      transactions: group.transactions.map((tx) => {
+        if (tx.action !== 'buy' || tx.remainingQuantity <= 0 || currentPrice === null) {
+          return {
+            ...tx,
+            currentValue: null,
+            unrealizedGain: null,
+            unrealizedGainPct: null,
+          }
+        }
+
+        const openCostBasis = tx.buyPrice * tx.remainingQuantity
+        const lotCurrentValue = currentPrice * tx.remainingQuantity
+        const lotUnrealizedGain = lotCurrentValue - openCostBasis
+
+        return {
+          ...tx,
+          currentValue: lotCurrentValue,
+          unrealizedGain: lotUnrealizedGain,
+          unrealizedGainPct: openCostBasis > 0 ? (lotUnrealizedGain / openCostBasis) * 100 : null,
+        }
+      }),
+    }
+  })
 
   const industryMap: Record<string, string> = {}
   for (const row of stockRows ?? []) {
