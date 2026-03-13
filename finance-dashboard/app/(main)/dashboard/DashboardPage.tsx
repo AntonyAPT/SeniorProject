@@ -11,28 +11,70 @@ import {
 import { useRouter } from "next/navigation";
 import type { DashboardWatchlistItem } from "./page";
 import type { StockQuote } from "@/app/api/stockquote/route";
+import { PortfolioPanel } from "./PortfolioPanel";
+import type { PortfolioItem } from "./PortfolioPanel";
 
 export default function DashboardPage({
   watchlistItems,
+  portfolioItems,
 }: {
   watchlistItems: DashboardWatchlistItem[];
+  portfolioItems: PortfolioItem[];
 }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [quotes, setQuotes] = useState<Record<string, StockQuote>>({});
+  const [allQuotes, setAllQuotes] = useState<Record<string, StockQuote>>({});
+
+  // Compute net holdings (shares per ticker) from portfolio items
+  const holdingsMap: Record<string, number> = {};
+  for (const item of portfolioItems) {
+    const delta = item.transaction_type === "sell" ? -item.quantity : item.quantity;
+    holdingsMap[item.ticker] = (holdingsMap[item.ticker] ?? 0) + delta;
+  }
+  const activeHoldings = Object.entries(holdingsMap).filter(([, shares]) => shares > 0);
 
   useEffect(() => {
-    const tickers = watchlistItems.map((i) => i.ticker).filter(Boolean);
+    const watchlistTickers = watchlistItems.map((i) => i.ticker).filter(Boolean);
+    const portfolioTickers = Object.entries(
+      portfolioItems.reduce((map, item) => {
+        const delta = item.transaction_type === "sell" ? -item.quantity : item.quantity;
+        map[item.ticker] = (map[item.ticker] ?? 0) + delta;
+        return map;
+      }, {} as Record<string, number>)
+    )
+      .filter(([, shares]) => shares > 0)
+      .map(([ticker]) => ticker);
+
+    const tickers = [...new Set([...watchlistTickers, ...portfolioTickers])];
     if (tickers.length === 0) return;
+
     fetch(`/api/stockquote?symbols=${tickers.join(",")}`)
       .then((r) => r.json())
       .then((data: StockQuote[]) => {
         const map: Record<string, StockQuote> = {};
         data.forEach((q) => { map[q.symbol] = q; });
-        setQuotes(map);
+        setAllQuotes(map);
       })
       .catch(console.error);
-  }, [watchlistItems]);
+  }, [watchlistItems, portfolioItems]);
+
+  // Portfolio stats derived from live quotes
+  const portfolioValue = activeHoldings.reduce(
+    (sum, [ticker, shares]) => sum + shares * (allQuotes[ticker]?.currentPrice ?? 0),
+    0
+  );
+  const todayPnl = activeHoldings.reduce(
+    (sum, [ticker, shares]) => sum + shares * (allQuotes[ticker]?.change ?? 0),
+    0
+  );
+  const prevPortfolioValue = portfolioValue - todayPnl;
+  const portfolioPctChange = prevPortfolioValue > 0 ? (todayPnl / prevPortfolioValue) * 100 : 0;
+
+  // Price map passed to PortfolioPanel so it doesn't need to re-fetch
+  const portfolioPriceMap: Record<string, number> = {};
+  activeHoldings.forEach(([ticker]) => {
+    portfolioPriceMap[ticker] = allQuotes[ticker]?.currentPrice ?? 0;
+  });
 
   const handleSearch = (e: React.FormEvent) => {
   e.preventDefault();
@@ -40,7 +82,7 @@ export default function DashboardPage({
   if (t) router.push(`/stocks/${t}`);
   };
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-page text-foreground">
       {/* Search Bar */}
       <div className="px-8 pt-6 pb-4">
         <form onSubmit={handleSearch} className="max-w-2xl">
@@ -72,15 +114,15 @@ export default function DashboardPage({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
               label="Portfolio Value"
-              value="$124,532"
-              change="+12.5%"
-              isPositive={true}
+              value={portfolioValue > 0 ? `$${portfolioValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—"}
+              change={portfolioValue > 0 ? `${portfolioPctChange >= 0 ? "+" : ""}${portfolioPctChange.toFixed(2)}%` : "—"}
+              isPositive={portfolioPctChange >= 0}
             />
             <StatCard
               label="Today's P&L"
-              value="$2,847"
-              change="+2.3%"
-              isPositive={true}
+              value={portfolioValue > 0 ? `${todayPnl >= 0 ? "+" : ""}$${Math.abs(todayPnl).toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—"}
+              change={portfolioValue > 0 ? `${portfolioPctChange >= 0 ? "+" : ""}${portfolioPctChange.toFixed(2)}%` : "—"}
+              isPositive={todayPnl >= 0}
             />
             <StatCard
               label="Active Predictions"
@@ -98,33 +140,8 @@ export default function DashboardPage({
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Chart Section */}
-            <div className="lg:col-span-2 glass rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Market Overview</h2>
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 text-sm bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-colors">
-                    1D
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1W
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1M
-                  </button>
-                  <button className="px-4 py-2 text-sm text-slate-400 hover:bg-slate-800/50 rounded-lg transition-colors">
-                    1Y
-                  </button>
-                </div>
-              </div>
-
-              {/* Placeholder for Chart */}
-              <div className="h-80 bg-slate-800/30 rounded-xl flex items-center justify-center border border-slate-700/30">
-                <p className="text-slate-500">
-                  Chart Component (integrate with Chart.js or Recharts)
-                </p>
-              </div>
-            </div>
+            {/* Portfolio Panel */}
+            <PortfolioPanel portfolioItems={portfolioItems} quoteMap={portfolioPriceMap} />
 
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
@@ -210,7 +227,7 @@ export default function DashboardPage({
                   </p>
                 ) : (
                   watchlistItems.map((item) => {
-                    const quote = quotes[item.ticker];
+                    const quote = allQuotes[item.ticker];
                     const isPositive = (quote?.changePercent ?? 0) >= 0;
                     return (
                       <WatchlistItem

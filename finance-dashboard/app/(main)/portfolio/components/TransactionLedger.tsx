@@ -110,7 +110,7 @@ export function TransactionLedger({ tickerGroups, portfolioId }: Props) {
                 role="button"
                 tabIndex={0}
                 onClick={() => toggleTicker(group.ticker)}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleTicker(group.ticker) }}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleTicker(group.ticker)}
                 className={styles.primaryRow}
                 aria-expanded={isExpanded}
               >

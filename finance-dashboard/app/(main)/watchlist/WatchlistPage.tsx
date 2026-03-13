@@ -195,7 +195,7 @@ export function WatchlistPage({ items: initialItems }: { items: WatchlistItem[] 
   const negativeCount = tickers.filter((t) => (quotes[t]?.changePercent ?? 0) < 0).length;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-page text-foreground">
       <main className="px-8 pb-8 pt-6">
         <div className="max-w-5xl mx-auto">
 
