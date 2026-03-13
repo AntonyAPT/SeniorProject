@@ -10,7 +10,7 @@ import { StockSearch } from "@/components/stock-search";
 
 export default function StocksPage() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-page text-foreground">
       <div className="mx-auto max-w-[1600px] px-6 py-8 space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight">Market Overview</h1>
