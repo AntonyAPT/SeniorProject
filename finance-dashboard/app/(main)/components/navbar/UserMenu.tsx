@@ -18,7 +18,6 @@ type MenuItem = {
 }
 
 const staticMenuItems: MenuItem[] = [
-  { id: 'portfolios', label: 'View Portfolios' },
   { id: 'settings', label: 'Profile Settings' },
 ]
 

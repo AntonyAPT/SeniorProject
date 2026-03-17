@@ -5,6 +5,7 @@ import { TransactionLedger } from '../components/TransactionLedger'
 import type { PortfolioTransaction } from '../components/PortfolioTransactionLedger'
 import type { TickerGroup } from '../components/TransactionLedger'
 import { PortfolioInsights } from '../components/PortfolioInsights'
+import { PortfolioSwitcher } from '../components/PortfolioSwitcher'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -68,6 +69,13 @@ export default async function PortfolioPage({ params }: Props) {
   if (error || !portfolio) {
     notFound()
   }
+
+  // Fetch all portfolios for the switcher (id + name only -- no items needed)
+  const { data: allPortfolios } = await supabase
+    .from('portfolios')
+    .select('id, name')
+    .eq('user_id', user.id)
+    .order('created_at')
 
   // Fetch portfolio items oldest first so cost basis can be updated in transaction order.
   const { data: items } = await supabase
@@ -228,13 +236,14 @@ export default async function PortfolioPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-page text-foreground p-8">
       <div className="max-w-6xl mx-auto">
-        <header className="mb-6">
-          <p className="text-xs uppercase tracking-widest text-muted font-semibold mb-1">
-            Portfolio Summary
+        <header className="mb-6 flex items-center gap-3">
+          <p className="text-xs uppercase tracking-widest text-muted font-semibold">
+            Portfolio Summary:
           </p>
-          <h1 className="text-3xl font-bold italic">
-            {portfolio.name}
-          </h1>
+          <PortfolioSwitcher
+            portfolios={allPortfolios ?? []}
+            currentPortfolioId={portfolio.id}
+          />
         </header>
         
         <div className="mt-8 grid gap-6">
