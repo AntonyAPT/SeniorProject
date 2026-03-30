@@ -207,7 +207,7 @@ function CompositionTab({
       {/* Legend */}
       <div className="flex-1 space-y-2.5 overflow-y-auto max-h-72 pr-1">
         <p className="text-xs text-slate-400 mb-3">
-          Total:{" "}
+          All Portfolios:{" "}
           <span className="text-white font-semibold">
             $
             {totalValue.toLocaleString(undefined, {

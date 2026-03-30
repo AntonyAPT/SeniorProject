@@ -35,21 +35,20 @@ export default async function Dashboard() {
     })).filter((i) => i.ticker);
   }
 
-  // Fetch default portfolio items for the portfolio panel
+  // Fetch items from all portfolios for the aggregate panel
   let portfolioItems: PortfolioItem[] = [];
 
-  const { data: defaultPortfolio } = await supabase
+  const { data: allPortfolios } = await supabase
     .from("portfolios")
     .select("id")
-    .eq("user_id", user!.id)
-    .eq("is_default", true)
-    .maybeSingle();
+    .eq("user_id", user!.id);
 
-  if (defaultPortfolio) {
+  if (allPortfolios && allPortfolios.length > 0) {
+    const portfolioIds = allPortfolios.map((p) => p.id);
     const { data: items } = await supabase
       .from("portfolio_items")
       .select("stock_ticker, quantity, buy_price, buy_date, transaction_type")
-      .eq("portfolio_id", defaultPortfolio.id)
+      .in("portfolio_id", portfolioIds)
       .order("buy_date", { ascending: true });
 
     portfolioItems = (items ?? []).map((item) => ({
