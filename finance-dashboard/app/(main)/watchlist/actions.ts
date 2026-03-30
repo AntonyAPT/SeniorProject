@@ -77,6 +77,34 @@ export async function addToWatchlist(ticker: string, companyName: string) {
   return { success: true, itemId: newItem.id };
 }
 
+export async function getWatchlistStatus(
+  ticker: string
+): Promise<{ inWatchlist: boolean; itemId: string | null }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { inWatchlist: false, itemId: null };
+
+  const { data: watchlist } = await supabase
+    .from("watchlists")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("is_default", true)
+    .maybeSingle();
+
+  if (!watchlist) return { inWatchlist: false, itemId: null };
+
+  const { data: item } = await supabase
+    .from("watchlist_items")
+    .select("id")
+    .eq("watchlist_id", watchlist.id)
+    .eq("stock_ticker", ticker)
+    .maybeSingle();
+
+  return { inWatchlist: !!item, itemId: item?.id ?? null };
+}
+
 export async function removeFromWatchlist(itemId: string) {
   const supabase = await createClient();
   const {

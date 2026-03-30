@@ -1,10 +1,15 @@
 "use client";
 
 import { Check, Minus, Plus, Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useSelectedPortfolio } from "@/app/(main)/contexts/SelectedPortfolioContext";
 import { addStockToPortfolio } from "@/app/(main)/actions/portfolio";
+import {
+  addToWatchlist,
+  removeFromWatchlist,
+  getWatchlistStatus,
+} from "@/app/(main)/watchlist/actions";
 
 interface BuyAndWatchlistProps {
   symbol: string;
@@ -20,8 +25,17 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
   const [quantity, setQuantity] = useState<number>(MIN_QUANTITY); 
   const [quantityInput, setQuantityInput] = useState<string>(String(MIN_QUANTITY));
   const [isInWatchlist, setIsInWatchlist] = useState<boolean>(false);
+  const [watchlistItemId, setWatchlistItemId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isWatchlistSubmitting, setIsWatchlistSubmitting] = useState<boolean>(false);
   const { selectedPortfolioId, selectedPortfolioName } = useSelectedPortfolio();
+
+  useEffect(() => {
+    getWatchlistStatus(symbol).then(({ inWatchlist, itemId }) => {
+      setIsInWatchlist(inWatchlist);
+      setWatchlistItemId(itemId);
+    });
+  }, [symbol]);
 
   const portfolioLabel = selectedPortfolioName ?? "Portfolio";
 
@@ -100,13 +114,25 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
     }
   };
 
-  const handleWatchlistToggle = () => {
-    const nextState = !isInWatchlist;
-    setIsInWatchlist(nextState);
-
-    console.log(nextState ? "Added to watchlist:" : "Removed from watchlist:", {
-      ticker: symbol,
-    });
+  const handleWatchlistToggle = async () => {
+    setIsWatchlistSubmitting(true);
+    try {
+      if (isInWatchlist && watchlistItemId) {
+        await removeFromWatchlist(watchlistItemId);
+        setIsInWatchlist(false);
+        setWatchlistItemId(null);
+        toast.success(`Removed ${symbol} from watchlist`);
+      } else {
+        const result = await addToWatchlist(symbol, symbol);
+        setIsInWatchlist(true);
+        setWatchlistItemId(result.itemId);
+        toast.success(`Added ${symbol} to watchlist`);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Watchlist update failed");
+    } finally {
+      setIsWatchlistSubmitting(false);
+    }
   };
 
   return (
@@ -165,7 +191,8 @@ export function BuyAndWatchlist({ symbol }: BuyAndWatchlistProps) {
         <button
           type="button"
           onClick={handleWatchlistToggle}
-          className={`group flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-semibold transition ${
+          disabled={isWatchlistSubmitting}
+          className={`group flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${
             isInWatchlist
               ? "border-emerald-500/30 bg-emerald-500 text-slate-950 hover:border-red-500/30 hover:bg-red-500 hover:text-white"
               : "border-slate-600 bg-transparent text-slate-100 hover:border-blue-500 hover:bg-blue-500 hover:text-white"
