@@ -1,0 +1,48 @@
+# =============================================================================
+# These instructions are written for Linux environments.
+# On Windows, use WSL2 (Ubuntu 22.04+) — native Windows has hard path-length
+# limits (260 chars) that cause pip install failures for several packages here.
+# On macOS, use the standard macOS terminal (no WSL needed).
+# =============================================================================
+
+# Core data / visualization stack
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+
+# Notebook kernel
+jupyter
+ipykernel
+
+# PatchTST / Hugging Face training
+# Install PyTorch FIRST with the right backend for your system:
+#
+#   NVIDIA GPU (Linux/WSL2):
+#     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+#
+#   Apple Silicon Mac (MPS):
+#     pip install torch torchvision torchaudio
+#
+#   CPU only:
+#     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+#
+# Then install the rest of this file.
+torch
+transformers
+accelerate
+tensorboard
+huggingface-hub
+
+# LoRA support — kept for parity with the IBM/granite reference notebook.
+# Not used by the from-scratch PatchTST classifier.
+peft
+
+# IBM Granite TSFM baseline — uncomment once PyTorch is installed.
+# Works cleanly on Linux/WSL2 and macOS. Disabled by default because
+# the repo contains long filenames that fail on native Windows.
+# granite-tsfm[notebooks] @ git+https://github.com/ibm-granite/granite-tsfm.git@v0.2.22
+
+# Optional quantization — Linux/WSL2 with CUDA only.
+# bitsandbytes
