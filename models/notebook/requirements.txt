@@ -5,6 +5,11 @@
 # On macOS, use the standard macOS terminal (no WSL needed).
 # =============================================================================
 
+# PyTorch CUDA index — lets pip resolve the torch/torchvision/torchaudio CUDA
+# wheels automatically without a separate manual install step.
+# macOS users: remove this line (MPS wheels are on PyPI directly).
+--extra-index-url https://download.pytorch.org/whl/cu128
+
 # Core data / visualization stack
 pandas
 numpy
@@ -17,19 +22,14 @@ jupyter
 ipykernel
 
 # PatchTST / Hugging Face training
-# Install PyTorch FIRST with the right backend for your system:
+# Pinned as a matched trio — torch + torchvision + torchaudio share a C++ ABI
+# and must be kept at compatible versions together.
 #
-#   NVIDIA GPU (Linux/WSL2):
-#     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
-#
-#   Apple Silicon Mac (MPS):
-#     pip install torch torchvision torchaudio
-#
-#   CPU only:
-#     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-#
-# Then install the rest of this file.
-torch
+# macOS users: remove the --extra-index-url line above and replace these three
+# lines with unpinned: torch torchvision torchaudio  (MPS backend, no CUDA).
+torch==2.8.0
+torchvision==0.23.0
+torchaudio==2.8.0
 transformers
 accelerate
 tensorboard
@@ -42,7 +42,7 @@ peft
 # IBM Granite TSFM baseline — uncomment once PyTorch is installed.
 # Works cleanly on Linux/WSL2 and macOS. Disabled by default because
 # the repo contains long filenames that fail on native Windows.
-# granite-tsfm[notebooks] @ git+https://github.com/ibm-granite/granite-tsfm.git@v0.2.22
+# granite-tsfm[notebooks] @ git+https://github.com/ibm-granite/granite-tsfm.git@v0.3.3
 
 # Optional quantization — Linux/WSL2 with CUDA only.
 # bitsandbytes

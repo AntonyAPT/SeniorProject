@@ -89,6 +89,24 @@ class PatchTSTClassifier(nn.Module):
         else:
             self.class_weights = None
 
+        # Materialize LazyLinear weights with a dummy forward pass.
+        # Required because transformers >= 4.56 calls `get_model_param_count`
+        # (which invokes `.numel()` on every parameter) BEFORE the first real
+        # forward pass, and uninitialized lazy params raise. Doing this in
+        # __init__ keeps every caller (HF Trainer, manual loops, save/load)
+        # working without each having to remember the warm-up step.
+        self._materialize_lazy_params()
+
+    def _materialize_lazy_params(self) -> None:
+        n_channels = int(getattr(self.config, "num_input_channels", 1))
+        dummy = torch.zeros(1, int(self.config.context_length), n_channels)
+        was_training = self.training
+        self.eval()
+        with torch.no_grad():
+            self(past_values=dummy)
+        if was_training:
+            self.train()
+
     def _encoder_states(self, model_outputs: ModelOutput | Tuple[torch.Tensor, ...]) -> torch.Tensor:
         if hasattr(model_outputs, "last_hidden_state") and model_outputs.last_hidden_state is not None:
             return model_outputs.last_hidden_state

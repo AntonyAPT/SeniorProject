@@ -48,7 +48,7 @@ Inside the WSL2 Ubuntu terminal:
 
 ```bash
 sudo apt update && sudo apt install -y python3 python3-pip python3-venv git
-cd /mnt/c/Users/zaidd/SeniorProject_Stonks/SeniorProject/models/notebook
+cd ../SeniorProject/models/notebook
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
@@ -152,3 +152,48 @@ Windows to check out.
 
 LoRA / `peft` are included for parity with the reference notebook but are not
 used by the from-scratch classifier.
+
+---
+
+## Known Issues / Gotchas
+
+### `LazyLinear` + HuggingFace Trainer ≥ 4.56
+
+`MultiDayClassificationHead` in `classification_head.py` uses `nn.LazyLinear`
+so the wrapper stays robust to PatchTST output-shape variations across
+`transformers` versions. Starting in `transformers` 4.56, `Trainer.train()`
+calls `get_model_param_count(...)` (which invokes `.numel()` on every
+parameter) **before** running the first forward pass, which raises:
+
+```
+ValueError: Attempted to use an uninitialized parameter in <method 'numel' ...>.
+This error happens when you are using a `LazyModule` ...
+```
+
+**Fix already applied:** `PatchTSTClassifier.__init__` runs a single dummy
+`forward()` at the end of construction (see `_materialize_lazy_params`) so the
+lazy weights are concrete by the time any caller (Trainer, manual loops,
+`save_pretrained`, etc.) touches them. No action needed at the notebook level.
+
+If you replace the head with a fresh `nn.LazyLinear` somewhere else, remember
+to call the same warm-up trick or you'll see the same crash.
+
+### torch / torchvision / torchaudio version pinning
+
+`granite-tsfm` ≤ 0.3.3 caps `torch < 2.11`, but pip's resolver only downgrades
+`torch` when it sees that constraint — it leaves `torchvision` / `torchaudio`
+at whatever was previously installed. The mismatched ABI then crashes any
+`import transformers` chain that touches torchvision (image transforms in the
+loss module) with:
+
+```
+RuntimeError: operator torchvision::nms does not exist
+```
+
+**Fix already applied:** `requirements.txt` pins the trio together
+(`torch==2.8.0` / `torchvision==0.23.0` / `torchaudio==2.8.0`) and uses
+`--extra-index-url https://download.pytorch.org/whl/cu128` so a fresh
+`pip install -r requirements.txt` lands on a consistent CUDA build.
+
+If you ever bump one of those three, bump all three to the matching release
+listed at <https://pytorch.org/get-started/previous-versions/>.
