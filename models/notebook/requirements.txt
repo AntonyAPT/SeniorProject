@@ -1,35 +1,30 @@
 # =============================================================================
-# These instructions are written for Linux environments.
-# On Windows, use WSL2 (Ubuntu 22.04+) — native Windows has hard path-length
-# limits (260 chars) that cause pip install failures for several packages here.
-# On macOS, use the standard macOS terminal (no WSL needed).
+# Kaggle: most packages below are pre-installed — you do NOT need to run
+#         pip install here. See README.md for the Kaggle-first workflow.
+#
+# Local fallback (WSL2 / macOS): install with
+#   pip install -r requirements.txt
+# after manually installing PyTorch for your platform (see README.md).
 # =============================================================================
 
-# PyTorch CUDA index — lets pip resolve the torch/torchvision/torchaudio CUDA
-# wheels automatically without a separate manual install step.
-# macOS users: remove this line (MPS wheels are on PyPI directly).
---extra-index-url https://download.pytorch.org/whl/cu128
-
 # Core data / visualization stack
+# (pre-installed on Kaggle; listed here for local parity)
 pandas
 numpy
 matplotlib
 seaborn
 scikit-learn
 
-# Notebook kernel
+# Notebook kernel (local only — not needed on Kaggle)
 jupyter
 ipykernel
 
 # PatchTST / Hugging Face training
-# Pinned as a matched trio — torch + torchvision + torchaudio share a C++ ABI
-# and must be kept at compatible versions together.
-#
-# macOS users: remove the --extra-index-url line above and replace these three
-# lines with unpinned: torch torchvision torchaudio  (MPS backend, no CUDA).
-torch==2.8.0
-torchvision==0.23.0
-torchaudio==2.8.0
+# (pre-installed on Kaggle; listed here for local parity)
+# Note: do NOT pin torch/torchvision/torchaudio here — Kaggle ships a
+# consistent CUDA build. For local installs, install PyTorch separately first:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+# then run pip install -r requirements.txt for the remaining packages.
 transformers
 accelerate
 tensorboard
@@ -39,9 +34,8 @@ huggingface-hub
 # Not used by the from-scratch PatchTST classifier.
 peft
 
-# IBM Granite TSFM baseline — uncomment once PyTorch is installed.
-# Works cleanly on Linux/WSL2 and macOS. Disabled by default because
-# the repo contains long filenames that fail on native Windows.
+# IBM Granite TSFM baseline — uncomment to enable the zero-shot baseline section.
+# On Kaggle: add %pip install ... in the notebook cell instead.
 # granite-tsfm[notebooks] @ git+https://github.com/ibm-granite/granite-tsfm.git@v0.3.3
 
 # Optional quantization — Linux/WSL2 with CUDA only.

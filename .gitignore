@@ -1,4 +1,3 @@
-sp500_daily_max.csv
 .venv/
 __pycache__/
 *.pyc
@@ -6,3 +5,7 @@ models/notebook/checkpoint/
 models/notebook/save_dir/
 .cursor/
 .vscode/
+
+# Kaggle CLI output / local clone artefacts
+/kaggle/
+models/notebook/SeniorProject/
