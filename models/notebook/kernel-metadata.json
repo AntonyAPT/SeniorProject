@@ -5,7 +5,7 @@
   "language": "python",
   "kernel_type": "notebook",
   "is_private": "true",
-  "accelerator": "gpu_t4_x2",
+  "enable_gpu": "true",
   "enable_internet": "true",
   "dataset_sources": ["kingz101/sp500-daily-raw"],
   "competition_sources": [],
