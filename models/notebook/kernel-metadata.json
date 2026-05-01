@@ -1,5 +1,5 @@
 {
-  "id": "<KAGGLE_USER>/patchtst-stock-classifier",
+  "id": "kingz101/patchtst-stock-classifier",
   "title": "PatchTST Stock Classifier",
   "code_file": "patchtst_stock_classifier.ipynb",
   "language": "python",
@@ -7,7 +7,7 @@
   "is_private": "true",
   "enable_gpu": "true",
   "enable_internet": "true",
-  "dataset_sources": ["<TEAM_ACCOUNT>/sp500-daily-raw"],
+  "dataset_sources": ["kingz101/sp500-daily-raw"],
   "competition_sources": [],
   "kernel_sources": []
 }
