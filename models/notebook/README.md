@@ -80,7 +80,8 @@ Copy `kernel-metadata.json` and set your own slug:
 
 ```bash
 # The file lives at models/notebook/kernel-metadata.json
-# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name> and update title so it resolves to the same slug.
+# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name> 
+# Note: 'patchtst-<short-name>' and 'title' in this file must match else 'kernal push' fails
 # This is giving your notebook execution environment (i.e. kaggle kernel) a unique slug url/identifier so you are also free to change what comes after '/'. "
 ```
 
@@ -137,7 +138,7 @@ When pulling notebook results back from Kaggle, note these behaviors:
 #### Recommended commands
 
 ```bash
-# 1) Pull notebook source into models/notebook
+# 1) Pull notebook source into models/notebook (assuming you start at /SeniorProject)
 kaggle kernels pull kingz101/patchtst-new-branch-test -p models/notebook
 
 # 2) Pull only training artifacts (checkpoint + save_dir)
