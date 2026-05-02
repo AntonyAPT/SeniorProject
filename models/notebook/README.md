@@ -106,6 +106,7 @@ git push
 kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
 # accelerator flag determines what gpu to use for model training
 # must have latest Kaggle CLI installed. Look at 'kaggle_cli_setup.md' for more info and troubleshooting 
+# Note: To use gpu's you need to verify your account with your phone number
 ```
 
 This creates (or updates) your private kernel on Kaggle. On first push it may take a minute to provision.
