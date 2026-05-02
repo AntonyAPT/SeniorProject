@@ -101,6 +101,8 @@ git commit -m "chore: configure Kaggle sandbox for feature/<short-name>"
 git push
 ```
 
+# Kaggle Training Workflow
+
 ### 4. Push the kernel to Kaggle
 
 ```bash
@@ -112,49 +114,31 @@ kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
 
 This creates (or updates) your private kernel on Kaggle. On first push it may take a minute to provision.
 
-### 5. Run on Kaggle
-
-Open your kernel at `kaggle.com/<your-user>/patchtst-<short-name>`, then click **Save & Run All (Commit)** to launch a GPU session. The bootstrap cell will `git clone` your branch automatically.
-
-### 6. Pull the executed notebook back
-
-After the run finishes, pull the output notebook back to your local branch:
-
+ 
+### 5. Pull Artifacts After the Run Finishes
+ 
+Run the pull script from the `models/notebook` directory:
+ 
 ```bash
-kaggle kernels pull <your-kaggle-user>/patchtst-<short-name> -p models/notebook --wp # run in notebook directory
-# '<your-kaggle-user>/patchtst-<short-name>' comes from 'id' field in 'kernel-metadata.json'
+bash pull_results.sh
 ```
-
-### Kaggle Output Pull Gotchas (Important)
-
-When pulling notebook results back from Kaggle, note these behaviors:
-
-- `kaggle kernels pull` downloads notebook/source files, but may not include all rendered cell outputs as expected.
-- `kaggle kernels output` downloads run artifacts from `/kaggle/working` (files produced during execution).
-- Avoid combining `-p` with `--wp` unless you explicitly want current-directory behavior.
-  - `--wp` uses the current working directory and can place files in unexpected locations.
-- Large output trees can happen if your run writes/clones many files under `/kaggle/working` (for example a full repo clone).
-
-#### Recommended commands
-
+ 
+This pulls the training artifacts (checkpoints and saved models) to your local machine.
+ 
+---
+ 
+### 6. Download the Executed Notebook
+ 
+Go to `kaggle.com/<your-user>/patchtst-<short-name>`, open the finished version, and click **File → Download Notebook** to get the notebook with cell outputs. Replace `models/notebook/patchtst_stock_classifier.ipynb` with the downloaded file.
+ 
+---
+ 
+### 7. Commit Results to GitHub
+ 
 ```bash
-# 1) Pull notebook source into models/notebook (assuming you start at /SeniorProject)
-kaggle kernels pull kingz101/patchtst-new-branch-test -p models/notebook
-
-# 2) Pull only training artifacts (checkpoint + save_dir)
-kaggle kernels output kingz101/patchtst-new-branch-test \
-  -p models/notebook \
-  --file-pattern "(^|/)(checkpoint|save_dir)/.*" \
-  -o
-```
-
-### 7. Push and open a PR
-
-```bash
-git add models/notebook/patchtst_stock_classifier.ipynb
-git commit -m "feat: training run results for feature/<short-name>"
+git add .
+git commit -m "training run: <short description>"
 git push
-# Open a Pull Request to main on GitHub
 ```
 
 The shared **team canonical kernel** (`<team-account>/patchtst-stock-classifier`) always tracks `main` and is updated with `kaggle kernels push` after a PR merges.
