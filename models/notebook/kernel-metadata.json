@@ -1,7 +1,7 @@
 {
   "id": "kingz101/patchtst-new-branch-test",
   "title": "PatchTST New Branch Test",
-  "code_file": "patchtst_stock_classifier.ipynb",
+  "code_file": "patchtst-new-branch-test.ipynb",
   "language": "python",
   "kernel_type": "notebook",
   "is_private": "true",
