@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 models/notebook/checkpoint/
 models/notebook/save_dir/
+models/notebook/patchtst-new-branch-test.log
 .cursor/
 .vscode/
 

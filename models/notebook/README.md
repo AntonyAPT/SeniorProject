@@ -80,7 +80,8 @@ Copy `kernel-metadata.json` and set your own slug:
 
 ```bash
 # The file lives at models/notebook/kernel-metadata.json
-# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name>
+# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name> 
+# Note: 'patchtst-<short-name>' and 'title' in this file must match else 'kernal push' fails
 # This is giving your notebook execution environment (i.e. kaggle kernel) a unique slug url/identifier so you are also free to change what comes after '/'. "
 ```
 
@@ -100,6 +101,8 @@ git commit -m "chore: configure Kaggle sandbox for feature/<short-name>"
 git push
 ```
 
+# Kaggle Training Workflow
+
 ### 4. Push the kernel to Kaggle
 
 ```bash
@@ -111,25 +114,31 @@ kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
 
 This creates (or updates) your private kernel on Kaggle. On first push it may take a minute to provision.
 
-### 5. Run on Kaggle
-
-Open your kernel at `kaggle.com/<your-user>/patchtst-<short-name>`, then click **Save & Run All (Commit)** to launch a GPU session. The bootstrap cell will `git clone` your branch automatically.
-
-### 6. Pull the executed notebook back
-
-After the run finishes, pull the output notebook back to your local branch:
-
+ 
+### 5. Pull Artifacts After the Run Finishes
+ 
+Run the pull script from the `models/notebook` directory:
+ 
 ```bash
-kaggle kernels pull <your-kaggle-user>/patchtst-<short-name> -p models/notebook --wp
+bash pull_results.sh
 ```
-
-### 7. Push and open a PR
-
+ 
+This pulls the training artifacts (checkpoints and saved models) to your local machine.
+ 
+---
+ 
+### 6. Download the Executed Notebook
+ 
+Go to `kaggle.com/<your-user>/patchtst-<short-name>`, open the finished version, and click **File → Download Notebook** to get the notebook with cell outputs. Replace `models/notebook/patchtst_stock_classifier.ipynb` with the downloaded file.
+ 
+---
+ 
+### 7. Commit Results to GitHub
+ 
 ```bash
-git add models/notebook/patchtst_stock_classifier.ipynb
-git commit -m "feat: training run results for feature/<short-name>"
+git add .
+git commit -m "training run: <short description>"
 git push
-# Open a Pull Request to main on GitHub
 ```
 
 The shared **team canonical kernel** (`<team-account>/patchtst-stock-classifier`) always tracks `main` and is updated with `kaggle kernels push` after a PR merges.
