@@ -120,7 +120,31 @@ Open your kernel at `kaggle.com/<your-user>/patchtst-<short-name>`, then click *
 After the run finishes, pull the output notebook back to your local branch:
 
 ```bash
-kaggle kernels pull <your-kaggle-user>/patchtst-<short-name> -p models/notebook --wp
+kaggle kernels pull <your-kaggle-user>/patchtst-<short-name> -p models/notebook --wp # run in notebook directory
+# '<your-kaggle-user>/patchtst-<short-name>' comes from 'id' field in 'kernel-metadata.json'
+```
+
+### Kaggle Output Pull Gotchas (Important)
+
+When pulling notebook results back from Kaggle, note these behaviors:
+
+- `kaggle kernels pull` downloads notebook/source files, but may not include all rendered cell outputs as expected.
+- `kaggle kernels output` downloads run artifacts from `/kaggle/working` (files produced during execution).
+- Avoid combining `-p` with `--wp` unless you explicitly want current-directory behavior.
+  - `--wp` uses the current working directory and can place files in unexpected locations.
+- Large output trees can happen if your run writes/clones many files under `/kaggle/working` (for example a full repo clone).
+
+#### Recommended commands
+
+```bash
+# 1) Pull notebook source into models/notebook
+kaggle kernels pull kingz101/patchtst-new-branch-test -p models/notebook
+
+# 2) Pull only training artifacts (checkpoint + save_dir)
+kaggle kernels output kingz101/patchtst-new-branch-test \
+  -p models/notebook \
+  --file-pattern "(^|/)(checkpoint|save_dir)/.*" \
+  -o
 ```
 
 ### 7. Push and open a PR
