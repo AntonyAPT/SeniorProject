@@ -27,9 +27,11 @@ Local execution (WSL2 / macOS) is supported as a fallback — see the [Local Set
 From the repo root, run:
 
 ```bash
-pip install kaggle            # if not already installed
+pip install kaggle  
+# if not already installed (doesn't matter in what directory but ../notebook is fine)
+# should be the latest CLI, look at 'kaggle_cli_setup.md' for more info
 # create models/data_raw/dataset-metadata.json first (see below)
-kaggle datasets create -p models/data_raw
+# kaggle datasets create -p models/data_raw (this for the initial creation of the dataset which has been done).
 ```
 
 `models/data_raw/dataset-metadata.json` should contain:
@@ -46,11 +48,14 @@ When raw CSVs change, version the dataset:
 
 ```bash
 kaggle datasets version -p models/data_raw -m "describe the update"
+# run this command when you add new data locally (or just upload it to kaggle directly)
 ```
 
-**2. Configure your Kaggle CLI**
+**2. Configure your Kaggle CLI Authentication (Allows kaggle commands [dataset, kernel] to run)**  
 
-Install `~/.config/kaggle/kaggle.json` (download from *kaggle.com → Settings → API → Create New Token*).
+Download from *kaggle.com → Settings → API → Create New Token (or Create Legacy API call*).
+
+Note: Sanity Checks provided by Kaggle during this process.
 
 **3. (Optional) Add a GitHub PAT secret to Kaggle**
 
@@ -75,7 +80,8 @@ Copy `kernel-metadata.json` and set your own slug:
 
 ```bash
 # The file lives at models/notebook/kernel-metadata.json
-# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name>"
+# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name>
+# This is giving your notebook execution environment (i.e. kaggle kernel) a unique slug url/identifier so you are also free to change what comes after '/'. "
 ```
 
 ### 3. Point the bootstrap cell at your branch
@@ -97,7 +103,9 @@ git push
 ### 4. Push the kernel to Kaggle
 
 ```bash
-kaggle kernels push -p models/notebook
+kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
+# accelerator flag determines what gpu to use for model training
+# must have latest Kaggle CLI installed. Look at 'kaggle_cli_setup.md' for more info and troubleshooting 
 ```
 
 This creates (or updates) your private kernel on Kaggle. On first push it may take a minute to provision.
@@ -209,12 +217,14 @@ DEVICE_OVERRIDE = None   # None | 'cuda' | 'mps' | 'cpu'
 DTYPE_OVERRIDE = None    # None | 'bfloat16' | 'float16' | 'float32'
 ```
 
-| Setup | Auto-selected device | Auto-selected dtype |
-|---|---|---|
-| Kaggle GPU (T4 / P100) | `cuda` | `bfloat16` or `float16` |
-| WSL2 + NVIDIA GPU | `cuda` | `bfloat16` (Ampere+) or `float16` |
-| Apple Silicon Mac | `mps` | `float32` |
-| CPU only | `cpu` | `float32` |
+
+| Setup                  | Auto-selected device | Auto-selected dtype               |
+| ---------------------- | -------------------- | --------------------------------- |
+| Kaggle GPU (T4 / P100) | `cuda`               | `bfloat16` or `float16`           |
+| WSL2 + NVIDIA GPU      | `cuda`               | `bfloat16` (Ampere+) or `float16` |
+| Apple Silicon Mac      | `mps`                | `float32`                         |
+| CPU only               | `cpu`                | `float32`                         |
+
 
 If you hit GPU out-of-memory errors, reduce `BATCH_SIZE` from `64` to `32` or `16` in the config cell.
 
