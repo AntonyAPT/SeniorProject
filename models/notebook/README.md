@@ -80,7 +80,7 @@ Copy `kernel-metadata.json` and set your own slug:
 
 ```bash
 # The file lives at models/notebook/kernel-metadata.json
-# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name>
+# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name> and update title so it resolves to the same slug.
 # This is giving your notebook execution environment (i.e. kaggle kernel) a unique slug url/identifier so you are also free to change what comes after '/'. "
 ```
 
