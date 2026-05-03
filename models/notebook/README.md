@@ -114,27 +114,26 @@ kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
 
 This creates (or updates) your private kernel on Kaggle. On first push it may take a minute to provision.
 
- 
 ### 5. Pull Artifacts After the Run Finishes
- 
-Run the pull script from the `models/notebook` directory:
- 
+
+Run the pull script from the `models/notebook` directory (May need to be edited if you alter the notebook/kernel name):
+
 ```bash
 bash pull_results.sh
 ```
- 
+
 This pulls the training artifacts (checkpoints and saved models) to your local machine.
- 
+
 ---
- 
+
 ### 6. Download the Executed Notebook
- 
+
 Go to `kaggle.com/<your-user>/patchtst-<short-name>`, open the finished version, and click **File → Download Notebook** to get the notebook with cell outputs. Replace `models/notebook/patchtst_stock_classifier.ipynb` with the downloaded file.
- 
+
 ---
- 
+
 ### 7. Commit Results to GitHub
- 
+
 ```bash
 git add .
 git commit -m "training run: <short description>"

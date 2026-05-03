@@ -1,6 +1,6 @@
 {
-  "id": "kingz101/patchtst-new-branch-test",
-  "title": "PatchTST New Branch Test",
+  "id": "kingz101/patchtst-new-branch-test-sector",
+  "title": "PatchTST New Branch Test Sector",
   "code_file": "patchtst-new-branch-test.ipynb",
   "language": "python",
   "kernel_type": "notebook",

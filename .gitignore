@@ -9,5 +9,6 @@ models/data_raw
 # Kaggle CLI output / local clone artefacts
 models/notebook/checkpoint/
 models/notebook/save_dir/
-models/notebook/patchtst-new-branch-test.log
+# Change to the name of your notebook if edited
+models/notebook/patchtst-new-branch-test-sector.log 
 
