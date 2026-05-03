@@ -1,12 +1,12 @@
 .venv/
 __pycache__/
 *.pyc
+.cursor/
+.vscode/
+models/data_raw
+
+# Kaggle CLI output / local clone artefacts
 models/notebook/checkpoint/
 models/notebook/save_dir/
 models/notebook/patchtst-new-branch-test.log
-.cursor/
-.vscode/
 
-# Kaggle CLI output / local clone artefacts
-/kaggle/
-models/notebook/SeniorProject/
