@@ -4,6 +4,7 @@ __pycache__/
 .cursor/
 .vscode/
 models/data_raw
+.cursorrules
 
 # Kaggle CLI output / local clone artefacts
 models/notebook/checkpoint/
