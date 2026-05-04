@@ -10,3 +10,9 @@ Result: Small improvement. Test accuracy 39.48% (up from 39.39%), macro_f1 0.395
 
 Next step: Apply change 3 — GLOBAL_NUM_EPOCHS already set to 25, proceed to change 4: LABEL_RULE = rolling_vol.
 
+What changed: Switched LABEL_RULE from 'fixed_pct' to 'rolling_vol' (vol_window=21, vol_k=0.5), making class boundaries adaptive to recent volatility instead of a fixed +/-1% threshold.
+
+Result: Improvement. Test accuracy 40.36% (up from 39.48%), macro_f1 0.4037 (up from 0.3956). Train/val loss gap shrank to 0.199 (from 0.340), suggesting adaptive labels reduce overfitting. Early stopping triggered at epoch 15, best model saved at epoch 12.
+
+Next step: Apply change 5 — add sub-industry embedding to the PatchTST classifier.
+
