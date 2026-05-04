@@ -1,0 +1,6 @@
+What changed: Added weight_decay=0.01, lr_scheduler_type='cosine', warmup_ratio=0.05, and increased epochs to 25.
+
+Result: Negligible improvement. Test accuracy unchanged at 39.39%, val macro_f1 marginally better (0.422 vs 0.418). Overfitting got worse — train/val loss gap doubled. Early stopping triggered at epoch 16.
+
+Next step: Apply change 2 — dropout 0.2 → 0.3.
+
