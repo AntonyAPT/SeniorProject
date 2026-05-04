@@ -116,11 +116,14 @@ class PatchTSTClassifier(nn.Module):
     def _materialize_lazy_params(self) -> None:
         n_channels = int(getattr(self.config, "num_input_channels", 1))
         dummy = torch.zeros(1, int(self.config.context_length), n_channels)
-        dummy_industry = torch.zeros(1, dtype=torch.long) if self.num_industries > 0 else None
         was_training = self.training
         self.eval()
         with torch.no_grad():
-            self(past_values=dummy, industry_id=dummy_industry)
+            # Always initialize classifier.projection (base path, industry_id=None).
+            self(past_values=dummy, industry_id=None)
+            # If industry embedding is active, also initialize industry_projection.
+            if self.num_industries > 0:
+                self(past_values=dummy, industry_id=torch.zeros(1, dtype=torch.long))
         if was_training:
             self.train()
 
