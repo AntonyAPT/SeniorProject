@@ -4,3 +4,9 @@ Result: Negligible improvement. Test accuracy unchanged at 39.39%, val macro_f1 
 
 Next step: Apply change 2 — dropout 0.2 → 0.3.
 
+What changed: Increased dropout from 0.2 to 0.3 (both dropout and head_dropout in make_patchtst_config).
+
+Result: Small improvement. Test accuracy 39.48% (up from 39.39%), macro_f1 0.3956 (up from 0.3939). Train/val loss gap shrank slightly (0.340 vs 0.374), meaning dropout is starting to reduce overfitting. Early stopping triggered at epoch 16, best model saved at epoch 13.
+
+Next step: Apply change 3 — GLOBAL_NUM_EPOCHS already set to 25, proceed to change 4: LABEL_RULE = rolling_vol.
+
