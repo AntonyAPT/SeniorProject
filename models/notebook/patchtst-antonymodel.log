@@ -1,0 +1,164 @@
+[{"stream_name":"stderr","time":7.134991372,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.135053328,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.135058433,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.13507633,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":7.802621121,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.80265449,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.802660436,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.802664516,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":13.856772503,"data":"New Zamn: OS=Linux | device=cuda | dtype=torch.float32 | workers=4\n"}
+,{"stream_name":"stderr","time":36.435023585,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stderr","time":36.638001748,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stderr","time":36.638038075,"data":"\n"}
+,{"stream_name":"stderr","time":36.638045373,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stdout","time":37.441691316000004,"data":"LabelConfig(rule='fixed_pct', threshold=0.01, vol_window=21, vol_k=0.5)\n"}
+,{"stream_name":"stdout","time":37.441724901,"data":"SECTORS_TO_RUN: ['Information Technology']\n"}
+,{"stream_name":"stdout","time":45.247383093,"data":"Loaded historic panel from historic_data_rows.csv\n"}
+,{"stream_name":"stdout","time":45.455384281,"data":"Sector labels in CSV (must match SECTORS_TO_RUN strings exactly): ['Communication Services', 'Consumer Discretionary', 'Consumer Staples', 'Energy', 'Financials', 'Health Care', 'Industrials', 'Information Technology', 'Materials', 'Real Estate', 'Utilities']\n"}
+,{"stream_name":"stdout","time":45.455441791,"data":"artifact_scope=information_technology | rows=394434 | tickers=73 | sectors=1\n"}
+,{"stream_name":"stdout","time":45.455449003,"data":"Active sectors: ['Information Technology']\n"}
+,{"stream_name":"stdout","time":45.45545885,"data":"        Date Ticker      Open      High       Low     Close     Volume  \\\n"}
+,{"stream_name":"stdout","time":45.455462685,"data":"0 2000-01-03   AAPL  0.785593  0.842710  0.761716  0.838496  20.099266   \n"}
+,{"stream_name":"stdout","time":45.455466402,"data":"1 2000-01-04   AAPL  0.810874  0.828664  0.757970  0.767802  20.054572   \n"}
+,{"stream_name":"stdout","time":45.455470011,"data":"2 2000-01-05   AAPL  0.777165  0.828196  0.771548  0.779038  20.472650   \n"}
+,{"stream_name":"stdout","time":45.455473588,"data":"3 2000-01-06   AAPL  0.794956  0.801510  0.711621  0.711621  20.459265   \n"}
+,{"stream_name":"stdout","time":45.455477041,"data":"4 2000-01-07   AAPL  0.722858  0.756566  0.715367  0.745330  19.948332   \n"}
+,{"stream_name":"stdout","time":45.455480512,"data":"\n"}
+,{"stream_name":"stdout","time":45.455484416,"data":"                   Sector  \n"}
+,{"stream_name":"stdout","time":45.455487908,"data":"0  Information Technology  \n"}
+,{"stream_name":"stdout","time":45.455491988,"data":"1  Information Technology  \n"}
+,{"stream_name":"stdout","time":45.455515503,"data":"2  Information Technology  \n"}
+,{"stream_name":"stdout","time":45.45552202,"data":"3  Information Technology  \n"}
+,{"stream_name":"stdout","time":45.455543369,"data":"4  Information Technology  \n"}
+,{"stream_name":"stdout","time":45.700631313,"data":"Ticker\n"}
+,{"stream_name":"stdout","time":45.700677551,"data":"AAPL    6622\n"}
+,{"stream_name":"stdout","time":45.70068394,"data":"ACN     6233\n"}
+,{"stream_name":"stdout","time":45.700692072,"data":"ADBE    6622\n"}
+,{"stream_name":"stdout","time":45.70069478,"data":"ADI     6622\n"}
+,{"stream_name":"stdout","time":45.700697412,"data":"ADSK    6622\n"}
+,{"stream_name":"stdout","time":45.700699918,"data":"AKAM    6622\n"}
+,{"stream_name":"stdout","time":45.700702398,"data":"AMAT    6622\n"}
+,{"stream_name":"stdout","time":45.700704889,"data":"AMD     6622\n"}
+,{"stream_name":"stdout","time":45.700707499,"data":"ANET    2994\n"}
+,{"stream_name":"stdout","time":45.700710009,"data":"APH     6622\n"}
+,{"stream_name":"stdout","time":45.700712483,"data":"APP     1268\n"}
+,{"stream_name":"stdout","time":45.700715032,"data":"AVGO    4210\n"}
+,{"stream_name":"stdout","time":45.700717598,"data":"CDNS    6622\n"}
+,{"stream_name":"stdout","time":45.700720625,"data":"CDW     3231\n"}
+,{"stream_name":"stdout","time":45.700740785,"data":"CIEN    6622\n"}
+,{"stream_name":"stdout","time":45.700745405,"data":"COHR    6622\n"}
+,{"stream_name":"stdout","time":45.700750165,"data":"CRM     5500\n"}
+,{"stream_name":"stdout","time":45.700754615,"data":"CRWD    1732\n"}
+,{"stream_name":"stdout","time":45.70075844,"data":"CSCO    6622\n"}
+,{"stream_name":"stdout","time":45.700762977,"data":"CTSH    6622\n"}
+,{"stream_name":"stdout","time":45.700767298,"data":"dtype: int64\n"}
+,{"stream_name":"stdout","time":46.168093667,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stdout","time":67.302420934,"data":"Granite baseline disabled by RUN_GRANITE_BASELINE=False\n"}
+,{"stream_name":"stdout","time":67.991052487,"data":"Class weights: [1.0053294  1.1369745  0.85769624]\n"}
+,{"stream_name":"stderr","time":68.005520986,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":68.005555248,"data":"\n"}
+,{"stream_name":"stderr","time":68.0055613,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":70.914415902,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":70.91447055,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":70.914478485,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":70.914484301,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":70.914489504,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":70.914495422,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":70.914527109,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":70.914532276,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117880579,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117907171,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":71.117912301,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117925572,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117930107,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117934289,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117938564,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117942887,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117947325,"data":"\n"}
+,{"stream_name":"stderr","time":71.117950927,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117955287,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":71.117959132,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117963443,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":71.117969267,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117973892,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117978285,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":71.117994143,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stdout","time":85.057484259,"data":"Training global PatchTST classifier on sp500_daily_sector_information_technology\n"}
+,{"stream_name":"stderr","time":86.912079685,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":86.912133963,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":86.912142671,"data":"\n"}
+,{"stream_name":"stderr","time":86.91214919,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":86.912156982,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":183.909546536,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":183.90959796,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":183.909605075,"data":"\n"}
+,{"stream_name":"stderr","time":183.909610547,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":183.909616827,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":280.868522869,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":280.868576442,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":280.868585573,"data":"\n"}
+,{"stream_name":"stderr","time":280.868592024,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":280.868597727,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":377.642615971,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":377.642672814,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":377.642682004,"data":"\n"}
+,{"stream_name":"stderr","time":377.642688634,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":377.642694646,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":474.777497902,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":474.777578201,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":474.777585641,"data":"\n"}
+,{"stream_name":"stderr","time":474.777589885,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":474.777594401,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":573.118755461,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":573.118801633,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":573.118809895,"data":"\n"}
+,{"stream_name":"stderr","time":573.118815455,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":573.118821643,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":669.737317991,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":669.737365442,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":669.737373329,"data":"\n"}
+,{"stream_name":"stderr","time":669.737378968,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":669.737385194,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":766.626187354,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":766.626237816,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":766.626245267,"data":"\n"}
+,{"stream_name":"stderr","time":766.62625131,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":766.626258093,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":862.915191228,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":862.915248965,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":862.915256559,"data":"\n"}
+,{"stream_name":"stderr","time":862.915262483,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":862.915282236,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":959.073817421,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":959.073866686,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":959.073875039,"data":"\n"}
+,{"stream_name":"stderr","time":959.073880335,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":959.073886823,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1058.170620667,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1058.170684119,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1058.170693416,"data":"\n"}
+,{"stream_name":"stderr","time":1058.170699789,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1058.170705769,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":1065.174020488,"data":"global PatchTST classifier [information_technology] accuracy=0.3940 macro_f1=0.3934\n"}
+,{"stream_name":"stdout","time":1066.325841644,"data":"(39189, 5, 3)\n"}
+,{"stream_name":"stdout","time":1066.826107458,"data":"Saved comparison plot to /kaggle/working/checkpoint/patchtst_cls/information_technology/model_comparison.png\n"}
+,{"stream_name":"stdout","time":1066.901769789,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_information_technology\n"}
+,{"stream_name":"stdout","time":1072.739582013,"data":"reloaded global PatchTST classifier accuracy=0.3940 macro_f1=0.3934\n"}
+,{"stream_name":"stderr","time":1080.242583494,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1080.242629748,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1080.418050137,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1080.418107895,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1081.147589515,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":1081.590678033,"data":"[NbConvertApp] Writing 642721 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":1084.397083461,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1085.515971295,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":1085.516020491,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.5164955,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.516828215,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.517029244,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.517308506,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.517525453,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.517799107,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.517993744,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":1085.51828264,"data":"[NbConvertApp] Writing 479944 bytes to __results__.html\n"}
+]

@@ -13,6 +13,12 @@ The first working label rule is a fixed percentage threshold. You can later swap
 it for rolling-volatility or ATR thresholds by changing `LABEL_RULE` and related
 hyperparameters in the notebook config cell.
 
+By default, the notebook now trains separate sector models:
+`SECTORS_TO_RUN = None` plus `TRAIN_SEPARATE_SECTOR_MODELS = True` creates one
+model for each S&P 500 sector in the CSV. Set `SECTORS_TO_RUN` to a list of
+sector names to train only those sectors, or set `TRAIN_SEPARATE_SECTOR_MODELS`
+to `False` to train one combined model over the selected sectors.
+
 **Primary workflow: Kaggle** (free GPU, no local environment needed).
 Local execution (WSL2 / macOS) is supported as a fallback — see the [Local Setup](#local-setup-fallback) section.
 
