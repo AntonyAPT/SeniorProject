@@ -1,5 +1,27 @@
 # Kaggle CLI Setup — Known Issues & Fixes
 
+## Issue 0 — 401 / can't authenticate
+
+The Kaggle CLI needs either `~/.kaggle/kaggle.json`,
+`~/.config/kaggle/kaggle.json` with `KAGGLE_CONFIG_DIR` set, or the
+`KAGGLE_USERNAME`/`KAGGLE_KEY` environment variables. A 401 usually means the
+token is missing, expired, copied incorrectly, or belongs to a different Kaggle
+account than the kernel slug owner.
+
+**Fix:** Create a fresh API token from Kaggle, then install it locally. This
+repo uses `~/.config/kaggle/kaggle.json`:
+
+```bash
+mkdir -p ~/.config/kaggle
+mv ~/Downloads/kaggle.json ~/.config/kaggle/kaggle.json
+chmod 600 ~/.config/kaggle/kaggle.json
+export KAGGLE_CONFIG_DIR="$HOME/.config/kaggle"
+kaggle kernels list --mine
+```
+
+If you still get 401, generate a new token and replace the old file. Do not
+commit `kaggle.json`.
+
 ## Issue 1 — Kaggle CLI version too old
 
 The `--accelerator` flag and other features require Kaggle CLI 2.1.0+. The default pip install may give you an outdated version (1.7.4.5).

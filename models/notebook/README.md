@@ -55,7 +55,20 @@ kaggle datasets version -p models/data_raw -m "describe the update"
 
 Download from *kaggle.com → Settings → API → Create New Token (or Create Legacy API call*).
 
-Note: Sanity Checks provided by Kaggle during this process.
+Then install it where the Kaggle CLI expects it. This repo uses
+`~/.config/kaggle/kaggle.json`, so point the CLI there with
+`KAGGLE_CONFIG_DIR`:
+
+```bash
+mkdir -p ~/.config/kaggle
+mv ~/Downloads/kaggle.json ~/.config/kaggle/kaggle.json
+chmod 600 ~/.config/kaggle/kaggle.json
+export KAGGLE_CONFIG_DIR="$HOME/.config/kaggle"
+kaggle kernels list --mine
+```
+
+If `kaggle kernels list --mine` returns a 401, create a fresh token and replace
+`~/.config/kaggle/kaggle.json`. Do not commit `kaggle.json`.
 
 **3. (Optional) Add a GitHub PAT secret to Kaggle**
 
@@ -80,14 +93,16 @@ Copy `kernel-metadata.json` and set your own slug:
 
 ```bash
 # The file lives at models/notebook/kernel-metadata.json
-# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name> 
-# Note: 'patchtst-<short-name>' and 'title' in this file must match else 'kernal push' fails
+# Edit it: set "id" to "<your-kaggle-user>/patchtst-<short-name>"
+# Set "title" to the same "patchtst-<short-name>" slug.
+# Use lowercase letters, numbers, and hyphens for the Kaggle slug.
+# Note: 'patchtst-<short-name>' and 'title' in this file must match else 'kernel push' fails
 # This is giving your notebook execution environment (i.e. kaggle kernel) a unique slug url/identifier so you are also free to change what comes after '/'. "
 ```
 
 ### 3. Point the bootstrap cell at your branch
 
-Open `patchtst_stock_classifier.ipynb` and change one line in the bootstrap cell:
+Open `patchtst-new-branch-test-sector.ipynb` and change one line in the bootstrap cell:
 
 ```python
 REPO_BRANCH = 'feature/<short-name>'   # was 'main'
@@ -96,7 +111,7 @@ REPO_BRANCH = 'feature/<short-name>'   # was 'main'
 Then commit and push that change:
 
 ```bash
-git add models/notebook/patchtst_stock_classifier.ipynb models/notebook/kernel-metadata.json
+git add models/notebook/patchtst-new-branch-test-sector.ipynb models/notebook/kernel-metadata.json
 git commit -m "chore: configure Kaggle sandbox for feature/<short-name>"
 git push
 ```
@@ -106,7 +121,7 @@ git push
 ### 4. Push the kernel to Kaggle
 
 ```bash
-kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
+KAGGLE_CONFIG_DIR="$HOME/.config/kaggle" kaggle kernels push -p models/notebook --accelerator NvidiaTeslaT4
 # accelerator flag determines what gpu to use for model training
 # must have latest Kaggle CLI installed. Look at 'kaggle_cli_setup.md' for more info and troubleshooting 
 # Note: To use gpu's you need to verify your account with your phone number
@@ -128,7 +143,7 @@ This pulls the training artifacts (checkpoints and saved models) to your local m
 
 ### 6. Download the Executed Notebook
 
-Go to `kaggle.com/<your-user>/patchtst-<short-name>`, open the finished version, and click **File → Download Notebook** to get the notebook with cell outputs. Replace `models/notebook/patchtst_stock_classifier.ipynb` with the downloaded file.
+Go to `kaggle.com/<your-user>/patchtst-<short-name>`, open the finished version, and click **File → Download Notebook** to get the notebook with cell outputs. Replace `models/notebook/patchtst-new-branch-test-sector.ipynb` with the downloaded file.
 
 ---
 
