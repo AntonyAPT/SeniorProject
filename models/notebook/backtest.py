@@ -228,10 +228,45 @@ def select_top_confident_up(df: pd.DataFrame, top_n: int = 10) -> pd.DataFrame:
 # 4. Paper-trading backtest
 # ---------------------------------------------------------------------------
 
+def _compute_weights(confidence: np.ndarray, weighting: str) -> np.ndarray:
+    """Return a weight vector that sums to 1.0 for the given weighting scheme.
+
+    Parameters
+    ----------
+    confidence:
+        Softmax probabilities for the predicted class, sorted highest-first
+        (matches the order returned by ``select_top_confident_up``).
+    weighting:
+        ``"equal"``      — every stock gets 1/N (default).
+        ``"confidence"`` — weight proportional to raw confidence score.
+                           Stock 1 might get 15% and stock 10 might get 8%
+                           depending on how spread out the scores are.
+        ``"rank"``       — linear rank weights: rank 1 gets N shares,
+                           rank 2 gets N-1, ..., rank N gets 1.
+                           Purely order-based; ignores actual score values.
+    """
+    n = len(confidence)
+    if n == 0:
+        return np.array([])
+    if weighting == "equal":
+        return np.full(n, 1.0 / n)
+    if weighting == "confidence":
+        total = confidence.sum()
+        if total == 0:
+            return np.full(n, 1.0 / n)
+        return confidence / total
+    if weighting == "rank":
+        # Rank 1 (highest confidence) gets weight n, rank n gets weight 1.
+        ranks = np.arange(n, 0, -1, dtype=float)
+        return ranks / ranks.sum()
+    raise ValueError(f"Unknown weighting scheme {weighting!r}. Choose 'equal', 'confidence', or 'rank'.")
+
+
 def run_backtest(
     df: pd.DataFrame,
     starting_capital: float = 1000.0,
     top_n: int = 10,
+    weighting: str = "equal",
     benchmark_prices: Optional[pd.Series] = None,
 ) -> dict:
     """Simulate a daily paper-trade strategy on the prediction DataFrame.
@@ -240,12 +275,13 @@ def run_backtest(
     --------
     For each trading day (grouped by ``trade_date``):
     1. Select the top ``top_n`` predicted-up stocks by confidence.
-    2. Allocate capital equally across the selected stocks.
+    2. Allocate capital according to ``weighting`` across the selected stocks.
     3. Apply each stock's ``forward_return`` to compute the day's P&L.
     4. Roll the updated portfolio value into the next day.
 
     If fewer than ``top_n`` stocks are predicted "up" on a given day, the
-    available stocks are equal-weighted (capital stays fully invested).
+    available stocks are weighted according to ``weighting`` (capital stays
+    fully invested).
     If zero stocks are predicted "up", capital sits in cash (0% return) for
     that day.
 
@@ -264,6 +300,14 @@ def run_backtest(
         Initial portfolio value in dollars.
     top_n:
         Number of top-confidence "up" stocks to hold each day.
+    weighting:
+        How to size positions across the selected stocks:
+
+        - ``"equal"``      — 1/N each (default, baseline).
+        - ``"confidence"`` — proportional to the model's confidence score.
+                             The highest-confidence stock gets the largest slice.
+        - ``"rank"``       — linear taper by rank: #1 gets the most, #10 the
+                             least, using only ordering (not raw scores).
     benchmark_prices:
         Optional pd.Series indexed by date with a benchmark price (e.g., SPY
         daily closes).  If supplied, benchmark returns are computed over the
@@ -300,9 +344,8 @@ def run_backtest(
         positions_per_day.append(n_positions)
 
         if n_positions > 0:
-            # Equal weight: each stock gets 1/n_positions of the portfolio.
-            weight = 1.0 / n_positions
-            day_return = float((selected["forward_return"] * weight).sum())
+            weights = _compute_weights(selected["confidence"].values, weighting)
+            day_return = float((selected["forward_return"].values * weights).sum())
             portfolio_value = portfolio_value * (1.0 + day_return)
             selected_frames.append(selected)
 
@@ -355,6 +398,7 @@ def run_backtest(
         "trading_days": len(daily_records),
         "avg_positions": float(np.mean(positions_per_day)) if positions_per_day else 0.0,
         "avg_forward_return_selected": avg_forward_return_selected,
+        "weighting": weighting,
         "direction_accuracy_all": acc_all,
         "direction_accuracy_selected": acc_selected,
         "benchmark_return_pct": benchmark_return_pct,
@@ -396,6 +440,7 @@ def summarize_results(backtest_results: dict) -> dict:
         "=" * 54,
         "  BACKTEST RESULTS",
         "=" * 54,
+        f"  {'Weighting scheme':<36} {r['weighting']:>10}",
         f"  {'Starting Capital':<36} ${1000.0:>10,.2f}",
         f"  {'Final Portfolio Value':<36} ${r['final_value']:>10,.2f}",
         f"  {'Total Return':<36} {r['total_return_pct']:>+10.2f}%",
@@ -432,6 +477,7 @@ def summarize_results(backtest_results: dict) -> dict:
 
     summary = {
         "starting_capital": 1000.0,
+        "weighting": r["weighting"],
         "final_value": r["final_value"],
         "total_return_pct": r["total_return_pct"],
         "max_drawdown_pct": max_drawdown_pct,
