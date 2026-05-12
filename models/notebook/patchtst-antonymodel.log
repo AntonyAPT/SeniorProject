@@ -1,164 +1,704 @@
-[{"stream_name":"stderr","time":7.134991372,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
-,{"stream_name":"stderr","time":7.135053328,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
-,{"stream_name":"stderr","time":7.135058433,"data":"0.00s - to python to disable frozen modules.\n"}
-,{"stream_name":"stderr","time":7.13507633,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
-,{"stream_name":"stderr","time":7.802621121,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
-,{"stream_name":"stderr","time":7.80265449,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
-,{"stream_name":"stderr","time":7.802660436,"data":"0.00s - to python to disable frozen modules.\n"}
-,{"stream_name":"stderr","time":7.802664516,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
-,{"stream_name":"stdout","time":13.856772503,"data":"New Zamn: OS=Linux | device=cuda | dtype=torch.float32 | workers=4\n"}
-,{"stream_name":"stderr","time":36.435023585,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
-,{"stream_name":"stderr","time":36.638001748,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
-,{"stream_name":"stderr","time":36.638038075,"data":"\n"}
-,{"stream_name":"stderr","time":36.638045373,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
-,{"stream_name":"stdout","time":37.441691316000004,"data":"LabelConfig(rule='fixed_pct', threshold=0.01, vol_window=21, vol_k=0.5)\n"}
-,{"stream_name":"stdout","time":37.441724901,"data":"SECTORS_TO_RUN: ['Information Technology']\n"}
-,{"stream_name":"stdout","time":45.247383093,"data":"Loaded historic panel from historic_data_rows.csv\n"}
-,{"stream_name":"stdout","time":45.455384281,"data":"Sector labels in CSV (must match SECTORS_TO_RUN strings exactly): ['Communication Services', 'Consumer Discretionary', 'Consumer Staples', 'Energy', 'Financials', 'Health Care', 'Industrials', 'Information Technology', 'Materials', 'Real Estate', 'Utilities']\n"}
-,{"stream_name":"stdout","time":45.455441791,"data":"artifact_scope=information_technology | rows=394434 | tickers=73 | sectors=1\n"}
-,{"stream_name":"stdout","time":45.455449003,"data":"Active sectors: ['Information Technology']\n"}
-,{"stream_name":"stdout","time":45.45545885,"data":"        Date Ticker      Open      High       Low     Close     Volume  \\\n"}
-,{"stream_name":"stdout","time":45.455462685,"data":"0 2000-01-03   AAPL  0.785593  0.842710  0.761716  0.838496  20.099266   \n"}
-,{"stream_name":"stdout","time":45.455466402,"data":"1 2000-01-04   AAPL  0.810874  0.828664  0.757970  0.767802  20.054572   \n"}
-,{"stream_name":"stdout","time":45.455470011,"data":"2 2000-01-05   AAPL  0.777165  0.828196  0.771548  0.779038  20.472650   \n"}
-,{"stream_name":"stdout","time":45.455473588,"data":"3 2000-01-06   AAPL  0.794956  0.801510  0.711621  0.711621  20.459265   \n"}
-,{"stream_name":"stdout","time":45.455477041,"data":"4 2000-01-07   AAPL  0.722858  0.756566  0.715367  0.745330  19.948332   \n"}
-,{"stream_name":"stdout","time":45.455480512,"data":"\n"}
-,{"stream_name":"stdout","time":45.455484416,"data":"                   Sector  \n"}
-,{"stream_name":"stdout","time":45.455487908,"data":"0  Information Technology  \n"}
-,{"stream_name":"stdout","time":45.455491988,"data":"1  Information Technology  \n"}
-,{"stream_name":"stdout","time":45.455515503,"data":"2  Information Technology  \n"}
-,{"stream_name":"stdout","time":45.45552202,"data":"3  Information Technology  \n"}
-,{"stream_name":"stdout","time":45.455543369,"data":"4  Information Technology  \n"}
-,{"stream_name":"stdout","time":45.700631313,"data":"Ticker\n"}
-,{"stream_name":"stdout","time":45.700677551,"data":"AAPL    6622\n"}
-,{"stream_name":"stdout","time":45.70068394,"data":"ACN     6233\n"}
-,{"stream_name":"stdout","time":45.700692072,"data":"ADBE    6622\n"}
-,{"stream_name":"stdout","time":45.70069478,"data":"ADI     6622\n"}
-,{"stream_name":"stdout","time":45.700697412,"data":"ADSK    6622\n"}
-,{"stream_name":"stdout","time":45.700699918,"data":"AKAM    6622\n"}
-,{"stream_name":"stdout","time":45.700702398,"data":"AMAT    6622\n"}
-,{"stream_name":"stdout","time":45.700704889,"data":"AMD     6622\n"}
-,{"stream_name":"stdout","time":45.700707499,"data":"ANET    2994\n"}
-,{"stream_name":"stdout","time":45.700710009,"data":"APH     6622\n"}
-,{"stream_name":"stdout","time":45.700712483,"data":"APP     1268\n"}
-,{"stream_name":"stdout","time":45.700715032,"data":"AVGO    4210\n"}
-,{"stream_name":"stdout","time":45.700717598,"data":"CDNS    6622\n"}
-,{"stream_name":"stdout","time":45.700720625,"data":"CDW     3231\n"}
-,{"stream_name":"stdout","time":45.700740785,"data":"CIEN    6622\n"}
-,{"stream_name":"stdout","time":45.700745405,"data":"COHR    6622\n"}
-,{"stream_name":"stdout","time":45.700750165,"data":"CRM     5500\n"}
-,{"stream_name":"stdout","time":45.700754615,"data":"CRWD    1732\n"}
-,{"stream_name":"stdout","time":45.70075844,"data":"CSCO    6622\n"}
-,{"stream_name":"stdout","time":45.700762977,"data":"CTSH    6622\n"}
-,{"stream_name":"stdout","time":45.700767298,"data":"dtype: int64\n"}
-,{"stream_name":"stdout","time":46.168093667,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
-,{"stream_name":"stdout","time":67.302420934,"data":"Granite baseline disabled by RUN_GRANITE_BASELINE=False\n"}
-,{"stream_name":"stdout","time":67.991052487,"data":"Class weights: [1.0053294  1.1369745  0.85769624]\n"}
-,{"stream_name":"stderr","time":68.005520986,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
-,{"stream_name":"stderr","time":68.005555248,"data":"\n"}
-,{"stream_name":"stderr","time":68.0055613,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
-,{"stream_name":"stderr","time":70.914415902,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
-,{"stream_name":"stderr","time":70.91447055,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
-,{"stream_name":"stderr","time":70.914478485,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
-,{"stream_name":"stderr","time":70.914484301,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
-,{"stream_name":"stderr","time":70.914489504,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":70.914495422,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":70.914527109,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":70.914532276,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117880579,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117907171,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
-,{"stream_name":"stderr","time":71.117912301,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117925572,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117930107,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117934289,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117938564,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117942887,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117947325,"data":"\n"}
-,{"stream_name":"stderr","time":71.117950927,"data":"2026-05-05 00:33:34.001343: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117955287,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
-,{"stream_name":"stderr","time":71.117959132,"data":"E0000 00:00:1777941214.203286      22 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117963443,"data":"E0000 00:00:1777941214.260949      22 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
-,{"stream_name":"stderr","time":71.117969267,"data":"W0000 00:00:1777941214.753939      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117973892,"data":"W0000 00:00:1777941214.753973      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117978285,"data":"W0000 00:00:1777941214.753976      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stderr","time":71.117994143,"data":"W0000 00:00:1777941214.753979      22 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
-,{"stream_name":"stdout","time":85.057484259,"data":"Training global PatchTST classifier on sp500_daily_sector_information_technology\n"}
-,{"stream_name":"stderr","time":86.912079685,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":86.912133963,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":86.912142671,"data":"\n"}
-,{"stream_name":"stderr","time":86.91214919,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":86.912156982,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":183.909546536,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":183.90959796,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":183.909605075,"data":"\n"}
-,{"stream_name":"stderr","time":183.909610547,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":183.909616827,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":280.868522869,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":280.868576442,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":280.868585573,"data":"\n"}
-,{"stream_name":"stderr","time":280.868592024,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":280.868597727,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":377.642615971,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":377.642672814,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":377.642682004,"data":"\n"}
-,{"stream_name":"stderr","time":377.642688634,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":377.642694646,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":474.777497902,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":474.777578201,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":474.777585641,"data":"\n"}
-,{"stream_name":"stderr","time":474.777589885,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":474.777594401,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":573.118755461,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":573.118801633,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":573.118809895,"data":"\n"}
-,{"stream_name":"stderr","time":573.118815455,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":573.118821643,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":669.737317991,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":669.737365442,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":669.737373329,"data":"\n"}
-,{"stream_name":"stderr","time":669.737378968,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":669.737385194,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":766.626187354,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":766.626237816,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":766.626245267,"data":"\n"}
-,{"stream_name":"stderr","time":766.62625131,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":766.626258093,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":862.915191228,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":862.915248965,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":862.915256559,"data":"\n"}
-,{"stream_name":"stderr","time":862.915262483,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":862.915282236,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":959.073817421,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":959.073866686,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":959.073875039,"data":"\n"}
-,{"stream_name":"stderr","time":959.073880335,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":959.073886823,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":1058.170620667,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":1058.170684119,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stderr","time":1058.170693416,"data":"\n"}
-,{"stream_name":"stderr","time":1058.170699789,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
-,{"stream_name":"stderr","time":1058.170705769,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
-,{"stream_name":"stdout","time":1065.174020488,"data":"global PatchTST classifier [information_technology] accuracy=0.3940 macro_f1=0.3934\n"}
-,{"stream_name":"stdout","time":1066.325841644,"data":"(39189, 5, 3)\n"}
-,{"stream_name":"stdout","time":1066.826107458,"data":"Saved comparison plot to /kaggle/working/checkpoint/patchtst_cls/information_technology/model_comparison.png\n"}
-,{"stream_name":"stdout","time":1066.901769789,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_information_technology\n"}
-,{"stream_name":"stdout","time":1072.739582013,"data":"reloaded global PatchTST classifier accuracy=0.3940 macro_f1=0.3934\n"}
-,{"stream_name":"stderr","time":1080.242583494,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
-,{"stream_name":"stderr","time":1080.242629748,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
-,{"stream_name":"stderr","time":1080.418050137,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
-,{"stream_name":"stderr","time":1080.418107895,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
-,{"stream_name":"stderr","time":1081.147589515,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
-,{"stream_name":"stderr","time":1081.590678033,"data":"[NbConvertApp] Writing 642721 bytes to __notebook__.ipynb\n"}
-,{"stream_name":"stderr","time":1084.397083461,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
-,{"stream_name":"stderr","time":1085.515971295,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
-,{"stream_name":"stderr","time":1085.516020491,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.5164955,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.516828215,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.517029244,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.517308506,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.517525453,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.517799107,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.517993744,"data":"[NbConvertApp] Making directory __results___files\n"}
-,{"stream_name":"stderr","time":1085.51828264,"data":"[NbConvertApp] Writing 479944 bytes to __results__.html\n"}
+[{"stream_name":"stderr","time":12.245253368,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":12.245310742,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":12.245314771,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":12.245317838,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":13.084592675,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":13.084626966,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":13.084631292,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":13.084634912,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":22.688861291,"data":"CUDA device: Tesla T4\n"}
+,{"stream_name":"stdout","time":22.688910248,"data":"New Zamn: OS=Linux | device=cuda | dtype=torch.float32 | workers=4\n"}
+,{"stream_name":"stderr","time":60.042355855,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stderr","time":60.252562916,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stderr","time":60.252596216,"data":"\n"}
+,{"stream_name":"stderr","time":60.252602511,"data":"Cloning into '/kaggle/working/SeniorProject'...\n"}
+,{"stream_name":"stdout","time":61.33662241,"data":"LabelConfig(rule='fixed_pct', threshold=0.01, vol_window=21, vol_k=0.5)\n"}
+,{"stream_name":"stdout","time":61.336692651999996,"data":"SECTORS_TO_RUN: all sectors in file\n"}
+,{"stream_name":"stdout","time":61.336700593,"data":"TRAIN_SEPARATE_SECTOR_MODELS: True\n"}
+,{"stream_name":"stdout","time":67.451784866,"data":"Loaded historic panel from historic_data_rows.csv\n"}
+,{"stream_name":"stdout","time":67.451840384,"data":"Sector labels in CSV (must match SECTORS_TO_RUN strings exactly): ['Communication Services', 'Consumer Discretionary', 'Consumer Staples', 'Energy', 'Financials', 'Health Care', 'Industrials', 'Information Technology', 'Materials', 'Real Estate', 'Utilities']\n"}
+,{"stream_name":"stdout","time":68.889970495,"data":"Prepared 11 model run(s).\n"}
+,{"stream_name":"stdout","time":68.890020548,"data":"  communication_services: ['Communication Services']\n"}
+,{"stream_name":"stdout","time":68.890028216,"data":"  consumer_discretionary: ['Consumer Discretionary']\n"}
+,{"stream_name":"stdout","time":68.890033962,"data":"  consumer_staples: ['Consumer Staples']\n"}
+,{"stream_name":"stdout","time":68.890039763,"data":"  energy: ['Energy']\n"}
+,{"stream_name":"stdout","time":68.890045185,"data":"  financials: ['Financials']\n"}
+,{"stream_name":"stdout","time":68.890050554,"data":"  health_care: ['Health Care']\n"}
+,{"stream_name":"stdout","time":68.890055756,"data":"  industrials: ['Industrials']\n"}
+,{"stream_name":"stdout","time":68.890061342,"data":"  information_technology: ['Information Technology']\n"}
+,{"stream_name":"stdout","time":68.890066945,"data":"  materials: ['Materials']\n"}
+,{"stream_name":"stdout","time":68.890072383,"data":"  real_estate: ['Real Estate']\n"}
+,{"stream_name":"stdout","time":68.890077992,"data":"  utilities: ['Utilities']\n"}
+,{"stream_name":"stdout","time":68.890083541,"data":"preview_scope=communication_services | rows=114908 | tickers=23 | sectors=1\n"}
+,{"stream_name":"stdout","time":68.890089133,"data":"Preview sectors: ['Communication Services']\n"}
+,{"stream_name":"stdout","time":68.890114619,"data":"             Date Ticker       Open       High   Low  Close     Volume  \\\n"}
+,{"stream_name":"stdout","time":68.890119811,"data":"532730 2010-01-05   CHTR  35.000000  35.000000  35.0   35.0   9.210440   \n"}
+,{"stream_name":"stdout","time":68.89012384,"data":"532731 2010-01-06   CHTR  35.000000  35.000000  35.0   35.0   0.000000   \n"}
+,{"stream_name":"stdout","time":68.890127837,"data":"532732 2010-01-07   CHTR  35.250000  35.500000  35.0   35.0   9.190240   \n"}
+,{"stream_name":"stdout","time":68.890135368,"data":"532733 2010-01-08   CHTR  34.549999  34.549999  33.5   33.5  10.379753   \n"}
+,{"stream_name":"stdout","time":68.890139175,"data":"532734 2010-01-11   CHTR  33.500000  33.500000  33.5   33.5   8.216358   \n"}
+,{"stream_name":"stdout","time":68.890143159,"data":"\n"}
+,{"stream_name":"stdout","time":68.890147269,"data":"                        Sector  \n"}
+,{"stream_name":"stdout","time":68.890151446,"data":"532730  Communication Services  \n"}
+,{"stream_name":"stdout","time":68.890155601,"data":"532731  Communication Services  \n"}
+,{"stream_name":"stdout","time":68.890159803,"data":"532732  Communication Services  \n"}
+,{"stream_name":"stdout","time":68.890163726,"data":"532733  Communication Services  \n"}
+,{"stream_name":"stdout","time":68.890167681,"data":"532734  Communication Services  \n"}
+,{"stream_name":"stdout","time":68.890236974,"data":"Ticker\n"}
+,{"stream_name":"stdout","time":68.89024321,"data":"CHTR     4106\n"}
+,{"stream_name":"stdout","time":68.890247292,"data":"CMCSA    6622\n"}
+,{"stream_name":"stdout","time":68.890251174,"data":"DIS      6622\n"}
+,{"stream_name":"stdout","time":68.890254982,"data":"EA       6622\n"}
+,{"stream_name":"stdout","time":68.890258885,"data":"FOX      1795\n"}
+,{"stream_name":"stdout","time":68.890262737,"data":"FOXA     1796\n"}
+,{"stream_name":"stdout","time":68.890266473,"data":"GOOG     5460\n"}
+,{"stream_name":"stdout","time":68.890270576,"data":"GOOGL    5460\n"}
+,{"stream_name":"stdout","time":68.89027476,"data":"LYV      5121\n"}
+,{"stream_name":"stdout","time":68.890286174,"data":"META     3508\n"}
+,{"stream_name":"stdout","time":68.890290152,"data":"NFLX     6024\n"}
+,{"stream_name":"stdout","time":68.890294074,"data":"NWS      3237\n"}
+,{"stream_name":"stdout","time":68.890298012,"data":"NWSA     3237\n"}
+,{"stream_name":"stdout","time":68.89030184,"data":"OMC      6622\n"}
+,{"stream_name":"stdout","time":68.890305665,"data":"PSKY     5133\n"}
+,{"stream_name":"stdout","time":68.890309754,"data":"SATS     4612\n"}
+,{"stream_name":"stdout","time":68.890313622,"data":"T        6622\n"}
+,{"stream_name":"stdout","time":68.890317522,"data":"TKO      6622\n"}
+,{"stream_name":"stdout","time":68.890321628,"data":"TMUS     4790\n"}
+,{"stream_name":"stdout","time":68.890325562,"data":"TTD      2416\n"}
+,{"stream_name":"stdout","time":68.890329368,"data":"dtype: int64\n"}
+,{"stream_name":"stdout","time":69.341756409,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stdout","time":74.579902947,"data":"communication_services: rows=114908 | tickers=23 | windows train/valid/test=88879/11398/11411\n"}
+,{"stream_name":"stdout","time":74.579970765,"data":"First sector dataset is built; 10 remaining sector dataset(s) will build lazily during training.\n"}
+,{"stream_name":"stdout","time":74.747098531,"data":"Granite baseline disabled by RUN_GRANITE_BASELINE=False\n"}
+,{"stream_name":"stdout","time":74.948025045,"data":"\n"}
+,{"stream_name":"stdout","time":74.948073511,"data":"=== Sector model 1/11: communication_services ===\n"}
+,{"stream_name":"stdout","time":75.360094929,"data":"communication_services class weights: [1.0697377 1.0024464 0.9278159]\n"}
+,{"stream_name":"stderr","time":75.518455037,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":75.518496072,"data":"\n"}
+,{"stream_name":"stderr","time":75.518499412,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":80.872486399,"data":"2026-05-06 19:17:58.240423: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":80.872682901,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":80.872693337,"data":"E0000 00:00:1778095078.626749      24 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":80.872697328,"data":"E0000 00:00:1778095078.740938      24 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":80.872701796,"data":"W0000 00:00:1778095079.707696      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":80.872705396,"data":"W0000 00:00:1778095079.707726      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":80.872709658,"data":"W0000 00:00:1778095079.707729      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":80.872713419,"data":"W0000 00:00:1778095079.707731      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.102478075,"data":"2026-05-06 19:17:58.240423: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.102518862,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":81.102522982,"data":"E0000 00:00:1778095078.626749      24 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.102525783,"data":"E0000 00:00:1778095078.740938      24 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.102528414,"data":"W0000 00:00:1778095079.707696      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.10253165,"data":"W0000 00:00:1778095079.707726      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.10253426,"data":"W0000 00:00:1778095079.707729      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.102552385,"data":"W0000 00:00:1778095079.707731      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.102555176,"data":"\n"}
+,{"stream_name":"stderr","time":81.10255739,"data":"2026-05-06 19:17:58.240423: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.10255994,"data":"WARNING: All log messages before absl::InitializeLog() is called are written to STDERR\n"}
+,{"stream_name":"stderr","time":81.102562375,"data":"E0000 00:00:1778095078.626749      24 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.10256488,"data":"E0000 00:00:1778095078.740938      24 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered\n"}
+,{"stream_name":"stderr","time":81.102568499,"data":"W0000 00:00:1778095079.707696      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.10257099,"data":"W0000 00:00:1778095079.707726      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.102573554,"data":"W0000 00:00:1778095079.707729      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stderr","time":81.102575983,"data":"W0000 00:00:1778095079.707731      24 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.\n"}
+,{"stream_name":"stdout","time":98.491714025,"data":"Training global PatchTST classifier on sp500_daily_sector_communication_services\n"}
+,{"stream_name":"stderr","time":100.730271186,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":100.730317419,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":100.730322204,"data":"\n"}
+,{"stream_name":"stderr","time":100.730325719,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":100.730329138,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":126.760711984,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":126.760747411,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":126.760753602,"data":"\n"}
+,{"stream_name":"stderr","time":126.760760108,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":126.760778796,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":152.588194935,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":152.5882376,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":152.588244053,"data":"\n"}
+,{"stream_name":"stderr","time":152.588249113,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":152.588254882,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":178.264231989,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":178.264276428,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":178.264283406,"data":"\n"}
+,{"stream_name":"stderr","time":178.264288027,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":178.264292925,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":204.186994176,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":204.187078541,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":204.187088381,"data":"\n"}
+,{"stream_name":"stderr","time":204.187094677,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":204.18710015,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":206.100135322,"data":"global PatchTST classifier [communication_services] accuracy=0.3995 macro_f1=0.3957 directional_accuracy=0.3635 coverage=0.6690\n"}
+,{"stream_name":"stdout","time":208.378353615,"data":"\n"}
+,{"stream_name":"stdout","time":208.378397123,"data":"=== Sector model 2/11: consumer_discretionary ===\n"}
+,{"stream_name":"stdout","time":208.378401736,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":221.100458832,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":221.100500475,"data":"\n"}
+,{"stream_name":"stderr","time":221.100506593,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":221.956889891,"data":"consumer_discretionary: rows=277512 | tickers=48 | windows train/valid/test=215649/27551/27592\n"}
+,{"stream_name":"stdout","time":221.956928158,"data":"consumer_discretionary class weights: [1.0383698  1.0706892  0.89094096]\n"}
+,{"stream_name":"stdout","time":221.95700221,"data":"Training global PatchTST classifier on sp500_daily_sector_consumer_discretionary\n"}
+,{"stream_name":"stderr","time":222.249048869,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":222.249086947,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":222.24909201,"data":"\n"}
+,{"stream_name":"stderr","time":222.249095476,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":222.249099357,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":283.844864666,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":283.844904809,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":283.844911924,"data":"\n"}
+,{"stream_name":"stderr","time":283.844917539,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":283.844923583,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":345.472099925,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":345.472142579,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":345.472148655,"data":"\n"}
+,{"stream_name":"stderr","time":345.472153242,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":345.47215822,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":406.256773643,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":406.256817647,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":406.256824645,"data":"\n"}
+,{"stream_name":"stderr","time":406.256829604,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":406.256835434,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":467.945820575,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":467.9458857,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":467.945903268,"data":"\n"}
+,{"stream_name":"stderr","time":467.945907626,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":467.945912277,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":472.319820716,"data":"global PatchTST classifier [consumer_discretionary] accuracy=0.3932 macro_f1=0.3861 directional_accuracy=0.3735 coverage=0.6122\n"}
+,{"stream_name":"stdout","time":475.226955185,"data":"\n"}
+,{"stream_name":"stdout","time":475.226998806,"data":"=== Sector model 3/11: consumer_staples ===\n"}
+,{"stream_name":"stdout","time":475.227003304,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":484.480273043,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":484.480311461,"data":"\n"}
+,{"stream_name":"stderr","time":484.480315943,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":485.241416756,"data":"consumer_staples: rows=221219 | tickers=36 | windows train/valid/test=172203/21971/22005\n"}
+,{"stream_name":"stdout","time":485.241449783,"data":"consumer_staples class weights: [1.2505432  0.73002136 1.0194354 ]\n"}
+,{"stream_name":"stdout","time":485.241454601,"data":"Training global PatchTST classifier on sp500_daily_sector_consumer_staples\n"}
+,{"stream_name":"stderr","time":485.523528215,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":485.523567709,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":485.523572415,"data":"\n"}
+,{"stream_name":"stderr","time":485.523575973,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":485.523580471,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":534.933142335,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":534.933185224,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":534.933192725,"data":"\n"}
+,{"stream_name":"stderr","time":534.93319856,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":534.933204052,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":584.024744906,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":584.02478814,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":584.024806178,"data":"\n"}
+,{"stream_name":"stderr","time":584.024810538,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":584.024814806,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":633.153218862,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":633.153265853,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":633.153273254,"data":"\n"}
+,{"stream_name":"stderr","time":633.153277663,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":633.153282443,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":682.204593524,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":682.204631409,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":682.204637544,"data":"\n"}
+,{"stream_name":"stderr","time":682.206046382,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":682.206088586,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":731.096822831,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":731.096862932,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":731.096869317,"data":"\n"}
+,{"stream_name":"stderr","time":731.09687399,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":731.096879366,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":734.683858999,"data":"global PatchTST classifier [consumer_staples] accuracy=0.4006 macro_f1=0.3975 directional_accuracy=0.3426 coverage=0.6981\n"}
+,{"stream_name":"stdout","time":737.350468408,"data":"\n"}
+,{"stream_name":"stdout","time":737.350498407,"data":"=== Sector model 4/11: energy ===\n"}
+,{"stream_name":"stdout","time":737.350504502,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":742.220778898,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":742.220816693,"data":"\n"}
+,{"stream_name":"stderr","time":742.220823698,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":742.870779424,"data":"energy: rows=125639 | tickers=22 | windows train/valid/test=97595/12472/12492\n"}
+,{"stream_name":"stdout","time":742.870811862,"data":"energy class weights: [1.0158198  1.1067529  0.87742734]\n"}
+,{"stream_name":"stdout","time":742.870816728,"data":"Training global PatchTST classifier on sp500_daily_sector_energy\n"}
+,{"stream_name":"stderr","time":743.169608824,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":743.169640881,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":743.16964418,"data":"\n"}
+,{"stream_name":"stderr","time":743.169646533,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":743.169649193,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":771.388287376,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":771.388322642,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":771.388328415,"data":"\n"}
+,{"stream_name":"stderr","time":771.388332726,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":771.388337736,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":799.721220818,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":799.721259956,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":799.721266055,"data":"\n"}
+,{"stream_name":"stderr","time":799.721270817,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":799.721276163,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":827.828672724,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":827.828753119,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":827.828760769,"data":"\n"}
+,{"stream_name":"stderr","time":827.828766012,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":827.828772204,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":855.812328786,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":855.812383344,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":855.812387581,"data":"\n"}
+,{"stream_name":"stderr","time":855.812390294,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":855.81239378,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":884.119666555,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":884.119708632,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":884.119715969,"data":"\n"}
+,{"stream_name":"stderr","time":884.119721219,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":884.119727072,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":912.265103889,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":912.265139844,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":912.26514649,"data":"\n"}
+,{"stream_name":"stderr","time":912.265151693,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":912.265157397,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":939.910291023,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":939.910352876,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":939.910361122,"data":"\n"}
+,{"stream_name":"stderr","time":939.910365781,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":939.910371009,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":967.716757729,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":967.716797301,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":967.716804025,"data":"\n"}
+,{"stream_name":"stderr","time":967.716825887,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":967.716847133,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":995.362211058,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":995.362252505,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":995.362258365,"data":"\n"}
+,{"stream_name":"stderr","time":995.36226318,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":995.362268574,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1022.990695089,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1022.990731732,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1022.990738819,"data":"\n"}
+,{"stream_name":"stderr","time":1022.990834154,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1022.990844136,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":1025.036123626,"data":"global PatchTST classifier [energy] accuracy=0.3614 macro_f1=0.3604 directional_accuracy=0.3462 coverage=0.6592\n"}
+,{"stream_name":"stdout","time":1027.435509375,"data":"\n"}
+,{"stream_name":"stdout","time":1027.435560108,"data":"=== Sector model 5/11: financials ===\n"}
+,{"stream_name":"stdout","time":1027.680452003,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":1047.851391151,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":1047.851422851,"data":"\n"}
+,{"stream_name":"stderr","time":1047.851428522,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":1047.852332504,"data":"financials: rows=446102 | tickers=76 | windows train/valid/test=346812/44294/44356\n"}
+,{"stream_name":"stdout","time":1047.852355273,"data":"financials class weights: [1.1498823  0.88605624 0.9640615 ]\n"}
+,{"stream_name":"stdout","time":1048.880061611,"data":"Training global PatchTST classifier on sp500_daily_sector_financials\n"}
+,{"stream_name":"stderr","time":1049.181364873,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1049.1813962,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1049.181406958,"data":"\n"}
+,{"stream_name":"stderr","time":1049.181412351,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1049.181417884,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1146.144498592,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1146.14454312,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1146.144552192,"data":"\n"}
+,{"stream_name":"stderr","time":1146.144555393,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1146.144558847,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1244.087370932,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1244.087414587,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1244.087421358,"data":"\n"}
+,{"stream_name":"stderr","time":1244.087426091,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1244.087431547,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1344.105342778,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1344.105382157,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1344.105388475,"data":"\n"}
+,{"stream_name":"stderr","time":1344.105392933,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1344.105398096,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1441.40063861,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1441.400679863,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1441.400686208,"data":"\n"}
+,{"stream_name":"stderr","time":1441.400690705,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1441.400695992,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1539.785446805,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1539.78550322,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1539.785507946,"data":"\n"}
+,{"stream_name":"stderr","time":1539.787046637,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1539.787074381,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1639.408061808,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1639.408103617,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1639.408109808,"data":"\n"}
+,{"stream_name":"stderr","time":1639.408114547,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1639.408120032,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1737.339529285,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1737.339574243,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1737.339580757,"data":"\n"}
+,{"stream_name":"stderr","time":1737.339585104,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1737.339590387,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1835.363997249,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1835.3640475,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1835.364054464,"data":"\n"}
+,{"stream_name":"stderr","time":1835.364059612,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1835.364064804,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":1842.003631205,"data":"global PatchTST classifier [financials] accuracy=0.4114 macro_f1=0.4021 directional_accuracy=0.3665 coverage=0.5963\n"}
+,{"stream_name":"stdout","time":1845.136294461,"data":"\n"}
+,{"stream_name":"stdout","time":1845.136333797,"data":"=== Sector model 6/11: health_care ===\n"}
+,{"stream_name":"stdout","time":1845.136339816,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":1860.305889916,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":1860.305968075,"data":"\n"}
+,{"stream_name":"stderr","time":1860.305978517,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":1861.26906912,"data":"health_care: rows=349635 | tickers=58 | windows train/valid/test=272020/34722/34773\n"}
+,{"stream_name":"stdout","time":1861.269118287,"data":"health_care class weights: [1.1298233  0.93050045 0.9396763 ]\n"}
+,{"stream_name":"stdout","time":1861.269123049,"data":"Training global PatchTST classifier on sp500_daily_sector_health_care\n"}
+,{"stream_name":"stderr","time":1861.590028926,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1861.590062888,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1861.590068617,"data":"\n"}
+,{"stream_name":"stderr","time":1861.590072122,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1861.590076636,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1939.148001258,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1939.148047034,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":1939.148053062,"data":"\n"}
+,{"stream_name":"stderr","time":1939.148057753,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":1939.148062816,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2015.87627246,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2015.876313334,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2015.876319211,"data":"\n"}
+,{"stream_name":"stderr","time":2015.876324059,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2015.87632949,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2092.42387223,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2092.423913629,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2092.423925199,"data":"\n"}
+,{"stream_name":"stderr","time":2092.423929196,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2092.423960355,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2168.665722593,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2168.665764908,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2168.66578294,"data":"\n"}
+,{"stream_name":"stderr","time":2168.66578717,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2168.665791972,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2245.025990977,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2245.026055644,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2245.026063025,"data":"\n"}
+,{"stream_name":"stderr","time":2245.026067677,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2245.026073039,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2321.434033079,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2321.434063788,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2321.43406951,"data":"\n"}
+,{"stream_name":"stderr","time":2321.43407404,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2321.434079073,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":2326.662632238,"data":"global PatchTST classifier [health_care] accuracy=0.3966 macro_f1=0.3964 directional_accuracy=0.3569 coverage=0.6796\n"}
+,{"stream_name":"stdout","time":2329.538404066,"data":"\n"}
+,{"stream_name":"stdout","time":2329.538451906,"data":"=== Sector model 7/11: industrials ===\n"}
+,{"stream_name":"stdout","time":2329.772624931,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stdout","time":2350.01471755,"data":"industrials: rows=454133 | tickers=79 | windows train/valid/test=352835/45085/45153\n"}
+,{"stream_name":"stdout","time":2350.014748642,"data":"industrials class weights: [1.1216542  0.9474705  0.93087536]\n"}
+,{"stream_name":"stderr","time":2350.015705394,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":2350.015727351,"data":"\n"}
+,{"stream_name":"stderr","time":2350.015732901,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":2351.06898747,"data":"Training global PatchTST classifier on sp500_daily_sector_industrials\n"}
+,{"stream_name":"stderr","time":2351.397324395,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2351.397358927,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2351.397378341,"data":"\n"}
+,{"stream_name":"stderr","time":2351.397383594,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2351.397388081,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2450.225740783,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2450.225787836,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2450.22579426,"data":"\n"}
+,{"stream_name":"stderr","time":2450.225798726,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2450.225803686,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2548.928210099,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2548.928250032,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2548.928256403,"data":"\n"}
+,{"stream_name":"stderr","time":2548.928261202,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2548.928266409,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2647.360765065,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2647.360807314,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2647.360816857,"data":"\n"}
+,{"stream_name":"stderr","time":2647.360820264,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2647.360824055,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2745.303081809,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2745.303123113,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2745.303129113,"data":"\n"}
+,{"stream_name":"stderr","time":2745.303133938,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2745.303139337,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2843.642812319,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2843.642855756,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2843.642862497,"data":"\n"}
+,{"stream_name":"stderr","time":2843.642866902,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2843.642871953,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2943.540594326,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2943.540645252,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":2943.540652789,"data":"\n"}
+,{"stream_name":"stderr","time":2943.540657835,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":2943.540663142,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3042.185992712,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3042.186036643,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3042.18604355,"data":"\n"}
+,{"stream_name":"stderr","time":3042.1860481,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3042.186053741,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3145.891840653,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3145.891884915,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3145.89189157,"data":"\n"}
+,{"stream_name":"stderr","time":3145.891896175,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3145.891901754,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3245.615072409,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3245.615113146,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3245.615119751,"data":"\n"}
+,{"stream_name":"stderr","time":3245.61512448,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3245.615140819,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3345.661112297,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3345.66115447,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3345.661161418,"data":"\n"}
+,{"stream_name":"stderr","time":3345.661166598,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3345.661172264,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":3352.496757089,"data":"global PatchTST classifier [industrials] accuracy=0.4051 macro_f1=0.3993 directional_accuracy=0.3655 coverage=0.6178\n"}
+,{"stream_name":"stdout","time":3355.636145754,"data":"\n"}
+,{"stream_name":"stdout","time":3355.636190514,"data":"=== Sector model 8/11: information_technology ===\n"}
+,{"stream_name":"stdout","time":3355.842190864,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":3374.394355824,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":3374.394401729,"data":"\n"}
+,{"stream_name":"stderr","time":3374.394406598,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":3375.426365043,"data":"information_technology: rows=394434 | tickers=73 | windows train/valid/test=305905/39131/39189\n"}
+,{"stream_name":"stdout","time":3375.426393403,"data":"information_technology class weights: [1.0053294  1.1369745  0.85769624]\n"}
+,{"stream_name":"stdout","time":3375.426399645,"data":"Training global PatchTST classifier on sp500_daily_sector_information_technology\n"}
+,{"stream_name":"stderr","time":3375.722035157,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3375.722071413,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3375.722075667,"data":"\n"}
+,{"stream_name":"stderr","time":3375.722078687,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3375.722082107,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3463.395875754,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3463.395917021,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3463.395924451,"data":"\n"}
+,{"stream_name":"stderr","time":3463.395929544,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3463.395959578,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3550.341177807,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3550.341220068,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3550.34122647,"data":"\n"}
+,{"stream_name":"stderr","time":3550.341231175,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3550.341237081,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3637.268842947,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3637.268885094,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3637.268892192,"data":"\n"}
+,{"stream_name":"stderr","time":3637.26889741,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3637.26890258,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3724.58422734,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3724.584271416,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3724.584278291,"data":"\n"}
+,{"stream_name":"stderr","time":3724.584283458,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3724.584289119,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3812.193051005,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3812.19309363,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3812.19310052,"data":"\n"}
+,{"stream_name":"stderr","time":3812.193105345,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3812.193110689,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3900.909519801,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3900.90957412,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3900.909579928,"data":"\n"}
+,{"stream_name":"stderr","time":3900.909583805,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3900.909588376,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3986.738431588,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3986.738468049,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":3986.738474589,"data":"\n"}
+,{"stream_name":"stderr","time":3986.738479178,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":3986.738485079,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4072.590135126,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4072.590182396,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4072.590189372,"data":"\n"}
+,{"stream_name":"stderr","time":4072.59019507,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4072.590201163,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4157.908130892,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4157.908171494,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4157.908178206,"data":"\n"}
+,{"stream_name":"stderr","time":4157.908183219,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4157.908188556,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4243.342797641,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4243.342837471,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4243.342844648,"data":"\n"}
+,{"stream_name":"stderr","time":4243.342850169,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4243.342855803,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":4249.283101559,"data":"global PatchTST classifier [information_technology] accuracy=0.3929 macro_f1=0.3917 directional_accuracy=0.3946 coverage=0.6423\n"}
+,{"stream_name":"stdout","time":4252.239044863,"data":"\n"}
+,{"stream_name":"stdout","time":4252.239084739,"data":"=== Sector model 9/11: materials ===\n"}
+,{"stream_name":"stdout","time":4252.239089501,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":4258.471072794,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":4258.471112381,"data":"\n"}
+,{"stream_name":"stderr","time":4258.471117199,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":4259.162395778,"data":"materials: rows=153205 | tickers=26 | windows train/valid/test=119118/15212/15235\n"}
+,{"stream_name":"stdout","time":4259.162435689,"data":"materials class weights: [1.0970538  0.96900356 0.9339427 ]\n"}
+,{"stream_name":"stdout","time":4259.162439991,"data":"Training global PatchTST classifier on sp500_daily_sector_materials\n"}
+,{"stream_name":"stderr","time":4259.474213777,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4259.474245496,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4259.474250624,"data":"\n"}
+,{"stream_name":"stderr","time":4259.474254413,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4259.474259123,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4293.081043502,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4293.081087251,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4293.081091606,"data":"\n"}
+,{"stream_name":"stderr","time":4293.081094885,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4293.081098447,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4326.804565556,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4326.804603432,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4326.804609731,"data":"\n"}
+,{"stream_name":"stderr","time":4326.804617902,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4326.804622005,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4360.472376246,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4360.472414217,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4360.472420381,"data":"\n"}
+,{"stream_name":"stderr","time":4360.472424976,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4360.472429667,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4394.282854254,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4394.282892027,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4394.282898164,"data":"\n"}
+,{"stream_name":"stderr","time":4394.28290342,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4394.282908879,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4428.063192421,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4428.063272733,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4428.063280212,"data":"\n"}
+,{"stream_name":"stderr","time":4428.063284642,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4428.063290284,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4461.899634415,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4461.899672548,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4461.899678406,"data":"\n"}
+,{"stream_name":"stderr","time":4461.899683159,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4461.899688189,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4495.841649338,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4495.841690425,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4495.841696513,"data":"\n"}
+,{"stream_name":"stderr","time":4495.841701287,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4495.841718538,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4529.55932357,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4529.559365213,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4529.559372908,"data":"\n"}
+,{"stream_name":"stderr","time":4529.559378611,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4529.559384166,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":4532.10234561,"data":"global PatchTST classifier [materials] accuracy=0.3931 macro_f1=0.3928 directional_accuracy=0.3635 coverage=0.6815\n"}
+,{"stream_name":"stdout","time":4534.611103709,"data":"\n"}
+,{"stream_name":"stdout","time":4534.611140595,"data":"=== Sector model 10/11: real_estate ===\n"}
+,{"stream_name":"stdout","time":4534.611144728,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":4542.304332205,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":4542.304369444,"data":"\n"}
+,{"stream_name":"stderr","time":4542.304375578,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":4543.063552518,"data":"real_estate: rows=192818 | tickers=31 | windows train/valid/test=150146/19152/19180\n"}
+,{"stream_name":"stdout","time":4543.063586861,"data":"real_estate class weights: [1.1761446  0.87932724 0.9445281 ]\n"}
+,{"stream_name":"stdout","time":4543.063592457,"data":"Training global PatchTST classifier on sp500_daily_sector_real_estate\n"}
+,{"stream_name":"stderr","time":4543.383272596,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4543.383307297,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4543.383312966,"data":"\n"}
+,{"stream_name":"stderr","time":4543.38331758,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4543.383322666,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4585.917973234,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4585.918024357,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4585.918032142,"data":"\n"}
+,{"stream_name":"stderr","time":4585.918037131,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4585.918053896,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4628.206588637,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4628.206642329,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4628.206649406,"data":"\n"}
+,{"stream_name":"stderr","time":4628.206654412,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4628.206660154,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4670.60315314,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4670.603191104,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4670.60319717,"data":"\n"}
+,{"stream_name":"stderr","time":4670.603201955,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4670.603207325,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4713.080744007,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4713.080785891,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4713.080791981,"data":"\n"}
+,{"stream_name":"stderr","time":4713.08079676,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4713.080802031,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4755.265078191,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4755.265117166,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4755.265123292,"data":"\n"}
+,{"stream_name":"stderr","time":4755.265131903,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4755.265136884,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":4758.28458714,"data":"global PatchTST classifier [real_estate] accuracy=0.4050 macro_f1=0.3952 directional_accuracy=0.3553 coverage=0.6306\n"}
+,{"stream_name":"stdout","time":4760.832396663,"data":"\n"}
+,{"stream_name":"stdout","time":4760.83244125,"data":"=== Sector model 11/11: utilities ===\n"}
+,{"stream_name":"stdout","time":4760.83245937,"data":"Granite TimeSeriesPreprocessor unavailable; using manual scaler. Reason: No module named 'tsfm_public'\n"}
+,{"stream_name":"stderr","time":4768.727604171,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stderr","time":4768.72763729,"data":"\n"}
+,{"stream_name":"stderr","time":4768.727643097,"data":"`logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.\n"}
+,{"stream_name":"stdout","time":4769.440833799,"data":"utilities: rows=192449 | tickers=31 | windows train/valid/test=149850/19115/19144\n"}
+,{"stream_name":"stdout","time":4769.440890528,"data":"utilities class weights: [1.2771405  0.7252997  0.99755985]\n"}
+,{"stream_name":"stdout","time":4769.440897353,"data":"Training global PatchTST classifier on sp500_daily_sector_utilities\n"}
+,{"stream_name":"stderr","time":4769.771708949,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4769.77174415,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4769.771747705,"data":"\n"}
+,{"stream_name":"stderr","time":4769.771750117,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4769.771753324,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4812.012031268,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4812.012087765,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4812.012094582,"data":"\n"}
+,{"stream_name":"stderr","time":4812.0120994,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4812.01210468,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4854.174178674,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4854.174219946,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4854.174226287,"data":"\n"}
+,{"stream_name":"stderr","time":4854.174231456,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4854.174237044,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4896.329735193,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4896.329802639,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4896.329820436,"data":"\n"}
+,{"stream_name":"stderr","time":4896.329824529,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4896.329828689,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4938.41531076,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4938.415351384,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4938.415357192,"data":"\n"}
+,{"stream_name":"stderr","time":4938.415361725,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4938.415366625,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4980.514530397,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4980.514570651,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stderr","time":4980.514577881,"data":"\n"}
+,{"stream_name":"stderr","time":4980.514583098,"data":"/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py:583: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.\n"}
+,{"stream_name":"stderr","time":4980.514589016,"data":"  return super().apply(*args, **kwargs)  # type: ignore[misc]\n"}
+,{"stream_name":"stdout","time":4983.601535976,"data":"global PatchTST classifier [utilities] accuracy=0.4066 macro_f1=0.3978 directional_accuracy=0.3306 coverage=0.6467\n"}
+,{"stream_name":"stdout","time":4985.981806717,"data":"communication_services (11411, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981839041,"data":"consumer_discretionary (27592, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981843498,"data":"consumer_staples (22005, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981847018,"data":"energy (12492, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981850206,"data":"financials (44356, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981853309,"data":"health_care (34773, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.98185639,"data":"industrials (45153, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981859881,"data":"information_technology (39189, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981883604,"data":"materials (15235, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981889552,"data":"real_estate (19180, 5, 3)\n"}
+,{"stream_name":"stdout","time":4985.981894909,"data":"utilities (19144, 5, 3)\n"}
+,{"stream_name":"stdout","time":4986.973738582,"data":"Saved comparison plot to /kaggle/working/checkpoint/patchtst_cls/sector_model_comparison.png\n"}
+,{"stream_name":"stdout","time":4987.172607371,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_communication_services\n"}
+,{"stream_name":"stdout","time":4987.172636101,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_consumer_discretionary\n"}
+,{"stream_name":"stdout","time":4987.172642326,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_consumer_staples\n"}
+,{"stream_name":"stdout","time":4987.172661849,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_energy\n"}
+,{"stream_name":"stdout","time":4987.220041255,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_financials\n"}
+,{"stream_name":"stdout","time":4987.220068629,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_health_care\n"}
+,{"stream_name":"stdout","time":4987.220073943,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_industrials\n"}
+,{"stream_name":"stdout","time":4987.220077966,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_information_technology\n"}
+,{"stream_name":"stdout","time":4987.220081978,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_materials\n"}
+,{"stream_name":"stdout","time":4987.220086421,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_real_estate\n"}
+,{"stream_name":"stdout","time":4987.220090504,"data":"Model saved to /kaggle/working/save_dir/patchtst_cls_sector_utilities\n"}
+,{"stream_name":"stdout","time":4987.382199045,"data":"Reload check skipped. Set RUN_RELOAD_CHECK=True in the config cell to verify every saved sector model.\n"}
+,{"stream_name":"stderr","time":4993.756204681,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":4993.756232849,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":4993.975926931,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":4993.975975171,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":4994.692717769,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":4995.092093282,"data":"[NbConvertApp] Writing 2752291 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":4997.401280085,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":4998.487295642,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":4998.487325668,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.487683474,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.487902554,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.488128386,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.488361668,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.488586379,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.488781766,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.489034869,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.489249888,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.489449336,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.48965788,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.489891884,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.490086492,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.490288511,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.4905096,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.490683571,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.490921773,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.491200222,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.491395102,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.491599023,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.491811627,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.491962757,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.492185637,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.492388192,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.492568487,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.492801483,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.493090383,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.493277655,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.493493353,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.49370058,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.493888288,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.494107341,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.494318432,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.494490386,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.494700725,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":4998.494966453,"data":"[NbConvertApp] Writing 681584 bytes to __results__.html\n"}
 ]

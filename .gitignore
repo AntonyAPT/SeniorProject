@@ -14,3 +14,7 @@ models/notebook/save_dir/
 # Change to the name of your notebook if edited
 models/notebook/patchtst-new-branch-test-sector.log 
 
+
+//saved version 3 results
+models/notebook/results_version_3/
+
