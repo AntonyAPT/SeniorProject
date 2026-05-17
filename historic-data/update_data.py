@@ -18,6 +18,7 @@ DEFAULT_TABLE_NAME = "historic_data"
 DEFAULT_CSV_PATH = "sp500_daily_max.csv"
 DEFAULT_BATCH_SIZE = 500
 SP500_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+HISTORIC_DATA_COLUMNS = ["date", "ticker", "open", "high", "low", "close", "volume", "sector"]
 
 
 def first_env(*names: str, default: str) -> str:
@@ -121,6 +122,7 @@ def download_new_rows(tickers: list[str], sector_map: dict[str, str], start_date
     frame.columns = [str(column).lower() for column in frame.columns]
     frame["date"] = pd.to_datetime(frame["date"]).dt.strftime("%Y-%m-%d")
     frame.dropna(subset=["open", "high", "low", "close", "volume"], how="all", inplace=True)
+    frame = frame[HISTORIC_DATA_COLUMNS]
     frame = frame.where(pd.notnull(frame), None)
     return frame
 
