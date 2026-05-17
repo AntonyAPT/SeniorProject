@@ -30,7 +30,7 @@ import pandas as pd
 NOTEBOOK_DIR = Path(__file__).resolve().parent
 DEFAULT_MODEL_DIR = NOTEBOOK_DIR / "save_dir" / "patchtst_cls_sector_all_11_sectors"
 DEFAULT_OUTPUT_PATH = NOTEBOOK_DIR / "save_dir" / "latest_recommendations.csv"
-DEFAULT_NOTEBOOK_PATH = NOTEBOOK_DIR / "patchtst-new-branch-test-sector.ipynb"
+DEFAULT_NOTEBOOK_PATH = NOTEBOOK_DIR / "patchtst-default.ipynb"
 DEFAULT_INDUSTRY_MAP_PATH = NOTEBOOK_DIR / "ticker_industry.json"
 
 DEFAULT_SUPABASE_URL = "https://jnjpfkbdaoxuumayxivh.supabase.co"
