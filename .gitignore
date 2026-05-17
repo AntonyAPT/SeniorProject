@@ -16,3 +16,6 @@ models/notebook/ticker_industry.json
 # Change to the name of your notebook if edited
 models/notebook/patchtst-new-branch-test-sector.log 
 models/notebook/results_version_*/
+
+# Help visualize tasks
+models/Tasks 

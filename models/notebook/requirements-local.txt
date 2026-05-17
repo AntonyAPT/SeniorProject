@@ -1,0 +1,8 @@
+# Needed to run backtest_local.py
+pandas
+numpy
+matplotlib
+
+# Needed for local notebook experience
+jupyter
+ipykernel
