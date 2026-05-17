@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 from datetime import date, datetime, timedelta
+from io import StringIO
 from pathlib import Path
 
 import pandas as pd
@@ -61,7 +62,10 @@ def fetch_sp500_tickers_and_sectors() -> tuple[list[str], dict[str, str]]:
     }
     response = requests.get(SP500_URL, headers=headers, timeout=30)
     response.raise_for_status()
-    table = pd.read_html(response.text)[0]
+    tables = pd.read_html(StringIO(response.text), attrs={"id": "constituents"})
+    if not tables:
+        raise ValueError("Could not find the S&P 500 constituents table on Wikipedia.")
+    table = tables[0]
     table["Symbol"] = table["Symbol"].str.replace(".", "-", regex=False)
     sector_map = dict(zip(table["Symbol"], table["GICS Sector"]))
     return list(sector_map.keys()), sector_map
