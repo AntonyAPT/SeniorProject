@@ -21,6 +21,7 @@ import ast
 import json
 import os
 import re
+from io import StringIO
 from pathlib import Path
 
 import numpy as np
@@ -119,7 +120,10 @@ def fetch_sp500_tickers() -> list[str]:
     }
     response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
-    table = pd.read_html(response.text)[0]
+    tables = pd.read_html(StringIO(response.text), attrs={"id": "constituents"})
+    if not tables:
+        raise ValueError("Could not find the S&P 500 constituents table on Wikipedia.")
+    table = tables[0]
     tickers = table["Symbol"].astype(str).str.replace(".", "-", regex=False).str.upper()
     return sorted(tickers.unique().tolist())
 
