@@ -1,0 +1,258 @@
+{
+    "artifact": {
+      "artifact_dir": "/kaggle/input/datasets/kingz101/patchtst-saved-model/patchtst_cls_sector_all_11_sectors",
+      "checkpoint_bytes": 3661224,
+      "scope_slug": "all_11_sectors",
+      "training_metadata": {
+        "artifact_scope_slug": "all_11_sectors",
+        "context_length": 128,
+        "forecast_horizon": 5,
+        "industry_embedding_dim": 8,
+        "label_rule": "rolling_vol",
+        "label_threshold": 0.01,
+        "num_industries": 111,
+        "sectors": "Communication Services,Consumer Discretionary,Consumer Staples,Energy,Financials,Health Care,Industrials,Information Technology,Materials,Real Estate,Utilities",
+        "target_columns": "Open,High,Low,Close,Volume"
+      }
+    },
+    "audit_results": {
+      "backtest_forecast_gt_trade": true,
+      "industry_mapping_shared": true,
+      "labeling_no_lookahead": true,
+      "model_beats_always_flat": true,
+      "scaling_train_only": true,
+      "survivorship_bias_caveat": "Ticker universe is current S&P 500 constituents only."
+    },
+    "baseline_comparison": [
+      {
+        "accuracy": 0.397513,
+        "balanced_acc": 0.386129,
+        "macro_f1": 0.385562,
+        "strategy": "model"
+      },
+      {
+        "accuracy": 0.292856,
+        "balanced_acc": 0.333333,
+        "macro_f1": 0.151013,
+        "strategy": "always-flat"
+      },
+      {
+        "accuracy": 0.383366,
+        "balanced_acc": 0.333333,
+        "macro_f1": 0.18475,
+        "strategy": "always-up"
+      },
+      {
+        "accuracy": 0.336821,
+        "balanced_acc": 0.332618,
+        "macro_f1": 0.332618,
+        "strategy": "random-stratified"
+      }
+    ],
+    "calibration": {
+      "brier_score_up_day1": 0.209344,
+      "calibration_monotone": true
+    },
+    "classification_metrics": {
+      "all_days_flattened": {
+        "accuracy": 0.397513,
+        "balanced_acc": 0.386129,
+        "macro_f1": 0.385562,
+        "per_class": {
+          "down": {
+            "f1": 0.316328,
+            "precision": 0.338839,
+            "recall": 0.296622,
+            "support": 221312
+          },
+          "flat": {
+            "f1": 0.375493,
+            "precision": 0.455721,
+            "recall": 0.319284,
+            "support": 200176
+          },
+          "up": {
+            "f1": 0.464865,
+            "precision": 0.406679,
+            "recall": 0.542482,
+            "support": 262042
+          }
+        }
+      },
+      "per_day": [
+        {
+          "accuracy": 0.434019,
+          "day": 1,
+          "macro_f1": 0.321738
+        },
+        {
+          "accuracy": 0.36577,
+          "day": 2,
+          "macro_f1": 0.347654
+        },
+        {
+          "accuracy": 0.380547,
+          "day": 3,
+          "macro_f1": 0.328378
+        },
+        {
+          "accuracy": 0.397517,
+          "day": 4,
+          "macro_f1": 0.31176
+        },
+        {
+          "accuracy": 0.409711,
+          "day": 5,
+          "macro_f1": 0.302769
+        }
+      ]
+    },
+    "deployment_gate": {
+      "calibration_monotone": true,
+      "pass": true,
+      "top10_avg_forward_return": 0.00182
+    },
+    "env": {
+      "cuda_available": true,
+      "device": "cuda",
+      "is_kaggle": true,
+      "numpy": "2.0.2",
+      "pandas": "2.3.3",
+      "python": "3.12.12 (main, Oct 10 2025, 08:52:57) [GCC 11.4.0]",
+      "run_timestamp_utc": "2026-05-18T02:41:46+00:00",
+      "seed": 42,
+      "sklearn": "1.6.1",
+      "torch": "2.10.0+cu128",
+      "transformers": "5.0.0"
+    },
+    "overfitting_probe": [
+      {
+        "accuracy": 0.48064,
+        "macro_f1": 0.460595,
+        "split": "train"
+      },
+      {
+        "accuracy": 0.397513,
+        "macro_f1": 0.385562,
+        "split": "test"
+      }
+    ],
+    "sector_metrics": [
+      {
+        "accuracy": 0.446502,
+        "macro_f1": 0.330422,
+        "n_windows": 15767,
+        "sector": "Health Care"
+      },
+      {
+        "accuracy": 0.450583,
+        "macro_f1": 0.329298,
+        "n_windows": 19366,
+        "sector": "Information Technology"
+      },
+      {
+        "accuracy": 0.441686,
+        "macro_f1": 0.327485,
+        "n_windows": 21144,
+        "sector": "Industrials"
+      },
+      {
+        "accuracy": 0.435021,
+        "macro_f1": 0.324107,
+        "n_windows": 20999,
+        "sector": "Financials"
+      },
+      {
+        "accuracy": 0.428209,
+        "macro_f1": 0.321151,
+        "n_windows": 7090,
+        "sector": "Materials"
+      },
+      {
+        "accuracy": 0.434359,
+        "macro_f1": 0.316837,
+        "n_windows": 13132,
+        "sector": "Consumer Discretionary"
+      },
+      {
+        "accuracy": 0.407538,
+        "macro_f1": 0.316235,
+        "n_windows": 8490,
+        "sector": "Utilities"
+      },
+      {
+        "accuracy": 0.407852,
+        "macro_f1": 0.315309,
+        "n_windows": 8584,
+        "sector": "Real Estate"
+      },
+      {
+        "accuracy": 0.436393,
+        "macro_f1": 0.312936,
+        "n_windows": 6210,
+        "sector": "Communication Services"
+      },
+      {
+        "accuracy": 0.418494,
+        "macro_f1": 0.306742,
+        "n_windows": 9895,
+        "sector": "Consumer Staples"
+      },
+      {
+        "accuracy": 0.421463,
+        "macro_f1": 0.303845,
+        "n_windows": 6029,
+        "sector": "Energy"
+      }
+    ],
+    "top_n_hit_rates": [
+      {
+        "hit_rate": 0.310714,
+        "n_trades": 280,
+        "top_n": 1
+      },
+      {
+        "hit_rate": 0.344274,
+        "n_trades": 1371,
+        "top_n": 5
+      },
+      {
+        "hit_rate": 0.33509,
+        "n_trades": 2656,
+        "top_n": 10
+      },
+      {
+        "hit_rate": 0.328421,
+        "n_trades": 4954,
+        "top_n": 20
+      },
+      {
+        "hit_rate": 0.324917,
+        "n_trades": 10218,
+        "top_n": 50
+      }
+    ],
+    "year_stability": [
+      {
+        "avg_positions": 9.3,
+        "dir_acc_selected": 0.5491,
+        "max_drawdown_pct": -13.91,
+        "n_prediction_rows": 97682,
+        "total_return_pct": 18.52,
+        "trading_days": 204,
+        "year": 2025
+      },
+      {
+        "avg_positions": 9.7,
+        "dir_acc_selected": 0.576,
+        "max_drawdown_pct": -9.37,
+        "n_prediction_rows": 39024,
+        "total_return_pct": 30.07,
+        "trading_days": 78,
+        "year": 2026
+      }
+    ]
+  }
+  
+  
+  

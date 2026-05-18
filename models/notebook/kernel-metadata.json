@@ -1,13 +1,14 @@
 {
-  "id": "kingz101/patchtst-new-branch-test-sector",
-  "title": "PatchTST New Branch Test Sector",
-  "code_file": "patchtst-new-branch-test-sector.ipynb",
+  "id": "kingz101/patchtst-eval-backtest",
+  "title": "patchtst-eval-backtest",
+  "code_file": "patchtst-eval-backtest.ipynb",
   "language": "python",
   "kernel_type": "notebook",
   "is_private": "true",
   "accelerator": "NvidiaTeslaT4",
   "enable_internet": "true",
-  "dataset_sources": ["kingz101/sp500-daily-raw"],
-  "competition_sources": [],
-  "kernel_sources": []
+  "dataset_sources": [
+    "kingz101/sp500-daily-raw",
+    "kingz101/patchtst-saved-model"
+  ]
 }
