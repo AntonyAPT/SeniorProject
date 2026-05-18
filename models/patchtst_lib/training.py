@@ -16,6 +16,10 @@ def compute_metrics(eval_pred) -> Dict[str, float]:
     the time dimension before computing metrics.
     """
     logits, labels = eval_pred
+    if isinstance(logits, tuple):
+        logits = logits[0]
+    if isinstance(labels, tuple):
+        labels = labels[0]
     # logits: (N, horizon, n_classes) or (N, n_classes) if horizon=1 was squeezed
     if logits.ndim == 3:
         horizon = logits.shape[1]
