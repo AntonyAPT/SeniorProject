@@ -137,6 +137,8 @@ def build_prediction_df(
 
         rows.append(
             {
+                "context_start_quarter": meta.context_start_quarter,
+                "context_end_quarter": meta.context_end_quarter,
                 "decision_date": meta.decision_date,
                 "forecast_end_date": meta.forecast_end_date,
                 "ticker": meta.ticker,
@@ -150,8 +152,51 @@ def build_prediction_df(
         )
 
     df = pd.DataFrame(rows)
+    df["context_start_quarter"] = pd.to_datetime(df["context_start_quarter"])
+    df["context_end_quarter"] = pd.to_datetime(df["context_end_quarter"])
     df["decision_date"] = pd.to_datetime(df["decision_date"])
     df["forecast_end_date"] = pd.to_datetime(df["forecast_end_date"])
+    return df.sort_values(["decision_date", "ticker"]).reset_index(drop=True)
+
+
+def filter_prior_year_to_following_q1(
+    pred_df: pd.DataFrame,
+    *,
+    forecast_year: Optional[int] = None,
+) -> pd.DataFrame:
+    """Keep rows that use prior-calendar-year Q4 fundamentals to trade following Q1.
+
+    Each sample uses a context window ending at fiscal Q4 (December ``datadate``).
+    The forward return covers roughly the next calendar quarter after the Q4
+    filing lag — i.e. Q1 of ``forecast_year = context_end_year + 1``.
+
+    Parameters
+    ----------
+    pred_df:
+        Output of ``build_prediction_df`` (must include ``context_end_quarter``).
+    forecast_year:
+        Calendar year of the Q1 being predicted (e.g. ``2025`` for a window
+        anchored on Q4 2024).  When ``None``, uses the latest such year in
+        the DataFrame.
+    """
+    if "context_end_quarter" not in pred_df.columns:
+        raise ValueError(
+            "pred_df is missing context_end_quarter; rebuild with build_prediction_df()."
+        )
+
+    df = pred_df.copy()
+    end = pd.to_datetime(df["context_end_quarter"])
+    # Q4 fiscal quarter-ends (Compustat datadate month == December).
+    df = df.loc[end.dt.month == 12].copy()
+    if df.empty:
+        return df
+
+    end = pd.to_datetime(df["context_end_quarter"])
+    df["context_year"] = end.dt.year
+    df["forecast_year"] = df["context_year"] + 1
+
+    target_year = int(forecast_year) if forecast_year is not None else int(df["forecast_year"].max())
+    df = df.loc[df["forecast_year"] == target_year].copy()
     return df.sort_values(["decision_date", "ticker"]).reset_index(drop=True)
 
 

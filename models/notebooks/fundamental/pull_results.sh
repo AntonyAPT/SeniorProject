@@ -9,4 +9,10 @@ kaggle kernels output $KERNEL \
   --file-pattern "(^|/)(checkpoint|save_dir_fund)/.*" \
   -o
 
-echo "Done."
+echo "Pulling pred_df_test.csv for local backtest experiments..."
+kaggle kernels output $KERNEL \
+  -p . \
+  --file-pattern "pred_df_test.csv" \
+  -o
+
+echo "Done. Run backtest_local.py to compare weighting strategies without the model."
