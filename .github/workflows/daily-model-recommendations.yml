@@ -2,8 +2,8 @@ name: Daily Model Recommendations
 
 on:
   schedule:
-    # 08:00 UTC is after the prior US market day has settled.
-    - cron: "0 8 * * *"
+    # 08:00 UTC Tue-Sat runs after the prior US market day has settled.
+    - cron: "0 8 * * 2-6"
   workflow_dispatch:
     inputs:
       kaggle_kernel:

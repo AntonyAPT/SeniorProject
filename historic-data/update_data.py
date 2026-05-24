@@ -101,6 +101,11 @@ def latest_csv_date(csv_path: Path) -> pd.Timestamp | None:
 
 def download_new_rows(tickers: list[str], sector_map: dict[str, str], start_date: date, end_date: date) -> pd.DataFrame:
     print(f"Fetching new data from {start_date} to {end_date}...")
+    last_requested_date = end_date - timedelta(days=1)
+    if pd.bdate_range(start_date, last_requested_date).empty:
+        print("No business days in requested range; skipping market data fetch.")
+        return pd.DataFrame()
+
     raw = yf.download(
         tickers,
         start=start_date.isoformat(),
@@ -116,10 +121,27 @@ def download_new_rows(tickers: list[str], sector_map: dict[str, str], start_date
         return pd.DataFrame()
 
     frame = raw.stack(level=0, future_stack=True).reset_index()
+    if frame.empty:
+        return pd.DataFrame()
+
     frame.columns.name = None
-    frame.rename(columns={"level_1": "Ticker"}, inplace=True)
+    date_column = next(
+        (column for column in frame.columns if str(column).strip().lower() in {"date", "datetime", "index", "level_0"}),
+        None,
+    )
+    ticker_column = next(
+        (column for column in frame.columns if str(column).strip().lower() in {"ticker", "symbol", "level_1"}),
+        None,
+    )
+    if date_column is None or ticker_column is None:
+        raise ValueError(f"Unexpected yfinance columns after reshape: {list(frame.columns)}")
+
+    frame.rename(columns={date_column: "Date", ticker_column: "Ticker"}, inplace=True)
     frame["Sector"] = frame["Ticker"].map(sector_map)
     frame.columns = [str(column).lower() for column in frame.columns]
+    for column in HISTORIC_DATA_COLUMNS:
+        if column not in frame.columns:
+            frame[column] = pd.NA
     frame["date"] = pd.to_datetime(frame["date"]).dt.strftime("%Y-%m-%d")
     frame.dropna(subset=["open", "high", "low", "close", "volume"], how="all", inplace=True)
     frame = frame[HISTORIC_DATA_COLUMNS]
