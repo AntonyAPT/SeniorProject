@@ -19,8 +19,8 @@ models/notebook_model_runs/**/save_dir/
 models/notebook_model_runs/**/save_dir_fund/
 
 # Change to the name of your notebook if edited
-models/notebook/patchtst-new-branch-test-sector.log 
-models/notebook/results_version_*/
+models/notebook_model_runs/**/*.log 
+models/notebook_model_runs/**/results_version_*/
 
 # Help visualize tasks
 models/Tasks 

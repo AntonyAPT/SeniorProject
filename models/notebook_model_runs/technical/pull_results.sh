@@ -3,7 +3,7 @@ KERNEL=${1:-"kingz101/patchtst-new-branch-test-sector"} # matches 'id' in kernel
 
 echo "Pulling training artifacts and predictions..."
 
-# assuming you run from models/notebook
+# assuming you run from models/notebook_model_runs
 kaggle kernels output $KERNEL \
   -p . \
   --file-pattern "(^|/)(checkpoint|save_dir)/.*" \

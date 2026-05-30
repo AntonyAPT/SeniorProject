@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Add models/ to sys.path so patchtst_lib is importable when running this
-# script directly from the models/notebooks/technical/ directory.
+# script directly from the models/notebook_model_runs/technical/ directory.
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
 import patchtst_lib.technical.backtest as bt
@@ -29,7 +29,7 @@ def main():
     parser.add_argument(
         "--csv",
         default=str(Path(__file__).parent / "save_dir" / "pred_df_test.csv"),
-        # Run `bash pull_results.sh` from models/notebooks/technical/ first.
+        # Run `bash pull_results.sh` from models/notebook_model_runs/technical/ first.
         help="Path to pred_df_test.csv downloaded from Kaggle.",
     )
     parser.add_argument("--capital", type=float, default=1000.0)
@@ -45,7 +45,7 @@ def main():
     csv_path = Path(args.csv)
     if not csv_path.exists():
         print(f"ERROR: {csv_path} not found.")
-        print("Run `bash pull_results.sh` from models/notebook first.")
+        print("Run `bash pull_results.sh` from models/notebook_model_runs first.")
         raise SystemExit(1)
 
     pred_df = pd.read_csv(csv_path, parse_dates=["trade_date", "forecast_date"])

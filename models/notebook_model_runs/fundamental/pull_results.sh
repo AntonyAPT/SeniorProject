@@ -3,7 +3,7 @@ KERNEL=${1:-"kingz101/patchtst-fundamental-classifier"}
 
 echo "Pulling fundamental training artifacts..."
 
-# Run from models/notebooks/fundamental/
+# Run from models/notebook_model_runs/fundamental/
 kaggle kernels output $KERNEL \
   -p . \
   --file-pattern "(^|/)(checkpoint|save_dir_fund)/.*" \

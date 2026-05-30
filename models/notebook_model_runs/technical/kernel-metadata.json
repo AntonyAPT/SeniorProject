@@ -1,7 +1,7 @@
 {
   "id": "kingz101/patchtst-technical-classifier",
   "title": "PatchTST Technical Classifier",
-  "code_file": "patchtst-stock-classifier.ipynb",
+  "code_file": "patchtst-technical-classifier.ipynb",
   "language": "python",
   "kernel_type": "notebook",
   "is_private": "true",

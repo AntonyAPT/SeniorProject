@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Add models/ to sys.path so patchtst_lib is importable when running this
-# script directly from the models/notebooks/fundamental/ directory.
+# script directly from the models/notebook_model_runs/fundamental/ directory.
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
 import patchtst_lib.fundamental.backtest as fbt
@@ -58,7 +58,7 @@ def main():
     csv_path = Path(args.csv)
     if not csv_path.exists():
         print(f"ERROR: {csv_path} not found.")
-        print("Run `bash pull_results.sh` from models/notebooks/fundamental first.")
+        print("Run `bash pull_results.sh` from models/notebook_model_runs/fundamental first.")
         raise SystemExit(1)
 
     pred_df = pd.read_csv(
