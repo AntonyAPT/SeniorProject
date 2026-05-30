@@ -7,7 +7,11 @@ __pycache__/
 .cursorrules
 
 # Dataset
-models/data_raw
+models/data_raw/historic_data_rows.csv
+models/data_raw/prune_quarterly_fundamentals.py
+models/data_raw/quarterly_fundamentals_rows.csv
+models/data_raw/quarterly_fundamentals.csv
+models/data_raw/qvxizxrjkkt9vjtx.csv
 
 # Kaggle CLI output / model training artefacts
 models/notebook_best_models/fundamental/checkpoint
