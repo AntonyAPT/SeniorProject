@@ -12,8 +12,8 @@ models/data_raw/*.py
 
 # Kaggle CLI output / model training artefacts
 models/notebook_best_models/**/checkpoint
-models/notebook_best_models/**/save_dir_fund
-models/notebook_best_models/**/save_dir
+#models/notebook_best_models/**/save_dir_fund
+#models/notebook_best_models/**/save_dir
 models/notebook_model_runs/**/checkpoint/
 models/notebook_model_runs/**/save_dir/
 models/notebook_model_runs/**/save_dir_fund/

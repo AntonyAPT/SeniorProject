@@ -174,35 +174,26 @@ function CompositionTab({
 
   return (
     <div className="h-80 flex items-center gap-6">
-      <ResponsiveContainer width="55%" height="100%">
-        <PieChart>
-          <Pie
-            data={pieData}
-            cx="50%"
-            cy="50%"
-            innerRadius="52%"
-            outerRadius="78%"
-            dataKey="value"
-            paddingAngle={2}
-          >
-            {pieData.map((_, i) => (
-              <Cell key={i} fill={COLORS[i % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#020617",
-              border: "1px solid rgba(51, 65, 85, 0.9)",
-              borderRadius: "12px",
-            }}
-            formatter={(value: number | undefined) => [
-              `$${(value ?? 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-              "Value",
-            ]}
-            labelStyle={{ color: "#e2e8f0" }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="w-[55%] h-full pointer-events-none">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              innerRadius="52%"
+              outerRadius="78%"
+              dataKey="value"
+              paddingAngle={2}
+              isAnimationActive={false}
+            >
+              {pieData.map((_, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
 
       {/* Legend */}
       <div className="flex-1 space-y-2.5 overflow-y-auto max-h-72 pr-1">
