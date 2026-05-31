@@ -1,0 +1,11 @@
+{
+  "context_length":128,
+  "forecast_horizon":5,
+  "label_rule":"rolling_vol",
+  "label_threshold":0.01,
+  "target_columns":"Open,High,Low,Close,Volume",
+  "artifact_scope_slug":"all_11_sectors",
+  "sectors":"Communication Services,Consumer Discretionary,Consumer Staples,Energy,Financials,Health Care,Industrials,Information Technology,Materials,Real Estate,Utilities",
+  "num_industries":111,
+  "industry_embedding_dim":8
+}

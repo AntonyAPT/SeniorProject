@@ -1,16 +1,26 @@
-.venv/
+# Machine-Specific
+models/.venv
 __pycache__/
 *.pyc
-.DS_Store
 .cursor/
-.vscode/
-models/data_raw
+.vscode
 .cursorrules
 
-# Kaggle CLI output / local clone artefacts
-models/notebook/checkpoint/
-models/notebook/save_dir/
-# Change to the name of your notebook if edited
-models/notebook/patchtst-new-branch-test-sector.log 
+# Dataset
+models/data_raw/*.csv
+models/data_raw/*.py
 
-models/notebook/results_version_*/
+# Kaggle CLI output / model training artefacts
+models/notebook_best_models/**/checkpoint
+#models/notebook_best_models/**/save_dir_fund
+#models/notebook_best_models/**/save_dir
+models/notebook_model_runs/**/checkpoint/
+models/notebook_model_runs/**/save_dir/
+models/notebook_model_runs/**/save_dir_fund/
+
+# Change to the name of your notebook if edited
+models/notebook_model_runs/**/*.log 
+models/notebook_model_runs/**/results_version_*/
+
+# Help visualize tasks
+models/Tasks 
