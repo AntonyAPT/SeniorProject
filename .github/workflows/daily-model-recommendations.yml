@@ -60,6 +60,7 @@ jobs:
         run: >
           python models/notebook_best_models/technical/local_inference.py
           --sp500-tickers
+          --write-supabase
           --device cpu
 
       - name: Upload latest recommendations CSV
