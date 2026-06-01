@@ -1,4 +1,5 @@
 # Machine-Specific
+.DS_Store
 models/.venv
 __pycache__/
 *.pyc
@@ -11,6 +12,11 @@ models/data_raw/*.csv
 models/data_raw/*.py
 
 # Kaggle CLI output / model training artefacts
+models/notebook/checkpoint/
+models/notebook/save_dir/
+models/notebook/results_version_*/
+models/notebook/*.log
+models/notebook/ticker_industry.json
 models/notebook_best_models/**/checkpoint
 #models/notebook_best_models/**/save_dir_fund
 #models/notebook_best_models/**/save_dir
