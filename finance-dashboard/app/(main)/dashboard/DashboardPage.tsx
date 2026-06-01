@@ -275,6 +275,7 @@ export default function DashboardPage({
                       confidence={item.confidence}
                       detail={item.detail}
                       isPositive={item.isPositive}
+                      onClick={() => router.push(`/stocks/${item.ticker}`)}
                     />
                   ))
                 )}
@@ -401,12 +402,14 @@ function PredictionCard({
   confidence,
   detail,
   isPositive,
+  onClick,
 }: {
   ticker: string;
   prediction: string;
   confidence: number;
   detail: string;
   isPositive: boolean;
+  onClick?: () => void;
 }) {
   const getPredictionClass = (pred: string) => {
     if (pred === "BUY") return "text-positive bg-emerald-500/10";
@@ -415,7 +418,7 @@ function PredictionCard({
   };
 
   return (
-    <div className="bg-slate-800/30 border border-slate-700/30 rounded-xl p-4 hover:bg-slate-800/50 transition-all">
+    <div onClick={onClick} className="bg-slate-800/30 border border-slate-700/30 rounded-xl p-4 hover:bg-slate-800/50 transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="font-semibold">{ticker}</span>
         <span
