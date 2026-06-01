@@ -27,7 +27,6 @@ export default function DashboardPage({
   const [allQuotes, setAllQuotes] = useState<Record<string, StockQuote>>({});
   const [recommendations, setRecommendations] = useState<ModelRecommendation[]>([]);
   const [recommendationsLoading, setRecommendationsLoading] = useState(true);
-  const [visiblePredictionLimit, setVisiblePredictionLimit] = useState(4);
 
   // Compute net holdings (shares per ticker) from portfolio items
   const holdingsMap: Record<string, number> = {};
@@ -91,10 +90,9 @@ export default function DashboardPage({
   );
   const prevPortfolioValue = portfolioValue - todayPnl;
   const portfolioPctChange = prevPortfolioValue > 0 ? (todayPnl / prevPortfolioValue) * 100 : 0;
-  const visibleRecommendations = recommendations.slice(0, visiblePredictionLimit);
   const avgConfidence =
-    visibleRecommendations.length > 0
-      ? visibleRecommendations.reduce((sum, item) => sum + item.probUp, 0) / visibleRecommendations.length
+    recommendations.length > 0
+      ? recommendations.reduce((sum, item) => sum + item.probUp, 0) / recommendations.length
       : 0;
 
   // Price map passed to PortfolioPanel so it doesn't need to re-fetch
@@ -155,7 +153,7 @@ export default function DashboardPage({
             />
             <StatCard
               label="Active Predictions"
-              value={recommendationsLoading ? "—" : String(visibleRecommendations.length)}
+              value={recommendationsLoading ? "—" : String(recommendations.length)}
               change={recommendations[0]?.contextEnd ?? "—"}
               isPositive={true}
             />
@@ -174,19 +172,8 @@ export default function DashboardPage({
 
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <h2 className="text-xl font-semibold">Top 5-Day Gainers Forecast</h2>
-                <select
-                  aria-label="Prediction count"
-                  value={visiblePredictionLimit}
-                  onChange={(event) => setVisiblePredictionLimit(Number(event.target.value))}
-                  className="bg-slate-800/70 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                >
-                  <option value={4}>Top 4</option>
-                  <option value={10}>Top 10</option>
-                </select>
-              </div>
-              <div className="space-y-4">
+              <h2 className="text-xl font-semibold mb-6">Top 5-Day Gainers Forecast</h2>
+              <div className="space-y-4 overflow-y-auto max-h-100 pr-1">
                 {recommendationsLoading ? (
                   <p className="text-slate-500 text-sm text-center py-6">
                     Loading predictions...
@@ -196,7 +183,7 @@ export default function DashboardPage({
                     No model predictions found
                   </p>
                 ) : (
-                  visibleRecommendations.map((item) => (
+                  recommendations.map((item: ModelRecommendation) => (
                     <PredictionCard
                       key={`${item.ticker}-${item.forecastDay}`}
                       ticker={item.ticker}
