@@ -47,7 +47,6 @@ export default function DashboardPage({
   const [fundamentalRecommendations, setFundamentalRecommendations] = useState<FundamentalRecommendation[]>([]);
   const [fundamentalRecommendationsLoading, setFundamentalRecommendationsLoading] = useState(true);
   const [predictionModel, setPredictionModel] = useState<PredictionModel>("technical");
-  const [visiblePredictionLimit, setVisiblePredictionLimit] = useState(4);
 
   // Compute net holdings (shares per ticker) from portfolio items
   const holdingsMap: Record<string, number> = {};
@@ -153,13 +152,12 @@ export default function DashboardPage({
     predictionModel === "technical" ? technicalPredictionCards : fundamentalPredictionCards;
   const predictionsLoading =
     predictionModel === "technical" ? recommendationsLoading : fundamentalRecommendationsLoading;
-  const visiblePredictionCards = activePredictionCards.slice(0, visiblePredictionLimit);
   const avgConfidence =
-    visiblePredictionCards.length > 0
-      ? visiblePredictionCards.reduce((sum, item) => sum + item.confidence, 0) / visiblePredictionCards.length
+    activePredictionCards.length > 0
+      ? activePredictionCards.reduce((sum, item) => sum + item.confidence, 0) / activePredictionCards.length
       : 0;
   const predictionTitle =
-    predictionModel === "technical" ? "Top 5-Day Up Predictions" : "Top Quarterly Up Predictions";
+    predictionModel === "technical" ? "Top 5-Day Gainers Forecast" : "Top Quarterly Gainers Forecast";
   const predictionPeriod = predictionModel === "technical" ? "5-day" : "quarterly";
 
   // Price map passed to PortfolioPanel so it doesn't need to re-fetch
@@ -220,7 +218,7 @@ export default function DashboardPage({
             />
             <StatCard
               label="Active Predictions"
-              value={predictionsLoading ? "—" : String(visiblePredictionCards.length)}
+              value={predictionsLoading ? "—" : String(activePredictionCards.length)}
               change={activePredictionCards[0]?.activityTime ?? "—"}
               isPositive={true}
             />
@@ -240,18 +238,7 @@ export default function DashboardPage({
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
               <div className="mb-6 space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-xl font-semibold">{predictionTitle}</h2>
-                  <select
-                    aria-label="Prediction count"
-                    value={visiblePredictionLimit}
-                    onChange={(event) => setVisiblePredictionLimit(Number(event.target.value))}
-                    className="bg-slate-800/70 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                  >
-                    <option value={4}>Top 4</option>
-                    <option value={10}>Top 10</option>
-                  </select>
-                </div>
+                <h2 className="text-xl font-semibold">{predictionTitle}</h2>
                 <div className="inline-flex rounded-lg border border-slate-700/60 bg-slate-900/40 p-1">
                   {(["technical", "fundamental"] as const).map((model) => (
                     <button
@@ -270,7 +257,7 @@ export default function DashboardPage({
                   ))}
                 </div>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 overflow-y-auto max-h-100 pr-1">
                 {predictionsLoading ? (
                   <p className="text-slate-500 text-sm text-center py-6">
                     Loading predictions...
@@ -280,7 +267,7 @@ export default function DashboardPage({
                     No model predictions found
                   </p>
                 ) : (
-                  visiblePredictionCards.map((item) => (
+                  activePredictionCards.map((item) => (
                     <PredictionCard
                       key={item.key}
                       ticker={item.ticker}
