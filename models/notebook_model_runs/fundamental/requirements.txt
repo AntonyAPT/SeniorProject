@@ -18,3 +18,4 @@ huggingface-hub
 peft
 
 yfinance
+supabase
