@@ -11,9 +11,26 @@ import {
 import { useRouter } from "next/navigation";
 import type { DashboardWatchlistItem } from "./page";
 import type { StockQuote } from "@/app/api/stockquote/route";
-import type { ModelRecommendation } from "@/types/model-recommendations";
+import type {
+  FundamentalRecommendation,
+  ModelRecommendation,
+  RecommendationAction,
+} from "@/types/model-recommendations";
 import { PortfolioPanel } from "./PortfolioPanel";
 import type { PortfolioItem } from "./PortfolioPanel";
+
+type PredictionModel = "technical" | "fundamental";
+
+type PredictionCardItem = {
+  key: string;
+  ticker: string;
+  recommendation: RecommendationAction;
+  confidence: number;
+  detail: string;
+  isPositive: boolean;
+  activityAction: string;
+  activityTime: string;
+};
 
 export default function DashboardPage({
   watchlistItems,
@@ -27,6 +44,9 @@ export default function DashboardPage({
   const [allQuotes, setAllQuotes] = useState<Record<string, StockQuote>>({});
   const [recommendations, setRecommendations] = useState<ModelRecommendation[]>([]);
   const [recommendationsLoading, setRecommendationsLoading] = useState(true);
+  const [fundamentalRecommendations, setFundamentalRecommendations] = useState<FundamentalRecommendation[]>([]);
+  const [fundamentalRecommendationsLoading, setFundamentalRecommendationsLoading] = useState(true);
+  const [predictionModel, setPredictionModel] = useState<PredictionModel>("technical");
 
   // Compute net holdings (shares per ticker) from portfolio items
   const holdingsMap: Record<string, number> = {};
@@ -79,6 +99,24 @@ export default function DashboardPage({
       .finally(() => setRecommendationsLoading(false));
   }, []);
 
+  useEffect(() => {
+    fetch("/api/fundamental-recommendations?direction=up&limit=10")
+      .then((r) => r.json())
+      .then((data: FundamentalRecommendation[] | { error?: string }) => {
+        if (Array.isArray(data)) {
+          setFundamentalRecommendations(data);
+        } else {
+          console.error(data.error ?? "Failed to load fundamental recommendations");
+          setFundamentalRecommendations([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setFundamentalRecommendations([]);
+      })
+      .finally(() => setFundamentalRecommendationsLoading(false));
+  }, []);
+
   // Portfolio stats derived from live quotes
   const portfolioValue = activeHoldings.reduce(
     (sum, [ticker, shares]) => sum + shares * (allQuotes[ticker]?.currentPrice ?? 0),
@@ -90,10 +128,37 @@ export default function DashboardPage({
   );
   const prevPortfolioValue = portfolioValue - todayPnl;
   const portfolioPctChange = prevPortfolioValue > 0 ? (todayPnl / prevPortfolioValue) * 100 : 0;
+  const technicalPredictionCards: PredictionCardItem[] = recommendations.map((item) => ({
+    key: `technical-${item.ticker}-${item.forecastDay}`,
+    ticker: item.ticker,
+    recommendation: item.recommendation,
+    confidence: Math.round(item.probUp * 100),
+    detail: "5-day probability",
+    isPositive: item.recommendation !== "SELL",
+    activityAction: `5-day ${item.recommendation} prediction generated`,
+    activityTime: item.contextEnd,
+  }));
+  const fundamentalPredictionCards: PredictionCardItem[] = fundamentalRecommendations.map((item) => ({
+    key: `fundamental-${item.ticker}-${item.contextEndQuarter}-${item.forecastYear}`,
+    ticker: item.ticker,
+    recommendation: item.recommendation,
+    confidence: Math.round(item.confidence * 100),
+    detail: item.forecastYear ? `Q1 ${item.forecastYear} probability` : "quarterly probability",
+    isPositive: item.recommendation !== "SELL",
+    activityAction: `quarterly ${item.recommendation} prediction generated`,
+    activityTime: item.contextEndQuarter,
+  }));
+  const activePredictionCards =
+    predictionModel === "technical" ? technicalPredictionCards : fundamentalPredictionCards;
+  const predictionsLoading =
+    predictionModel === "technical" ? recommendationsLoading : fundamentalRecommendationsLoading;
   const avgConfidence =
-    recommendations.length > 0
-      ? recommendations.reduce((sum, item) => sum + item.probUp, 0) / recommendations.length
+    activePredictionCards.length > 0
+      ? activePredictionCards.reduce((sum, item) => sum + item.confidence, 0) / activePredictionCards.length
       : 0;
+  const predictionTitle =
+    predictionModel === "technical" ? "Top 5-Day Gainers Forecast" : "Top Quarterly Gainers Forecast";
+  const predictionPeriod = predictionModel === "technical" ? "5-day" : "quarterly";
 
   // Price map passed to PortfolioPanel so it doesn't need to re-fetch
   const portfolioPriceMap: Record<string, number> = {};
@@ -153,14 +218,14 @@ export default function DashboardPage({
             />
             <StatCard
               label="Active Predictions"
-              value={recommendationsLoading ? "—" : String(recommendations.length)}
-              change={recommendations[0]?.contextEnd ?? "—"}
+              value={predictionsLoading ? "—" : String(activePredictionCards.length)}
+              change={activePredictionCards[0]?.activityTime ?? "—"}
               isPositive={true}
             />
             <StatCard
               label="Avg Confidence"
-              value={avgConfidence > 0 ? `${Math.round(avgConfidence * 100)}%` : "—"}
-              change="5-day"
+              value={avgConfidence > 0 ? `${Math.round(avgConfidence)}%` : "—"}
+              change={predictionPeriod}
               isPositive={true}
             />
           </div>
@@ -172,25 +237,44 @@ export default function DashboardPage({
 
             {/* AI Predictions Panel */}
             <div className="glass rounded-2xl p-6">
-              <h2 className="text-xl font-semibold mb-6">Top 5-Day Gainers Forecast</h2>
+              <div className="mb-6 space-y-4">
+                <h2 className="text-xl font-semibold">{predictionTitle}</h2>
+                <div className="inline-flex rounded-lg border border-slate-700/60 bg-slate-900/40 p-1">
+                  {(["technical", "fundamental"] as const).map((model) => (
+                    <button
+                      key={model}
+                      type="button"
+                      aria-pressed={predictionModel === model}
+                      onClick={() => setPredictionModel(model)}
+                      className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                        predictionModel === model
+                          ? "bg-blue-500/20 text-blue-200"
+                          : "text-slate-400 hover:text-slate-200"
+                      }`}
+                    >
+                      {model === "technical" ? "Technical" : "Fundamental"}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div className="space-y-4 overflow-y-auto max-h-100 pr-1">
-                {recommendationsLoading ? (
+                {predictionsLoading ? (
                   <p className="text-slate-500 text-sm text-center py-6">
                     Loading predictions...
                   </p>
-                ) : recommendations.length === 0 ? (
+                ) : activePredictionCards.length === 0 ? (
                   <p className="text-slate-500 text-sm text-center py-6">
                     No model predictions found
                   </p>
                 ) : (
-                  recommendations.map((item: ModelRecommendation) => (
+                  activePredictionCards.map((item) => (
                     <PredictionCard
-                      key={`${item.ticker}-${item.forecastDay}`}
+                      key={item.key}
                       ticker={item.ticker}
                       prediction={item.recommendation}
-                      confidence={Math.round(item.probUp * 100)}
-                      detail="5-day gain probability"
-                      isPositive={item.recommendation !== "SELL"}
+                      confidence={item.confidence}
+                      detail={item.detail}
+                      isPositive={item.isPositive}
                     />
                   ))
                 )}
@@ -201,12 +285,12 @@ export default function DashboardPage({
             <div className="lg:col-span-2 glass rounded-2xl p-6">
               <h2 className="text-xl font-semibold mb-6">Recent Activity</h2>
               <div className="space-y-4">
-                {recommendations.slice(0, 2).map((item) => (
+                {activePredictionCards.slice(0, 2).map((item) => (
                   <ActivityItem
-                    key={`activity-${item.ticker}-${item.forecastDay}`}
-                    action={`5-day ${item.recommendation} prediction generated`}
+                    key={`activity-${item.key}`}
+                    action={item.activityAction}
                     ticker={item.ticker}
-                    time={item.contextEnd}
+                    time={item.activityTime}
                     type="prediction"
                   />
                 ))}
