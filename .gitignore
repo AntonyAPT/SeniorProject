@@ -29,4 +29,4 @@ models/notebook_model_runs/**/*.log
 models/notebook_model_runs/**/results_version_*/
 
 # Help visualize tasks
-models/Tasks 
+Tasks
