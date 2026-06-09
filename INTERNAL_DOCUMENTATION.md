@@ -441,3 +441,19 @@ repository secrets. Only variable names are listed here.
 - Uninitialized page routes (i.e. `/settings`) may be found and are part of future work.
 - The fundamental recommendation upload is currently a manual step (`upload_recommendations.py`); only the technical recommendations are refreshed automatically by GitHub Actions.
 
+---
+
+## 7. Features
+
+Beyond the prediction engine itself, the website offers a full set of tools for researching stocks and managing investments. The main areas of the site are:
+
+- Sign-in: Users log in quickly and securely with their Google account; no separate password to create or remember.
+- Dashboard: The home screen after logging in. It gives an at-a-glance summary of the user's portfolio (current value, today's gain or loss), shows the model's top 'buy/sell/hold' recommendations from both the technical and fundamental models, previews the user's watchlist, and includes a quick stock search bar and a feed of recent activity.
+- Stocks (market overview): A page for browsing the broader market: a heatmap showing which stocks are up or down, an overview of major market indices, trending stocks by sector, and a feed of financial news headlines.
+- Stock detail pages: Selecting any stock (for example, by clicking a recommendation or searching) opens a dedicated page with the company's profile, live price chart, key statistics (market cap, 52-week range, trading volume), financial fundamentals (P/E ratio, dividend yield, revenue, net income, earnings per share, and more), and quarter-by-quarter charts. From here users can buy shares straight into a portfolio or add the stock to their watchlist.
+- Watchlist: A personal list of stocks a user wants to keep an eye on, showing each one's current price and how much it has moved today, with the ability to add, remove, and refresh entries.
+- Portfolios: Users can create and manage multiple portfolios (for example, separate ones for different goals), rename or delete them, and choose a default. Each portfolio can be opened to see a full breakdown of its holdings.
+- Portfolio detail: Inside a portfolio, users can add stock purchases and see a complete picture of their investments: an equity curve showing how the portfolio's value has changed over time, a breakdown of holdings by sector, and a transaction table listing each holding's shares, cost, current value, and gain or loss.
+- Account menu: Accessible from the navigation bar, this lets users view their profile, adjust settings, and sign out.
+
+Together, these features let a user move smoothly from discovering a stock (through recommendations, search, or market browsing) to researching it in depth, and finally to acting on it by adding it to a watchlist or buying it into a tracked portfolio.
